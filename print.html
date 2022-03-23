@@ -1,0 +1,2506 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CBMC</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="cbmc/overview/index.html"><strong aria-hidden="true">1.3.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.3.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.3.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.3.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="starter-kit/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.5.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="management/index.html"><strong aria-hidden="true">2.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="management/Plan-your-proof.html"><strong aria-hidden="true">2.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="management/Write-a-good-proof.html"><strong aria-hidden="true">2.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="management/Debug-an-error-trace.html"><strong aria-hidden="true">2.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="management/Code-for-verification.html"><strong aria-hidden="true">2.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="management/Code-review-for-proofs.html"><strong aria-hidden="true">2.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reference guides</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Frequently asked questions</div></li><li class="chapter-item expanded "><a href="projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="getting-started-with-cbmc"><a class="header" href="#getting-started-with-cbmc">Getting started with CBMC</a></h1>
+<p><a href="https://github.com/diffblue/cbmc">CBMC</a> is a model checker for
+C. This means that CBMC will explore all possible paths through your code
+on all possible inputs, and will check that all assertions in your code are
+true.
+CBMC is a bounded model checker, however, which means that using CBMC may
+require restricting this set of all possible inputs to inputs of some
+bounded size.
+CBMC can also check for the possibility of
+memory safety errors (like buffer overflow) and for instances of
+undefined behavior (code whose behavior is left undefined by the C
+specification).  CBMC has been used on
+<a href="projects.html">over a dozen software projects</a> as part of software
+development and continuous integration.</p>
+<p>This book is a collection of tutorials and reference guides for using
+CBMC in software verification.</p>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h2>
+<p>For a quick start on simple problems, read</p>
+<ul>
+<li><a href="installation.html">CBMC installation</a></li>
+<li><a href="cbmc/overview/unit-testing.html">CBMC as unit testing</a></li>
+<li><a href="cbmc/overview">Using CBMC</a></li>
+</ul>
+<p>For a quick start on using the CBMC starter kit to add CBMC verification
+to an existing software project, read</p>
+<ul>
+<li><a href="">Using CBMC on a project</a></li>
+</ul>
+<p>For more information, see our list of <a href="resources.html">CBMC resources</a>.</p>
+<h2 id="helping-others"><a class="header" href="#helping-others">Helping others</a></h2>
+<p>This training material is a work in progress.  If you have suggestions,
+corrections, or questions, contact us at ISSUES.  If you have some
+training of your own that you would like to contribute, submit your
+contributions at PULLREQUEST.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-installation"><a class="header" href="#cbmc-installation">CBMC installation</a></h1>
+<h2 id="macos"><a class="header" href="#macos">MacOS</a></h2>
+<p>On MacOS, install the CBMC tools with</p>
+<pre><code class="language-bash">python3 -m pip install cbmc-viewer
+brew install cbmc litani universal-ctags
+</code></pre>
+<p>The installation of <code>ctags</code> is optional, see below.</p>
+<h2 id="ubuntu"><a class="header" href="#ubuntu">Ubuntu</a></h2>
+<p>On Ubuntu, install the CBMC tools by downloading the installation packages
+for your operating system from the
+<a href="https://github.com/diffblue/cbmc/releases/latest">CBMC release page</a> and the
+<a href="https://github.com/awslabs/aws-build-accumulator/releases/latest">Litani release page</a>
+and running</p>
+<pre><code class="language-bash">python3 -m pip install cbmc-viewer
+sudo apt install *cbmc*.deb *litani*.deb universal-ctags
+</code></pre>
+<p>The installation of <code>ctags</code> is optional, see below.</p>
+<h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
+<p>On Windows, we recommend using the <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a> (WSL) and using
+the Ubuntu instructions above.  CBMC and CBMC viewer
+will run natively on Windows, but Litani and the CBMC starter kit
+that depends on Litani are not supported on Windows.
+To install natively on Windows (without using WSL),
+download the Windows installation package from the
+<a href="https://github.com/diffblue/cbmc/releases/latest">CBMC release page</a> and
+run</p>
+<pre><code class="language-bash">python3 -m pip install cbmc-viewer
+msiexec /i cbmc*.msi
+PATH=&quot;C:\Program Files\cbmc\bin&quot;;%PATH%
+</code></pre>
+<h2 id="installation-notes"><a class="header" href="#installation-notes">Installation notes</a></h2>
+<p>If you have difficulty installing these tools, please let us know at
+ISSUES.</p>
+<p>The installation of <code>ctags</code> is optional, but without ctags, <code>cbmc-viewer</code>
+will fail to link some symbols appearing in error traces to their
+definitions in the source code.
+The <a href="https://en.wikipedia.org/wiki/Ctags">ctags</a> tool has a long history.
+The original ctags was resplaced by
+<a href="http://ctags.sourceforge.net/">exhuberant ctags</a> which was replaced by
+<a href="https://github.com/universal-ctags/ctags">universal ctags</a>.
+We recommend using universal ctags.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-as-unit-testing"><a class="header" href="#cbmc-as-unit-testing">CBMC as unit testing</a></h1>
+<p>Think of CBMC as a form of unit testing.  One of the things we can do
+with unit testing is to run a function on a set of inputs, and to
+compare the result  with the expected result.  Think of
+CBMC as a unit tester that runs the function on all possible inputs.</p>
+<p>Here is a
+function <code>quartile</code> from <a href="cbmc/overview/quartile.c">quartile.c</a>
+that returns the quartile of an integer between 0 and 99.</p>
+<pre><code class="language-c">int quartile(int x) {
+  int y;
+
+  if (x &lt; 0 || x &gt; 99) return 0;
+
+  if (x &lt; 50)
+    if (x &lt; 25)
+      y = 1;
+    else
+      y = 2;
+  else
+    if (x &lt; 75)
+      y = 3;
+    else
+      y = 4;
+
+  return y;
+}
+</code></pre>
+<p>Here a unit test from <a href="cbmc/overview/unit-test.c">unit-test.c</a> that tests
+<code>quartile</code> using a number in the first quartile.</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x = 1;
+  int result = quartile(x);
+  assert(result == 1);
+}
+</code></pre>
+<p>We can build the unit test with <code>gcc</code> and run it.
+When we do, the unit test runs successfully,
+and the assertion does not fail:</p>
+<pre><code class="language-bash">gcc quartile.c unit-test.c -o unit-test
+./unit-test
+</code></pre>
+<p>But we can also build the unit test with <code>goto-cc</code>, which is a drop-in
+replacement for <code>gcc</code> that comes with CBMC.  Now we can use CBMC to
+run the unit test, and again the assertion does not fail:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc ./unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: SUCCESS
+
+** 0 of 1 failed (1 iterations)
+VERIFICATION SUCCESSFUL
+</code></pre>
+<p>But now we can do something interesting with CBMC.
+The unit test currently initializes the
+variable <code>x</code> to 1, and CBMC considers the value of <code>x</code> to be 1.  If
+we remove the initializer, CBMC considers the value of <code>x</code> to be any
+possible value of type <code>int</code>. We say that CBMC treats uninitialized
+variables as having unconstrained values.</p>
+<p>If we rewrite the unit test</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x; // The value of x is now any value of type int
+  int result = quartile(x);
+  assert(result == 1);
+}
+</code></pre>
+<p>and rerun CBMC</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc ./unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>we can see that the assertion has failed.  We can ask CBMC to produce
+an error trace that demonstrates one way in which the assertion can fail</p>
+<pre><code class="language-bash">cbmc ./unit-test --trace
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: FAILURE
+
+Trace for main.assertion.1:
+
+State 21 file unit-test.c function main line 6 thread 0
+----------------------------------------------------
+  x=-2147483547 (10000000 00000000 00000000 01100101)
+
+State 22 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  result=0 (00000000 00000000 00000000 00000000)
+
+State 26 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  x=-2147483547 (10000000 00000000 00000000 01100101)
+
+State 27 file quartile.c function quartile line 2 thread 0
+----------------------------------------------------
+  y=0 (00000000 00000000 00000000 00000000)
+
+State 33 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  result=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file unit-test.c function main line 8 thread 0
+  assertion result == 1
+  !((signed long int)(signed long int)!(result == 1) != 0l)
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>and we see that in the first step of this error trace the variable <code>x</code>
+is initialized to the integer value <code>x=-2147483547</code>.</p>
+<p>Well, that's not quite what we intended.  We don't expect <code>quartile</code>
+to return 1 on every integer, just on integers in the first quartile.
+We can constrain <code>x</code> to be an integer in the first quartile by adding
+an assumption to the unit test:</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x;
+  __CPROVER_assume(0 &lt;= x &amp;&amp; x &lt; 25);    // this is a precondition
+  int result = quartile(x);
+  assert(result == 1);                   // this is a postcondition
+}
+</code></pre>
+<p>Rerunning CBMC, we see that the assertion is always true:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 9 assertion result == 1: SUCCESS
+
+** 0 of 1 failed (1 iterations)
+VERIFICATION SUCCESSFUL
+</code></pre>
+<p>Let's pause for a moment to notice that we have already done something
+interesting.
+We have proved that the function <code>quartile</code> returns 1 when it is called
+on any integer in the first quartile.
+We have partially specified the behavior of the function using
+a precondition (the assumption that <code>x</code> is in the first quartile)
+and a postcondition (the assertion that the return value is <code>1</code>).
+If the function is called with an input that satisifes the precondition,
+then the function returns with a value that satisfies the postcondition.
+Of course, we have only partially specified the behavior of the function.
+What happens when it is called with an integer in the second
+quartile?  The specification doesn't say.  But we have taken
+the first step toward specificiation and verification of our function.</p>
+<p>Finally, to make the connection between unit testing and model
+checking,
+we have replaced <code>gcc</code> with <code>goto-cc</code> and run the result with <code>cbmc</code>:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc unit-test
+</code></pre>
+<p>For programs this simple, however, we can skip explicit compilation
+and invoke <code>cbmc</code> directly:</p>
+<pre><code class="language-bash">cbmc quartile.c unit-test.c
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="using-cbmc"><a class="header" href="#using-cbmc">Using CBMC</a></h1>
+<p>CBMC is a model checker for C. It will explore all paths through your code
+on all inputs and check that all assertions in your code are true.  What
+follows is a short tutorial on how to use CBMC on simple programs.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="checking-assertions"><a class="header" href="#checking-assertions">Checking assertions</a></h1>
+<p>This section gives simple examples of running CBMC on simple programs
+to prove assertions within those programs.
+Perhaps most important, this section introduces
+the concept of proof assumptions, and the importance of understanding the
+assumptions that a proof is making.</p>
+<ul>
+<li><a href="cbmc/overview/checking-assertions.html#running-cbmc">Running CBMC</a></li>
+<li><a href="cbmc/overview/checking-assertions.html#unrolling-loops">Unrolling loops</a></li>
+<li><a href="cbmc/overview/checking-assertions.html#unrolling-loops-soundly">Unrolling loops soundly</a></li>
+<li><a href="cbmc/overview/checking-assertions.html#proof-assumptions">Proof assumptions</a></li>
+</ul>
+<h2 id="running-cbmc"><a class="header" href="#running-cbmc">Running CBMC</a></h2>
+<p>If we run CBMC on the following program from <a href="cbmc/overview/examples/assertions/int1.c">int1.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int main() {
+  int x;
+  assert(x == 0);
+  return 0;
+}
+</code></pre>
+<p>with</p>
+<pre><code class="language-bash">cbmc int1.c
+</code></pre>
+<p>we will see a report of an assertion failure</p>
+<pre><code class="language-bash">[main.assertion.1] line 5 assertion x == 0: FAILURE
+VERIFICATION FAILED
+</code></pre>
+<p>CBMC considers uninitialized variables to have unconstrained values.
+When CBMC examines this program, it finds an uninitialized variable <code>x</code>
+of type <code>int</code>.  The type <code>int</code> describes a set of integer values that
+a variable of type <code>int</code> can assume.  CBMC considers all executions
+of the program in which <code>x</code> assumes all values of type <code>int</code>.  At least
+one of those values is not 0, and in that execution of the program,
+the assertion fails.</p>
+<p>We can see what value CBMC discovered for <code>x</code>
+by asking CBMC to produce an error trace whenever it finds
+an assertion failure.  We do this by running CBMC with
+the flag <code>--trace</code>. The trace describes one step-by-step
+path through the code that leads to the assertion failure.  For
+example, the output of the command</p>
+<pre><code class="language-bash">cbmc --trace int1.c
+</code></pre>
+<p>consists of a single step</p>
+<pre><code class="language-bash">State 24 file int1.c function main line 4 thread 0
+----------------------------------------------------
+  x=67108864 (00000100 00000000 00000000 00000000)
+</code></pre>
+<p>that initializes <code>x</code> to <code>67108864</code> (the value in your counterexample
+trace may differ).  If we initialize <code>x</code> to <code>0</code> as in the program
+<a href="cbmc/overview/examples/assertions/int2.c">int2.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int main() {
+  int x = 0;
+  assert(x == 0);
+  return 0;
+}
+</code></pre>
+<p>and run CBMC with the command</p>
+<pre><code class="language-bash">cbmc int2.c
+</code></pre>
+<p>then CBMC reports that the verification is successful.</p>
+<p>NOTE: The first state in the trace printed above
+is numbered 24 because CBMC runs through
+a number of its own internal steps before getting to the
+our code.  CBMC does not print states resulting from its
+own internal steps, only states corresponding to variable
+assignments in our own code.</p>
+<h2 id="unrolling-loops"><a class="header" href="#unrolling-loops">Unrolling loops</a></h2>
+<p>CBMC is a <em>bounded</em> model checker for C.  CBMC works
+by unwinding the loops in our code (ie by unrolling/inlining a finite number of iterations of the loop). CBMC needs to know a bound on the number of times it is expected to unwind any particular
+loop in our code.</p>
+<p>Sometimes CBMC can figure this out on its own.
+Consider the program <a href="cbmc/overview/examples/assertions/loop1.c">loop1.c</a></p>
+<pre><code class="language-c">#include&lt;assert.h&gt;
+
+int main() {
+  unsigned array[10];
+
+  for (int i = 0; i &lt; 10; i++) {
+    array[i] = 0;
+  }
+
+  for (int i = 0; i &lt; 10; i++) {
+    assert(array[i] == 0);
+  }
+  return 0;
+}
+</code></pre>
+<p>and run CBMC with</p>
+<pre><code class="language-bash">cbmc loop1.c
+</code></pre>
+<p>and CBMC will print</p>
+<pre><code class="language-bash">[main.assertion.1] line 11 assertion array[i] == 0: SUCCESS
+VERIFICATION SUCCESSFUL
+</code></pre>
+<p>Sometimes CBMC needs help.  Consider the program <a href="cbmc/overview/examples/assertions/loop2.c">loop2.c</a></p>
+<pre><code class="language-c">#include&lt;assert.h&gt;
+
+int main() {
+  unsigned bound;
+  unsigned array[bound];
+
+  for (int i = 0; i &lt; bound; i++) {
+    array[i] = 0;
+  }
+
+  for (int i = 0; i &lt; bound; i++) {
+    assert(array[i] == 0);
+  }
+  return 0;
+}
+</code></pre>
+<p>and run CBMC with</p>
+<pre><code class="language-bash">cbmc loop2.c
+</code></pre>
+<p>and CBMC will unwind the first loop forever.  We need to tell CBMC how
+many times to unwind the loops in the program.
+Run CBMC with</p>
+<pre><code class="language-bash">cbmc --unwind 11 loop2.c
+</code></pre>
+<p>and CBMC will unwind every loop in the program 10 times (not 11 times!) and
+print</p>
+<pre><code class="language-bash">[main.assertion.1] line 11 assertion array[i] == 0: SUCCESS
+VERIFICATION SUCCESSFUL
+</code></pre>
+<h2 id="unrolling-loops-soundly"><a class="header" href="#unrolling-loops-soundly">Unrolling loops soundly</a></h2>
+<p>Now, however, we have a problem.  CBMC has proved that there is no assertion
+failure in the program as long as we limit loops to 10 iterations.  But
+how do we know that 10 iterations is enough?  What if it is possible for a
+loop to iterate 11 times, and the error we are looking for occurs on the
+11th iteration?</p>
+<p>We can ask CBMC to prove that we have unwounded loops enough times: We
+can ask CBMC to prove that the loop termination condition is guaranteed
+to be true after the specified number of unwindings.  We do this by
+running CBMC with the flag <code>--unwinding-assertions</code>.  For example, running
+CBMC on the first program <a href="cbmc/overview/examples/assertions/loop1.c">loop1.c</a> with</p>
+<pre><code class="language-bash">cbmc --unwind 11 --unwinding-assertions loop1.c
+</code></pre>
+<p>succeeds with</p>
+<pre><code class="language-bash">VERIFICATION SUCCESSFUL
+</code></pre>
+<p>but running CBMC on the second program <a href="cbmc/overview/examples/assertions/loop2.c">loop2.c</a> with</p>
+<pre><code class="language-bash">cbmc --unwind 11 --unwinding-assertions loop2.c
+</code></pre>
+<p>fails with output that includes</p>
+<pre><code class="language-bash">[main.unwind.0] line 7 unwinding assertion loop 0: FAILURE
+VERIFICATION FAILED
+</code></pre>
+<h2 id="proof-assumptions"><a class="header" href="#proof-assumptions">Proof assumptions</a></h2>
+<p>In hindsight, the problem is obvious: If the initialized variable <code>bound</code>
+happens to begin with the value <code>11</code>, then unwinding loops only 10 times will
+not be enough.
+If we are only going to unwind loops 10 times, then we have to restrict
+ourselves to arrays of at most 10 elements.
+We need to tell CBMC to assume that <code>bound</code> is at most 10.
+We make this assumption with the instrinsic function <code>__CPROVER_assume</code>.
+Consider the program <a href="cbmc/overview/examples/assertions/loop2a.c">loop2a.c</a></p>
+<pre><code class="language-c">#include&lt;assert.h&gt;
+
+int main() {
+  unsigned bound;
+  unsigned array[bound];
+
+  __CPROVER_assume(bound &lt; 11);
+
+  for (int i = 0; i &lt; bound; i++) {
+    array[i] = 0;
+  }
+
+  for (int i = 0; i &lt; bound; i++) {
+    assert(array[i] == 0);
+  }
+  return 0;
+}
+</code></pre>
+<p>and run CBMC with the command</p>
+<pre><code class="language-bash">cbmc --unwind 11 --unwinding-assertions loop2a.c
+</code></pre>
+<p>and CBMC reports success.</p>
+<p>We now come, however, to the harsh reality of mathematical proof:</p>
+<ul>
+<li>Every proof makes assumptions, and the quality of the proof depends on the quality of the assumptions.</li>
+</ul>
+<p>If the proof assumptions are true in practice,
+then the proof is valid in practice.
+If the assumptions are only sometimes true, however,
+then the proof is valid only in those cases.</p>
+<p>When we write a proof for a function, we generally make three classes of
+assumptions:</p>
+<ul>
+<li>we may bound the size of input to the function with explicit assumptions
+like <code>bound &lt; 11</code>,</li>
+<li>we may model the environment of the function with a proof harness that
+we will describe in the next section, and</li>
+<li>we may stub out some of the functions invoked by the function under test.</li>
+</ul>
+<p>When reading or writing a proof, it is essential to pay attention to
+the assumptions being made, and to make these assumptions as explicit
+and easy-to-find as possible.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="checking-properties"><a class="header" href="#checking-properties">Checking properties</a></h1>
+<p>CBMC can check more than just assertions in the code.
+In this section, we describe properties like memory safety that we
+check for every time we run CBMC.
+For the full list of things that CBMC can check, run <code>cbmc --help</code>.</p>
+<ul>
+<li><a href="cbmc/overview/checking-properties.html#memory-safety">Memory safety</a></li>
+<li><a href="cbmc/overview/checking-properties.html#more-pointer-checks">More pointer checks</a></li>
+<li><a href="cbmc/overview/checking-properties.html#malloc-failure">Malloc failure</a></li>
+<li><a href="cbmc/overview/checking-properties.html#integer-overflow">Integer overflow</a></li>
+<li><a href="cbmc/overview/checking-properties.html#floating-point-overflow">Floating point overflow</a></li>
+<li><a href="cbmc/overview/checking-properties.html#division-by-zero">Division by zero</a></li>
+<li><a href="cbmc/overview/checking-properties.html#type-casting">Type casting</a></li>
+<li><a href="cbmc/overview/checking-properties.html#bit-shifting">Bit shifting</a></li>
+<li><a href="cbmc/overview/checking-properties.html#loop-unwinding">Loop unwinding</a></li>
+</ul>
+<h2 id="memory-safety"><a class="header" href="#memory-safety">Memory safety</a></h2>
+<ul>
+<li><code>--bounds-check</code> enables array bounds checking.</li>
+<li><code>--pointer-check</code> enables invalid pointer checking.</li>
+</ul>
+<p>Given the program <a href="cbmc/overview/examples/properties/bounds.c"><code>bounds.c</code></a></p>
+<pre><code class="language-c">main() {
+  int array[10];
+  for (int i=0; i&lt;=10; i++) array[i] = i;
+}
+</code></pre>
+<p>the command</p>
+<pre><code class="language-bash">cbmc --bounds-check bounds.c
+</code></pre>
+<p>finds the off-by-one error in the loop termination condition:</p>
+<pre><code>line 3 array 'array' lower bound in array[(signed long int)i]: SUCCESS
+line 3 array 'array' upper bound in array[(signed long int)i]: FAILURE
+</code></pre>
+<p>Given the program <a href="cbmc/overview/examples/properties/pointers.c"><code>pointers.c</code></a></p>
+<pre><code>main() {
+  int *ptr;
+  int array[10];
+  *ptr = 3;
+  *(array + 10) = 4;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --pointer-check pointers.c
+</code></pre>
+<p>finds that <code>ptr</code> may be null and that <code>array + 10</code> points beyond the end
+of <code>array</code>:</p>
+<pre><code>line 4 dereference failure: pointer NULL in *ptr: FAILURE
+line 4 dereference failure: pointer invalid in *ptr: FAILURE
+line 4 dereference failure: deallocated dynamic object in *ptr: FAILURE
+line 4 dereference failure: dead object in *ptr: FAILURE
+line 4 dereference failure: pointer outside object bounds in *ptr: FAILURE
+line 4 dereference failure: invalid integer address in *ptr: FAILURE
+line 5 dereference failure: dead object in array[(signed long int)10]: SUCCESS
+line 5 dereference failure:
+  pointer outside object bounds in array[(signed long int)10]: FAILURE
+</code></pre>
+<p>These off-by-one errors caught with <code>--bounds-check</code> and <code>--pointer-check</code>
+feel quite similar to each other, but they are different.
+We always use these flags together.</p>
+<h2 id="more-pointer-checks"><a class="header" href="#more-pointer-checks">More pointer checks</a></h2>
+<ul>
+<li><code>--pointer-overflow-check</code> checks pointer arithmetic
+for arithmetic overflow and underflow.</li>
+<li><code>--pointer-primitive-check</code> checks that all pointers are either valid or null
+(all pointers, not just dereferenced  pointers).</li>
+</ul>
+<p>Arithmetic overflow in pointer arithmetic
+is an issue because the CBMC heap model interprets a pointer as
+an object id together with an offset into the object.  Pointer arithmetic
+in C uses signed integers for offsets.  So it is theoretically possible for
+the offset into the object to have a magnitude larger than the
+maximium offset CBMC is using for objects on the heap.</p>
+<p>Given the file <a href="cbmc/overview/examples/properties/pointer-overflow.c"><code>pointer-overflow.c</code></a></p>
+<pre><code>#include &lt;stdint.h&gt;
+main() {
+  int array[10];
+  int *x = array + SIZE_MAX;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --pointer-check pointer-overflow.c
+</code></pre>
+<p>will succeed (because the bad pointer is never dereferenced) but
+the command</p>
+<pre><code>cbmc --pointer-check --pointer-overflow-check pointer-overflow.c
+</code></pre>
+<p>will find the overflow</p>
+<pre><code>line 4 pointer arithmetic:
+  dead object in array + (signed long int)18446744073709551615ul: SUCCESS
+line 4 pointer arithmetic:
+  pointer outside object bounds in array + (signed long int)18446744073709551615ul:
+  FAILURE
+</code></pre>
+<p>EXAMPLE</p>
+<h2 id="malloc-failure"><a class="header" href="#malloc-failure">Malloc failure</a></h2>
+<ul>
+<li><code>--malloc-may-fail</code> allows any invocation of <code>malloc</code> to fail.</li>
+<li><code>--malloc-fail-null</code> sets the <code>malloc</code> failure mode to returning
+a null pointer.</li>
+</ul>
+<p>Taken together, these flags cause CBMC
+to use a model of <code>malloc</code> in which it is possible for any invocation
+of <code>malloc</code> to fail and return a null pointer.  Given the
+program <a href="cbmc/overview/examples/properties/malloc.c"><code>malloc.c</code></a></p>
+<pre><code>#include &lt;stdlib.h&gt;
+main () {
+  int *x = (int *) malloc(sizeof(int));
+  *x = 1;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --pointer-check malloc.c
+</code></pre>
+<p>will succeed but the command</p>
+<pre><code>cbmc --pointer-check --malloc-may-fail --malloc-fail-null malloc.c
+</code></pre>
+<p>will fail because it is possible for <code>malloc</code> to fail and return a
+null pointer causing <code>*x</code> to dereference a null pointer:</p>
+<pre><code>line 4 dereference failure: pointer NULL in *x: FAILURE
+line 4 dereference failure: pointer invalid in *x: SUCCESS
+line 4 dereference failure: deallocated dynamic object in *x: FAILURE
+line 4 dereference failure: dead object in *x: FAILURE
+line 4 dereference failure: pointer outside object bounds in *x: FAILURE
+line 4 dereference failure: invalid integer address in *x: SUCCESS
+</code></pre>
+<h2 id="integer-overflow"><a class="header" href="#integer-overflow">Integer overflow</a></h2>
+<ul>
+<li><code>--signed-overflow-check</code> and <code>--unsigned-overflow-check</code>
+check for integer overflow.</li>
+</ul>
+<p>Given the file <a href="cbmc/overview/examples/properties/integer.c">integer.c</a></p>
+<pre><code>#include &lt;limits.h&gt;
+main() {
+  int x;
+  int y;
+  if (x + y &lt;= INT_MAX)
+    x = x + y;
+  if (y &lt;= INT_MAX - x)
+    x = x + y;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --signed-overflow-check integer.c
+</code></pre>
+<p>finds several possibilities for signed integer overflow
+(an undefined behavior in the C standard):</p>
+<pre><code>line 5 arithmetic overflow on signed + in x + y: FAILURE
+line 7 arithmetic overflow on signed - in 2147483647 - x: FAILURE
+line 8 arithmetic overflow on signed + in x + y: FAILURE
+</code></pre>
+<h2 id="floating-point-overflow"><a class="header" href="#floating-point-overflow">Floating point overflow</a></h2>
+<ul>
+<li><code>--float-overflow-check</code> checks for +/-Inf in floating-point arithmetic.</li>
+<li><code>--nan-check</code> checks for NaN in floating-point arithmetic.</li>
+</ul>
+<p>Given the file <a href="cbmc/overview/examples/properties/float.c"><code>float.c</code></a></p>
+<pre><code>main() {
+  float x = 100000000.0;
+  for (int i = 0; i &lt; 10; i++) x = x * x;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc float.c
+</code></pre>
+<p>will succeed but the command</p>
+<pre><code>cbmc --float-overflow-check float.c
+</code></pre>
+<p>will find the floating-point overflow:</p>
+<pre><code>line 3 arithmetic overflow on floating-point multiplication in x * x: FAILURE
+</code></pre>
+<p>Given the file <a href="cbmc/overview/examples/properties/nan.c"><code>nan.c</code></a></p>
+<pre><code>main() {
+  float x = 0.0 / 0.0;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc nan.c
+</code></pre>
+<p>will succeed but the command</p>
+<pre><code>cbmc --nan-check nan.c
+</code></pre>
+<p>will find the NaN:</p>
+<pre><code>line 2 NaN on / in 0.0 / 0.0: FAILURE
+</code></pre>
+<h2 id="division-by-zero"><a class="header" href="#division-by-zero">Division by zero</a></h2>
+<ul>
+<li><code>--div-by-zero-check</code> checks for division by zero.</li>
+</ul>
+<p>Given the file <a href="cbmc/overview/examples/properties/zero.c"><code>zero.c</code></a></p>
+<pre><code>main() {
+  int a;
+  int b;
+  int result = a / b;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --div-by-zero-check zero.c
+</code></pre>
+<p>finds the potential for division by zero:</p>
+<pre><code>line 4 division by zero in a / b: FAILURE
+</code></pre>
+<h2 id="type-casting"><a class="header" href="#type-casting">Type casting</a></h2>
+<ul>
+<li><code>--conversion-check</code> checks for values that can't be
+represented after type casts.</li>
+</ul>
+<p>Given the file <a href="cbmc/overview/examples/properties/conversion.c"><code>conversion.c</code></a></p>
+<pre><code>#include &lt;stdint.h&gt;
+main() {
+  uint8_t x;
+  uint16_t y;
+  x = y;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc conversion.c
+</code></pre>
+<p>will succeed but the command</p>
+<pre><code>cbmc --conversion-check conversion.c
+</code></pre>
+<p>finds the potential for truncation of an integer value from 16 bits to 8 bits:</p>
+<pre><code>line 5 arithmetic overflow on unsigned to unsigned type conversion in (uint8_t)y:
+  FAILURE
+</code></pre>
+<h2 id="bit-shifting"><a class="header" href="#bit-shifting">Bit shifting</a></h2>
+<ul>
+<li><code>--undefined-shift-check</code> enables checks for undefined shift behaviors like
+shifting too far or shifting a negative value</li>
+</ul>
+<p>Given the program <a href="cbmc/overview/examples/properties/shift.c">'shift.c'</a></p>
+<pre><code>main() {
+  int x = 1;
+  int y = -1;
+  int z;
+  z = x &lt;&lt; 64;
+  z = x &lt;&lt; -1;
+  z = y &lt;&lt; 64;
+  z = y &lt;&lt; -1;
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --undefined-shift-check shift.c
+</code></pre>
+<p>finds a number of undefined shift behaviors:</p>
+<pre><code>line 5 shift distance too large in x &lt;&lt; 64: FAILURE
+line 5 shift operand is negative in x &lt;&lt; 64: SUCCESS
+line 6 shift distance is negative in x &lt;&lt; -1: FAILURE
+line 6 shift operand is negative in x &lt;&lt; -1: SUCCESS
+line 7 shift distance too large in y &lt;&lt; 64: FAILURE
+line 7 shift operand is negative in y &lt;&lt; 64: FAILURE
+line 8 shift distance is negative in y &lt;&lt; -1: FAILURE
+line 8 shift operand is negative in y &lt;&lt; -1: FAILURE
+</code></pre>
+<h2 id="loop-unwinding"><a class="header" href="#loop-unwinding">Loop unwinding</a></h2>
+<ul>
+<li><code>--unwinding-assertions</code> enables checks that loops have been
+completely unwound.</li>
+</ul>
+<p>Always run CBMC with the flag <code>--unwinding-assertions</code>.</p>
+<p>Given the program <a href="cbmc/overview/examples/properties/loop.c"><code>loop.c</code></a></p>
+<pre><code>#include &lt;stdbool.h&gt;
+main() {
+  int bound;
+  for (int i=0; i&lt;bound; i++)
+    if (i &gt; 9) assert(false);
+}
+</code></pre>
+<p>the command</p>
+<pre><code>cbmc --unwind 10 loop.c
+</code></pre>
+<p>will report</p>
+<pre><code>line 5 assertion 0: SUCCESS
+</code></pre>
+<p>This is a surprise.  The assertion is false.  Why did CBMC not discover this?
+The problem is that the assertion fails only on the 10th iteration of the
+loop, and we gave CBMC the flag <code>--unwind 10</code> that restricts CBMC
+to 9 iterations (not 10!).
+Use the flag <code>--unwinding-assertions</code> to detect mistakes like this.
+The command</p>
+<pre><code>cbmc --unwind 10 --unwinding-assertions loop.c
+</code></pre>
+<p>will report</p>
+<pre><code>line 4 unwinding assertion loop 0: FAILURE
+line 5 assertion 0: SUCCESS
+</code></pre>
+<p>Always run CBMC with the flag <code>--unwinding-assertions</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="proof-harnesses"><a class="header" href="#proof-harnesses">Proof harnesses</a></h1>
+<p>This section gives simple examples of writing a proof harness to use with CBMC.
+The purpose of a proof harness is to build a model of the environment of
+the function under test.  The purpose of this model (the proof harness)
+is to collect in one place all of the assumptions required for the proof
+to hold.</p>
+<ul>
+<li><a href="cbmc/overview/proof-harnesses.html#modeling-input">Modeling input</a></li>
+<li><a href="cbmc/overview/proof-harnesses.html#modeling-global-state">Modeling global state</a></li>
+<li><a href="cbmc/overview/proof-harnesses.html#modeling-interfaces">Modeling interfaces</a></li>
+<li><a href="cbmc/overview/proof-harnesses.html#allocating-data">Allocating data</a></li>
+<li><a href="cbmc/overview/proof-harnesses.html#validating-data">Validating data</a></li>
+<li><a href="cbmc/overview/proof-harnesses.html#proof-assumptions">Proof assumptions</a></li>
+</ul>
+<h2 id="modeling-input"><a class="header" href="#modeling-input">Modeling input</a></h2>
+<p>For simple functions, the model of the environment is just the input to the
+function.</p>
+<p>Suppose we have a library <a href="cbmc/overview/examples/harness/library1.c">library1.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int alpha1(int a) {
+    return a+1;
+}
+
+int beta1(int b) {
+    int bb = alpha1(b);
+    assert(bb == b);
+}
+</code></pre>
+<p>and we want to test function <code>beta1</code>.  The input to function <code>beta1</code>
+is an integer <code>b</code>.  We write a proof harness <a href="cbmc/overview/examples/harness/harness1.c">harness1.c</a></p>
+<pre><code class="language-c">int beta1(int b);
+
+main() {
+   int x;
+   beta1(x);
+}
+</code></pre>
+<p>that allocates an unconstrained integer named <code>x</code> and invokes <code>beta1</code> on <code>x</code>.</p>
+<p>We run CBMC on the result with</p>
+<pre><code class="language-bash">goto-cc -o library1.goto library1.c
+goto-cc -o harness1.goto harness1.c
+goto-cc -o proof1.goto library1.goto harness1.goto
+cbmc proof1.goto
+</code></pre>
+<p>and we see a violation of the assertion <code>bb == b</code>.</p>
+<pre><code class="language-bash">** Results:
+library1.c function beta1
+[beta1.assertion.1] line 9 assertion bb == b: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>Correcting this assertion to <code>bb == b + 1</code> fixes the problem.</p>
+<h2 id="modeling-global-state"><a class="header" href="#modeling-global-state">Modeling global state</a></h2>
+<p>Sometimes a function depends on global state.  A common example
+is low-level system code that depends on a system table, and we want
+to know the code works no matter what has been stored in the system
+table.</p>
+<p>Suppose we have a library <a href="cbmc/overview/examples/harness/library2.c">library2.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int counter = 0;
+
+int alpha2(int a) {
+    counter = counter + 1;
+    return a+counter;
+}
+
+int beta2(int b) {
+    int bb = alpha2(b);
+    assert(bb == b + 1);
+}
+</code></pre>
+<p>and we want to test function <code>beta2</code>.  This time the function <code>beta2</code>
+depends on its input <code>b</code>, but it also depends on a global variable
+<code>counter</code> that is initialized to <code>0</code> but is changed with each invocation
+of <code>beta2</code>.  We want to know that <code>beta2</code> always works, no matter how
+many times <code>beta2</code> has been invoked in the past.</p>
+<p>We do this by writing a proof harness that choses an unconstrained value
+for both the function input <code>b</code> and the global variable <code>counter</code>.
+We write a proof harness <a href="cbmc/overview/examples/harness/harness2.c">harness2.c</a></p>
+<pre><code class="language-c">extern int counter;
+int beta2(int b);
+
+main() {
+    int cnt;
+    counter = cnt;
+
+    int x;
+    beta2(x);
+}
+</code></pre>
+<p>We run CBMC on the result with</p>
+<pre><code class="language-bash">goto-cc -o library2.goto library2.c
+goto-cc -o harness2.goto harness2.c
+goto-cc -o proof2.goto library2.goto harness2.goto
+cbmc proof2.goto
+</code></pre>
+<p>and see a violation of the assertion <code>bb == b + 1</code>.</p>
+<pre><code class="language-bash">** Results:
+library2.c function beta2
+[beta2.assertion.1] line 12 assertion bb == b + 1: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>We correct this to <code>bb &gt;= b + 1</code> and we are done.</p>
+<h2 id="modeling-interfaces"><a class="header" href="#modeling-interfaces">Modeling interfaces</a></h2>
+<p>Sometimes a function depends on an implementation of an interface that
+we don't care to test.  A common example is a function the depends on
+a network communication protocol like HTTP with <code>send</code> and <code>receive</code>
+methods.  We want our code to work independent of the protocol implementation,
+so we replace the implementations of the functions in the protocol interface
+with stubs that over-approximate the behaviors of the implementations.</p>
+<p>Suppose we have a library <a href="cbmc/overview/examples/harness/library3.c">library3.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+void send(int msg);
+int receive();
+
+int alpha(int x) {
+    int y = receive();
+    assert(y &gt; 0);
+    return y+1;
+}
+</code></pre>
+<p>that depends on <code>send</code> and <code>receive</code> methods from a network interface.
+We stub out the network interface with <a href="cbmc/overview/examples/harness/network3.c">network3.c</a></p>
+<pre><code class="language-c">int receive() {
+    // model receiving an unconstrained integer value from the network
+    int msg;
+    return msg;
+}
+
+void send(int msg) {
+    // model sending an integer over the network (nothing to do)
+    return;
+}
+</code></pre>
+<p>We write the proof harness <a href="cbmc/overview/examples/harness/harness3.c">harness3.c</a></p>
+<pre><code class="language-c">int alpha(int x);
+
+main() {
+    int x;
+    alpha(x);
+}
+</code></pre>
+<p>We run CBMC with</p>
+<pre><code class="language-bash">goto-cc -o network3.goto network3.c
+goto-cc -o library3.goto library3.c
+goto-cc -o harness3.goto harness3.c
+goto-cc -o proof3.goto network3.goto library3.goto harness3.goto
+cbmc proof3.goto
+</code></pre>
+<p>and we get a failure of the assertion <code>y &gt; 0</code>.</p>
+<p>Suppose the mistake is in our model of the network.  Suppose our
+network only transmits positive integers.  Then we can fix our stub of
+the <code>receive</code> method to return not an unconstrained integer but an
+unconstrained positive integer.
+We change our stubs for the network to <a href="cbmc/overview/examples/harness/network3a.c">network3a.c</a></p>
+<pre><code class="language-c">int receive() {
+    // model receiving an unconstrained POSTIVE integer value from the network
+    int msg;
+    __CPROVER_assume(msg &gt; 0);
+    return msg;
+}
+
+void send(int msg) {
+    // model sending an integer over the network (nothing to do)
+    return;
+}
+</code></pre>
+<p>We run CBMC with</p>
+<pre><code class="language-bash">goto-cc -o network3a.goto network3a.c
+goto-cc -o library3.goto library3.c
+goto-cc -o harness3.goto harness3.c
+goto-cc -o proof3.goto network3a.goto library3.goto harness3.goto
+cbmc proof3.goto
+</code></pre>
+<p>and declare victory at the successful verification.</p>
+<h2 id="allocating-data"><a class="header" href="#allocating-data">Allocating data</a></h2>
+<p>For projects where functions take pointers to data on the heap, we
+recommend writing functions to allocate unconstrained values on the
+heap of the appropriate types for use in proof harnesses.</p>
+<p>Consider a string buffer defined by</p>
+<pre><code class="language-c">typedef struct { size_t length; char* buffer; } strbuf;
+</code></pre>
+<p>and consider a function that takes a pointer to a string buffer and
+caches the fifth character in the buffer into a global variable</p>
+<pre><code class="language-c">char cache;
+void cache_fifth_char(strbuf* str) { cache = str-&gt;buffer[4]; }
+</code></pre>
+<p>Let's try to prove that this function is memory safe (although,
+obviously, it is not).  Memory safety means that we never dereference
+an invalid pointer and we never try to access data outside the bounds
+of a valid object.  We can do this by calling CBMC with the flags
+<code>--pointer-check</code> and <code>--bounds-check</code>.  Let's prove this even in the
+case where malloc can fail and return NULL instead of a pointer.  The
+default model of malloc in CBMC never fails, but we can change to a
+model of mailloc that can fail and return NULL by calling CBMC with
+the flags <code>--malloc-may-fail</code> and <code>--malloc-fail-null</code>.</p>
+<p>The function <code>cache_fifth_char</code> takes a pointer to a string buffer on
+the heap, so let write a function that allocates a string buffer.</p>
+<pre><code class="language-c">strbuf* strbuf_allocate(size_t length) {
+  strbuf* str = malloc(sizeof(strbuf));
+  if (str == NULL) return NULL;
+  str-&gt;length = length;
+  str-&gt;buffer = malloc(length);
+  return str;
+}
+</code></pre>
+<p>Now we can write a proof harness for the function</p>
+<pre><code class="language-c">main() {
+  size_t len;
+  strbuf* str = strbuf_allocate(len);
+
+  cache_fifth_char(str);
+}
+</code></pre>
+<p>Pulling all of this together into a single file
+<a href="cbmc/overview/examples/harness/strbuf1.c">strbuf1.c</a>, we can run cbmc on this file
+with</p>
+<pre><code class="language-bash">cbmc --pointer-check --bounds-check --malloc-may-fail --malloc-fail-null strbuf1.c
+</code></pre>
+<p>and the result is a slew of verification failures including</p>
+<pre><code class="language-bash">[cache_fifth_char.pointer_dereference.1] line 7 dereference failure: pointer NULL in str-&gt;buffer: FAILURE
+[cache_fifth_char.pointer_dereference.7] line 7 dereference failure: pointer NULL in str-&gt;buffer[(signed long int)4]: FAILURE
+[cache_fifth_char.pointer_dereference.11] line 7 dereference failure: pointer outside object bounds in str-&gt;buffer[(signed long int)4]: FAILURE
+</code></pre>
+<p>The first is saying that <code>str</code> may be NULL, the second is saying that
+<code>str-&gt;buffer</code> may be NULL, and the third is saying that <code>str-&gt;buffer</code>
+may not have 5 character in it.</p>
+<p>We are obviously going to have to make some assumptions about the
+string buffer before we can prove that the function is memory safe.</p>
+<h2 id="validating-data"><a class="header" href="#validating-data">Validating data</a></h2>
+<p>For projects that require allocating objects of various types on the heap, we
+recommend writing predicates that say what well-formed objects of these
+types look like.</p>
+<p>In the case of our example, a valid pointer to a string buffer must be
+nonnull, and a valid string buffer must have a buffer that is non-null.</p>
+<pre><code class="language-c">bool strbuf_is_valid(strbuf* str) {
+  if (str == NULL) return false;
+  if (str-&gt;buffer == NULL) return false;
+  return true;
+}
+</code></pre>
+<p>With this predicate, we can write a proof harness that assumes the string
+buffer allocated on the heap is valid before calling the function.  We can
+also assert that the string buffer remains valid after calling the function.
+And we can assume that the buffer has at least 5 characters in it.
+In fact, we can prove the this remains true after the function invocation,
+meaning that the function preserves the validity of its input.</p>
+<pre><code class="language-c">main() {
+  size_t len;
+  strbuf* str = strbuf_allocate(len);
+
+  __CPROVER_assume(strbuf_is_valid(str));
+  __CPROVER_assume(str-&gt;length &gt; 4);
+
+  cache_fifth_char(str);
+
+  __CPROVER_assert(strbuf_is_valid(str), &quot;String buffer remains valid&quot;);
+  __CPROVER_assert(str-&gt;length &gt; 4, &quot;String buffer remains length &gt;4&quot;);
+}
+</code></pre>
+<p>Pulling all of this together into <a href="cbmc/overview/examples/harness/strbuf2.c">strbuf2.c</a>,
+we can run CBMC</p>
+<pre><code class="language-bash">cbmc --pointer-check --bounds-check --malloc-may-fail --malloc-fail-null strbuf2.c
+</code></pre>
+<p>and rejoice in the successful validation.</p>
+<h2 id="proof-assumptions-1"><a class="header" href="#proof-assumptions-1">Proof assumptions</a></h2>
+<p>Notice that in our last proof harness, we worked hard to make as
+explicit as possible all of the assumptions required for memory safety
+to hold: The pointer must be a valid pointer to a valid string buffer
+with at least five characters in it. It is the responsibility of the
+programmer to make certain that these assumptions are true when the
+function is called.
+All bets are off when the function is called in a weaker context where some of these assumptions are false. The memory safety proof of the function does not hold in that context since the assumptions it is based on do not hold.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-starter-kit-overview"><a class="header" href="#cbmc-starter-kit-overview">CBMC starter kit overview</a></h1>
+<p>The <a href="https://github.com/awslabs/aws-templates-for-cbmc-proofs">CBMC starter kit</a>
+makes it easy to add CBMC verification to a software project.</p>
+<p>In this tutorial, we want to verify the memory safety of a memory allocator that
+comes with the <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel">FreeRTOS Kernel</a>.
+The kernel comes with five allocators, and we look at the simplest one.
+It allocates blocks from a region of memory set aside for the heap.
+It maintains a linked list of free blocks and allocates a block from
+the first block in the free list that is big enough to satisfy the request.
+When the block is freed, it is added back to the free list and merged with
+adjacent free blocks already in the free list.
+The function we want to prove memory safe is the allocator
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
+in the source file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.</p>
+<p>Using the starter kit consists of five steps</p>
+<ul>
+<li><a href="starter-kit/overview/index.html#clone-the-source-repository">Clone the source repository</a></li>
+<li><a href="starter-kit/overview/index.html#add-the-starter-kit">Add the starter kit</a></li>
+<li><a href="starter-kit/overview/index.html#configure-the-starter-kit">Configure the starter kit</a></li>
+<li><a href="starter-kit/overview/index.html#configure-the-proof">Configure the proof</a></li>
+<li><a href="starter-kit/overview/index.html#write-the-proof">Write the proof</a></li>
+<li><a href="starter-kit/overview/index.html#run-cbmc">Run CBMC</a></li>
+</ul>
+<p>For each step, we give the shell commands required to implement
+the step, and we examine what changes the commands have made to the repository.
+A reader wanting
+to push as rapidly as possible to the verification can simply cut-and-paste
+the commands into a shell and begin the verification.  A reader wanting to
+understand how the starter kit works can pause to read the explanations.</p>
+<h2 id="clone-the-source-repository"><a class="header" href="#clone-the-source-repository">Clone the source repository</a></h2>
+<h3 id="commands"><a class="header" href="#commands">Commands</a></h3>
+<p>The first step is to clone the FreeRTOS Kernel repository and
+its submodules, and to create a <code>cbmc</code> subdirectory to hold
+everything related to CBMC verification:</p>
+<pre><code>git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git kernel
+cd kernel
+git submodule update --init --checkout --recursive
+mkdir cbmc
+cd cbmc
+</code></pre>
+<h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
+<p>The name of the directory <code>cbmc</code> and its location within the
+repository is unimportant.  Just choose a reasonable place
+within the repository.  For example, you could put <code>cbmc</code>
+under a <code>test</code> or <code>verification</code> directory that contains your unit
+tests and other verification work.</p>
+<h2 id="add-the-starter-kit"><a class="header" href="#add-the-starter-kit">Add the starter kit</a></h2>
+<h3 id="commands-1"><a class="header" href="#commands-1">Commands</a></h3>
+<p>The next step is to add the starter kit and the litani build system as
+submodules.</p>
+<pre><code>git submodule add https://github.com/awslabs/aws-templates-for-cbmc-proofs.git starter-kit
+git submodule add https://github.com/awslabs/aws-build-accumulator.git litani
+</code></pre>
+<h3 id="explanation-1"><a class="header" href="#explanation-1">Explanation</a></h3>
+<p>The first command adds the starter kit as a submodule.</p>
+<p>The second command adds the litani build system as a submodule.
+Litani is the build system used by the starter kit.  For the purpose of
+this tutorial, what makes litani interesting is that the starter kit
+uses litani to do CBMC verification as concurrently as possible, and
+to build a dashboard of the results.</p>
+<h2 id="configure-the-starter-kit"><a class="header" href="#configure-the-starter-kit">Configure the starter kit</a></h2>
+<h3 id="commands-2"><a class="header" href="#commands-2">Commands</a></h3>
+<p>The next step is to configure CBMC verification for this project and
+copy the contents of the starter kit into place.
+We need to know the answers to three questions:</p>
+<ul>
+<li>What is the root of the repository?
+<ul>
+<li>Since <code>kernel/cbmc</code> is the current directory and <code>kernel</code> is the root
+of the repository, we will use the relative path <code>..</code> to the root.</li>
+</ul>
+</li>
+<li>What is the path to the litani build tool?
+<ul>
+<li>Since litani is located in
+the root of the litani submodule, we will use the relative path <code>litani/litani</code>
+to the tool.</li>
+</ul>
+</li>
+<li>What is the name of the project?
+<ul>
+<li>We will use the name <code>Kernel</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Let's run the setup script:</p>
+<pre><code>./starter-kit/scripts/setup.py
+What is the path to the source root? ..
+What is the path to the litani script? ./litani/litani
+What is the project name? Kernel
+</code></pre>
+<h3 id="explanation-2"><a class="header" href="#explanation-2">Explanation</a></h3>
+<p>Looking at the <code>cbmc</code> directory, we see that a few subdirectories have
+been added to <code>cbmc</code>.</p>
+<pre><code>ls
+</code></pre>
+<pre><code>include         negative_tests  sources         stubs
+litani          proofs          starter-kit
+</code></pre>
+<p>In addition to litani and the starter-kit submodules, we see</p>
+<ul>
+<li><code>include</code> for header files written for verification.</li>
+<li><code>sources</code> for common source files written for verification.</li>
+<li><code>stubs</code> for any stubs of project code written for verification.
+Examples of useful stubs for a communication protocol might be models of
+the <code>send</code> and <code>receive</code> methods that interact with the physical network.</li>
+<li><code>proofs</code> for the verification itself.  In the end, this directory will
+contain one subdirectory for every function or entry point we want to verify.
+This <code>proofs</code> directory is usually just a flat collection of subdirectories,
+but these subdirectories can be nested if it makes sense to group
+together the verification of similar functions.</li>
+</ul>
+<p>The <code>proofs</code> directory itself is worth further examination.</p>
+<pre><code>ls proofs
+</code></pre>
+<pre><code>Makefile-project-defines        Makefile.common
+Makefile-project-targets        README.md
+Makefile-project-testing        run-cbmc-proofs.py
+Makefile-template-defines
+</code></pre>
+<p>The important files are</p>
+<ul>
+<li><code>Makefile.common</code> implements best practices for verification using CBMC.
+It describes a method of building the goto binary for
+CBMC that is likely to yield good CBMC performance, and it describes
+a set of checks we recommend performing with CBMC.  It invokes CBMC
+several times to do property checking and coverage checking (currently
+just line coverage and not branch coverage), and it
+invokes a tool that builds a dashboard of the results in a form
+that is easy to debug.  It works by calling
+<code>litani</code> to perform all of these build and verification steps with
+maximal concurrency.</li>
+<li><code>run-cbmc-proofs.py</code> is a script that runs with maximal concurrency
+all of the CBMC verification under the <code>proofs</code> directory, and builds
+a dashboard of the results.
+In another tutorial, we will introduce our
+implementation of continuous integration that runs all of the CBMC verification
+against each pull request to check that proposed code changes
+preserve the CBMC results.  This is the script invoked by continuous integration
+to run the verification.</li>
+</ul>
+<p>The remaining Makefiles are just hooks for describing project-specific
+modifications or definitions.  For example, within <code>Makefile-project-defines</code>
+you can define the <code>INCLUDES</code> variable to set the search path for the header
+files needed to build the project functions being verified.</p>
+<h2 id="configure-the-proof"><a class="header" href="#configure-the-proof">Configure the proof</a></h2>
+<h3 id="commands-3"><a class="header" href="#commands-3">Commands</a></h3>
+<p>The next step is to configure CBMC verification of  the memory allocator
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
+in the source file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.  We need to know the answers to four questions:</p>
+<ul>
+<li>What is the function name?
+<ul>
+<li>We will use <code>pvPortMalloc</code>.</li>
+</ul>
+</li>
+<li>What is the path to the source file defining the function?
+<ul>
+<li>Since <code>kernel/cbmc/proofs</code> is the current directory and
+<code>kernel/portable/MemMang/heap_5.c</code> is the source file, we will use the
+relative path <code>../../portable/MemMang/heap_5.c</code> to the file.</li>
+</ul>
+</li>
+<li>What is the path to the source root?
+<ul>
+<li>Since <code>kernel/cbmc/proofs</code> is the current directory and
+<code>kernel</code> is the source file, we will use the relative path <code>../..</code>
+to the source root.</li>
+</ul>
+</li>
+<li>What is the path to the 'proofs' directory (usually '.')?
+<ul>
+<li>Since <code>kernel/test/cbmc/proofs</code> is the current directory,
+we will just use <code>.</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Let's run the setup script:</p>
+<pre><code>../starter-kit/scripts/setup-proof.py
+What is the function name? pvPortMalloc
+What is the path to the source file defining the function? ../../portable/MemMang/heap_5.c
+What is the path to the source root? ../..
+What is the path to the 'proofs' directory (usually '.')? .
+</code></pre>
+<h3 id="explanation-3"><a class="header" href="#explanation-3">Explanation</a></h3>
+<p>The <code>proofs</code> directory now contains a subdirectory <code>pvPortMalloc</code>
+for verification of the memory allocator <code>pvPortMalloc</code>.</p>
+<pre><code>ls pvPortMalloc
+</code></pre>
+<pre><code>Makefile                cbmc-proof.txt
+README.md               pvPortMalloc_harness.c
+</code></pre>
+<p>The important files are</p>
+<ul>
+<li><code>pvPortMalloc_harness.c</code> is the start of a proof harness for <code>pvPortMalloc</code>.</li>
+<li><code>Makefile</code> drives building and linking <code>pvPortMalloc</code> and its proof harness
+and running CBMC on the result.</li>
+</ul>
+<h2 id="write-the-proof"><a class="header" href="#write-the-proof">Write the proof</a></h2>
+<p>Let's change to the <code>pvPortMalloc</code> subdirectory:</p>
+<pre><code>cd pvPortMalloc
+</code></pre>
+<h3 id="building-source-code"><a class="header" href="#building-source-code">Building source code</a></h3>
+<p>Every software project has its own build procedure.  It is quite likely
+that if you can build the project for execution with <code>make CC=gcc</code> then
+you can build the project for model checking by CBMC with <code>make CC=goto-cc</code>.
+The compiler
+<code>goto-cc</code> is a drop-in replacement for <code>gcc</code> that compiles
+source code into a <em>goto program</em> used by CBMC.  In theory, you can link
+your proof harness against this goto program and run CBMC on the result.
+In practice,
+the result is huge and the performance of CBMC is disappointing.
+Our approach is to build only the source code that is required to run
+the function under test.</p>
+<p>In our case, all we need is the single file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">kernel/portable/MemMang/heap_5.c</a>.</p>
+<p>Building FreeRTOS requires a configuration file, so let's add to the current
+directory a slightly simplified <a href="starter-kit/overview/FreeRTOSconfig.h">FreeRTOSconfig.h</a> that we have
+taken from another repository that demonstrates FreeRTOS.
+Building FreeRTOS also requires an implementation of a portable interface, so
+let's use an implementation in <code>kernel/portable/ThirdParty/GCC/Posix</code> that comes
+with the kernel repository.</p>
+<p>Now we can build heap_5.c with</p>
+<pre><code>gcc -I. -I../../include -I../../portable/ThirdParty/GCC/Posix \
+  ../../portable/MemMang/heap_5.c
+</code></pre>
+<h3 id="the-proof-harness"><a class="header" href="#the-proof-harness">The proof harness</a></h3>
+<p>Let's look at the initial outline of the proof harness <code>pvPortMalloc_harness.c</code>:</p>
+<pre><code class="language-c">/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+/*
+ * Insert project header files that
+ *   - include the declaration of the function
+ *   - include the types needed to declare function arguments
+ */
+
+void harness()
+{
+
+  /* Insert argument declarations */
+
+  pvPortMalloc( /* Insert arguments */ );
+}
+</code></pre>
+<p>The first thing we need to do is add the prototype for <code>pvPortMalloc</code>:</p>
+<pre><code>void * pvPortMalloc( size_t xWantedSize );
+</code></pre>
+<p>This prototype refers to the type <code>size_t</code>, so we need to add the header file
+defining this type</p>
+<pre><code>#include &lt;stdlib.h&gt;
+</code></pre>
+<p>Finally, we need to allocate an unconstrained value for <code>xWantedSize</code>
+and add <code>xWantedSize</code> to the invocation of <code>pvPortMalloc</code>:</p>
+<pre><code>  size_t xWantedSize;
+  pvPortMalloc( xWantedSize );
+</code></pre>
+<p>The final proof harness <code>pvPortMalloc_harness.c</code> is:</p>
+<pre><code class="language-c">/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+#include &lt;stdlib.h&gt;
+void * pvPortMalloc( size_t xWantedSize );
+
+void harness()
+{
+  size_t xWantedSize;
+  pvPortMalloc( xWantedSize );
+}
+</code></pre>
+<h3 id="the-makefile"><a class="header" href="#the-makefile">The makefile</a></h3>
+<p>Let's look at the initial outline of <code>Makefile</code>:</p>
+<pre><code>HARNESS_ENTRY = harness
+HARNESS_FILE = pvPortMalloc_harness
+
+# This should be a unique identifier for this proof, and will appear on the
+# Litani dashboard. It can be human-readable and contain spaces if you wish.
+PROOF_UID = pvPortMalloc
+
+DEFINES +=
+INCLUDES +=
+
+REMOVE_FUNCTION_BODY +=
+UNWINDSET +=
+
+PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE).c
+PROJECT_SOURCES += $(SRCDIR)/portable/MemMang/heap_5.c
+
+# If this proof is found to consume huge amounts of RAM, you can set the
+# EXPENSIVE variable. With new enough versions of the proof tools, this will
+# restrict the number of EXPENSIVE CBMC jobs running at once. See the
+# documentation in Makefile.common under the &quot;Job Pools&quot; heading for details.
+# EXPENSIVE = true
+
+include ../Makefile.common
+</code></pre>
+<p>All we need to do here is to define the search path for the needed header
+files.  Since the variable <code>$(SRCDIR)</code> points to the root of the repository
+(the source root), and the variabld <code>$(PROOFDIR)</code> points to the current
+proof directory, all we need to do is add the lines</p>
+<pre><code>INCLUDES += -I$(PROOFDIR)
+INCLUDES += -I$(SRCDIR)/include
+INCLUDES += -I$(SRCDIR)/portable/ThirdParty/GCC/Posix
+</code></pre>
+<h2 id="run-cbmc"><a class="header" href="#run-cbmc">Run CBMC</a></h2>
+<p>Now we can run CBMC on <code>pvPortMalloc</code> with</p>
+<pre><code>make
+</code></pre>
+<p>This takes about 30 seconds on MacOS.
+It builds the proof harness, builds the relevant source code, links them
+together, runs CBMC several times to do property checking and coverage checking,
+and runs another tool to build a summary of the results that can be opened
+in a web browser.  On MacOS, open the report with</p>
+<pre><code>open report/html/index.html
+</code></pre>
+<p>and study the results.</p>
+<p>With this, in just minutes, you have used the starter kit to get started
+writing CBMC proofs for the FreeRTOS kernel.  The proof is not done.  If you
+look at the report you have opened in your web browser, you can see that
+the current proof harness fails to exercise a large fraction of the function
+<code>pvPortMalloc</code>.  For example, the proof harness currently fails to allocate
+the region of memory from which <code>pvPortMalloc</code> should allocate blocks
+of memory.  But this is where the fun begins...</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-projects"><a class="header" href="#cbmc-projects">CBMC projects</a></h1>
+<p>This is a short tutorial on how to use CBMC on a software project.  We discuss:</p>
+<ul>
+<li><a href="management/Plan-your-proof.html">Project planning</a>:
+How organize your proof, estimate the effort involved, and estimate
+the return on investment</li>
+<li><a href="management/Write-a-good-proof.html">Writing a good proof</a>:
+What does a good proof look like?</li>
+<li><a href="management/Debug-an-error-trace.html">Debugging an error trace</a>:
+How to debug and repair an issue discovered by CBMC</li>
+<li><a href="management/Code-for-verification.html">Coding for verification</a>:
+How to write code to make it easy to prove with CBMC</li>
+<li><a href="management/Code-review-for-proofs.html">Proof evaluation</a>:
+A checklist for proof writers and reviewers to know when a proof is
+done</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="project-planning"><a class="header" href="#project-planning">Project planning</a></h1>
+<h2 id="how-to-select-what-proofs-to-attempt-in-what-order"><a class="header" href="#how-to-select-what-proofs-to-attempt-in-what-order">How to select what proofs to attempt, in what order</a></h2>
+<ol>
+<li>Make a dependency graph of the modules in your program.
+There are a number of tools that can help with this, including <a href="https://www.doxygen.nl/manual/">doxygen</a>.
+In addition, you can manually determine a good approximation to the dependency graph using the <code>.h</code> files.
+If a module includes the <code>.h</code> file of another module, it likely depends on it.</li>
+<li>Select the leaves of the graph - those modules which other modules depend upon, but which do not depend on other modules themselves.
+Typically, these include the basic data-structures and algorithms used by the rest of the codebase.
+Which one of these you choose is a matter of style: you can use the  <a href="management/Code-for-verification.html">guidelines for coding for verification</a> to help select modules which are likely to be good verification targets.</li>
+<li>Inside a given module, select the best initial verification target.
+This is often, but not always, one of the simpler functions.
+In particular, you are looking for a function which is both easy to verify, and will give good insight into the data-structure invariants of the data-structures used in the given module.
+The more a function conforms to our <a href="management/Code-for-verification.html">guidelines for coding for verification</a>, the easiest it will be to verify.
+In our experience, it often makes sense to start with allocation or initialization functions (which often have named that end in <code>_alloc()</code> or <code>_init()</code>.</li>
+<li>The first proof for a given module is typically the hardest.
+It typically requires the creation of an <code>_is_valid()</code> function and an <code>_ensure_is_allocated()</code> function.
+However, once these have been written once, the remainder of the module becomes much easier.
+The amount of time needed to complete a proof can vary significantly, from hours for a simple proof to days for a complex one.
+If the function has few dependencies, and conforms to the guidelines for coding for verification, we would expect an initial proof to take perhaps a day's work.[TODO I made up this number.  We need data]
+If it is taking longer than this, try a different entry-point.</li>
+</ol>
+<h2 id="how-to-get-a-sense-of-the-work-cbmc-will-involve"><a class="header" href="#how-to-get-a-sense-of-the-work-cbmc-will-involve">How to get a sense of the work CBMC will involve</a></h2>
+<p>We recommend selecting a few (2-3) modules from the leaves of the dependency graph, and then doing 2-3 proofs from each module.
+This will give you a sense of</p>
+<ol>
+<li>How much work the first proof in a new module is</li>
+<li>How much work subsequent proofs in that module is, once the <code>_is_valid()</code> and <code>_ensure_is_allocated()</code> functions are written.</li>
+</ol>
+<p>Predicting precisely how hard a piece of code will be to verify can be difficult.
+In general, however, the more code conforms to our <a href="management/Code-for-verification.html">guidelines for coding for verification</a>, the easier it will be to verify.
+We recommend trying  modules of different verification complexity to get a sense of overall expected effort.</p>
+<p>Particular features to look for are:</p>
+<ol>
+<li>Does the code have loops?
+<ol>
+<li>If so, are those loops nested?
+Since CBMC unrolls loops before verifying them, nested loops can lead to a quadratic (or worse) increase in the amount of work CBMC will need to perform.</li>
+<li>Are they over fixed sizes, or do they vary with the size of inputs?
+If loops are of fixed size, it may be hard to simplify the problem if CBMC is having performance issues as the proof is being developed.
+On the other hand, once the proof is complete, functions with fixed-sized loops may have higher assurance proofs, since data-structures do not need to be bounded for performance reasons.</li>
+</ol>
+</li>
+<li>Does the code use inductive data-structures (e.g. linked lists, trees)?
+Inductive data-structures are much harder to model and verify than linear structures such as arrays.</li>
+<li>Does the code have function pointers?
+Function pointers are hard to model.
+They can also cause performance problems for CBMC.</li>
+<li>Does the code have an simple and obvious specification?
+One of the main challenges in verification is writing the specification.
+The simpler the specification of the code being verified, the easier it is to verify.
+Similarly, the better the documentation, the easier it is.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-good-proof"><a class="header" href="#writing-a-good-proof">Writing a good proof</a></h1>
+<p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="management/Write-a-good-proof.html#the-components-of-a-cbmc-proof">The components of a CBMC proof</a></li>
+<li><a href="management/Write-a-good-proof.html#running-example">Running example.</a></li>
+<li><a href="management/Write-a-good-proof.html#the-proof-harness">The Proof harness</a>
+<ul>
+<li><a href="management/Write-a-good-proof.html#what-does-a-good-proof-harness-look-like">What does a good proof harness look like?</a></li>
+<li><a href="management/Write-a-good-proof.html#how-to-write-a-good-proof-harness">How to write a good proof harness</a></li>
+</ul>
+</li>
+<li><a href="management/Write-a-good-proof.html#the-proof-makefile">The Proof Makefile</a></li>
+<li><a href="management/Write-a-good-proof.html#the-is_valid-function">The <code>is_valid()</code> function</a>
+<ul>
+<li><a href="management/Write-a-good-proof.html#example-of-an-is_valid-function">Example of an <code>is_valid()</code> function</a></li>
+</ul>
+</li>
+<li><a href="management/Write-a-good-proof.html#the-ensure_allocated-function">The <code>ensure_allocated</code> function</a></li>
+<li><a href="management/Write-a-good-proof.html#stubs-and-abstractions">Stubs and abstractions</a></li>
+<li><a href="management/Write-a-good-proof.html#how-do-i-add-the-function-contract-to-the-function-being-verified">How do I add the function contract to the function being verified?</a>
+<ul>
+<li><a href="management/Write-a-good-proof.html#example-using-function-contracts">Example using function contracts</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="the-components-of-a-cbmc-proof"><a class="header" href="#the-components-of-a-cbmc-proof">The components of a CBMC proof</a></h2>
+<p>A CBMC proof normally consists of several components:</p>
+<ol>
+<li>
+<p>A <strong>proof harness</strong> which:</p>
+<ol>
+<li>Sets up required data-structures</li>
+<li>Calls the function being verified</li>
+<li>Checks any function post-conditions</li>
+</ol>
+</li>
+<li>
+<p>A <strong>proof makefile</strong> which:</p>
+<ol>
+<li>Defines any necessary preprocessor defines
+e.g. <code>-DMAX_BUFFER_SIZE=10</code></li>
+<li>Specifies the dependencies of the code under test</li>
+<li>Specifies any abstractions or models used by proof</li>
+</ol>
+<p>Much of the work done by these Makefiles is common among proofs.
+We provide a <code>Makefile.common</code>, which provides useful makefile rules shared by all proofs.</p>
+</li>
+<li>
+<p>A set of <strong><code>_is_valid()</code> functions</strong>, one for each <strong>datatype</strong> used in the proof</p>
+<ol>
+<li>Typically go in the code-base itself</li>
+<li>Can be used in the codebase as assertions to improve runtime checking.</li>
+<li>Can be reused by multiple proofs</li>
+</ol>
+</li>
+<li>
+<p>A set of <strong><code>_allocate()</code> and <code>ensure()</code> functions</strong>,  one for each <strong>datatype</strong> used in the proof</p>
+<ol>
+<li>Due to limitations of the CBMC tools, not all properties about a datatype can be declared declaratively.
+In particular, allocation of memory must be done impartively.
+These functions handle allocation of the data-structure, and any recursive substructures.</li>
+<li>Can be put in a library and reused by multiple proofs.</li>
+</ol>
+</li>
+<li>
+<p>A <strong>library of helper functions</strong> which:</p>
+<ol>
+<li>Models any external libraries (e.g. libCrypto)</li>
+<li>Provides implementations for abstracted functions</li>
+</ol>
+</li>
+</ol>
+<p>The remainder of this document describes how build each one of these components.</p>
+<h2 id="running-example"><a class="header" href="#running-example">Running example.</a></h2>
+<p>We will use the <code>aws_array_list</code> module from <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> open-source project as our running example.
+This module provides a polymorphic array defined as follows:</p>
+<pre><code class="language-c">struct aws_array_list {
+    struct aws_allocator *alloc;
+    size_t current_size;
+    size_t length;
+    size_t item_size;
+    void *data;
+};
+</code></pre>
+<ul>
+<li><code>alloc</code> represents the allocator used by the list (to allow consumers of the list to override <code>malloc</code> if desired)</li>
+<li><code>current_size</code> represents the bytes of memory that the array has allocated</li>
+<li><code>length</code> is the number of items that it contains</li>
+<li><code>data_size</code> represents the size of the objects stored in the list (in bytes)</li>
+<li><code>data</code> points to a byte array in memory that contains the data of the array list.</li>
+</ul>
+<p>Users of this data structure are expected to access its fields using getter and setter methods, although C does not offer language support to ensure that they do so.
+Similarly, since the C type system does not have support for polymorphism, authors of the getters and setters are responsible for ensuring that the list is accessed safely.
+The getter itself is defined as:</p>
+<pre><code class="language-c">int aws_array_list_get_at_ptr(const struct aws_array_list *AWS_RESTRICT list, void **val, size_t index) {
+    if (aws_array_list_length(list) &gt; index) {
+        *val = (void *)((uint8_t *)list-&gt;data + (list-&gt;item_size * index));
+        return AWS_OP_SUCCESS;
+    }
+    return aws_raise_error(AWS_ERROR_INVALID_INDEX);
+}
+</code></pre>
+<h2 id="the-proof-harness-1"><a class="header" href="#the-proof-harness-1">The Proof harness</a></h2>
+<h3 id="what-does-a-good-proof-harness-look-like"><a class="header" href="#what-does-a-good-proof-harness-look-like">What does a good proof harness look like?</a></h3>
+<p>Syntactically, a proof harness looks quite similar to a unit test.
+The main difference is that a proof harness calls the target function with a partially-constrained input rather than a concrete value; when symbolically executed by CBMC, this has the effect of exploring the function under <em>all</em> possible inputs that satisfy the constraints.</p>
+<p>We have developed a style of writing proofs that we believe is readable, maintainable, and modular.
+This style was driven by feedback from developers, and addresses the need to communicate <em>exactly what we are proving</em> to developers and users.</p>
+<p>Our proofs have the following features:</p>
+<ol>
+<li>They are structured as <em>harnesses</em> that call into the function being verified, similar to unit tests.
+This makes them easier to write, because they follow a pattern most developers are familiar with.
+This style also yields more useful error traces.
+Most importantly, it makes proofs easier to understand and maintain, since a developer reviewing a proof has an &quot;executable&quot; which they can understand using their existing knowledge and intuition about C code.</li>
+<li>They state their assumptions declaratively.
+Rather than creating a fully-initialized data structure in imperative style, we create unconstrained data structures and then constrain them just enough to prove the property of interest.
+This means the only assumptions on the data structure's values are the ones we state in the harness.</li>
+<li>They follow a predictable pattern: setting up data structures, assuming preconditions on them, calling into the code being verified, and asserting postconditions.</li>
+</ol>
+<p>The following code is an example of a proof harness:</p>
+<pre><code class="language-c">void aws_array_list_get_at_ptr_harness() {
+    /* initialization */
+    struct aws_array_list* list = can_fail_malloc(sizeof(*list));
+    __CPROVER_assume(list != NULL));
+    __CPROVER_assume(aws_array_list_is_bounded(list));
+    ensure_array_list_has_allocated_data_member(list);
+
+    /* generate unconstrained inputs */
+    void **val = can_fail_malloc(sizeof(void *));
+    size_t index;
+
+    /* preconditions */
+    __CPROVER_assume(aws_array_list_is_valid(list));
+    __CPROVER_assume(val != NULL);
+
+    /* call function under verification */
+    if(!aws_array_list_get_at_ptr(list, val, index)) {
+      /* If aws_array_list_get_at_ptr is successful,
+       * i.e. ret==0, we ensure the list isn't
+       * empty and index is within bounds */
+        assert(list-&gt;data != NULL);
+        assert(list-&gt;length &gt; index);
+    }
+
+    /* postconditions */
+    assert(aws_array_list_is_valid(list));
+    assert(val != NULL);
+}
+</code></pre>
+<p>The harness shown above consists of five parts:</p>
+<ol>
+<li>Initialize the data structure to unconstrained values.
+We recommend initializers for all verified data structures use a consistent naming scheme:
+<code>ensure_{data_structure}_has_allocated_data_member()</code>.</li>
+<li>Generate unconstrained inputs to the function.</li>
+<li>Constrain all inputs to meet the function specification and assume all preconditions using <code>assume</code> statements.
+If necessary, bound the data structures so that the proof terminates.</li>
+<li>Call the function under verification with these inputs.</li>
+<li>Check any function postconditions using <code>assert</code> statements.</li>
+</ol>
+<h3 id="how-to-write-a-good-proof-harness"><a class="header" href="#how-to-write-a-good-proof-harness">How to write a good proof harness</a></h3>
+<p>We recommend approaching writing a proof-harness as an iterative process:</p>
+<ol>
+<li>
+<p>Write a minimally constrained harness, which simply</p>
+<ol>
+<li>declares the necessary variables</li>
+<li>and then calls the function under test using them.</li>
+</ol>
+<p>For example, for the harness given above, an initial harness might look like:</p>
+</li>
+</ol>
+<pre><code class="language-c">void aws_array_list_get_at_ptr_harness() {
+    /* initialization */
+    struct aws_array_list* list;
+
+    /* generate unconstrained inputs */
+    void **val;
+    size_t index;
+
+    /* call function under verification */
+     aws_array_list_get_at_ptr(list, val, index);
+}
+</code></pre>
+<p>Note that we are leaving the inputs to the function completely unconstrained: we are simply declaring them on the stack, and then using them without assigning any values to them.
+In a normal C compiler, this would be undefined behaviour.
+In CBMC, this is legal, but represents an <strong>unconstrained value</strong> (you may also hear this called a <strong>non-determinstic</strong> value).
+The CBMC tool will use a mathematical solver which considers every possible value of an unconstrained variable.
+If there exists a value which can cause an assertion failure, the solver will find it.
+Conversely, if the solver says the assertion cannot be violated, this forms mathematical <em>proof</em> that no such value exists.</p>
+<p>Leaving these values unconstrained will almost certainly lead to CBMC detecting violations, because real functions have implicit (or, if you're lucky, explicit) constraints on their inputs.
+For example, it is typically a precondition of a function that pointers must either reference valid memory, or be <code>null</code>.
+However, sometimes you may be surprised: if a function doesn't use a given input, or uses it in a defensive way, it may accept totally unconstrained values.
+What we are attempting to do is find the minimum constraint that will allow the function to succeed with no assertion violations.
+So we start with unconstrained values, and slowly constrain them just enough to get the function to verify.</p>
+<ol>
+<li>Run CBMC and observe the output.
+In the case of our running example, you will see errors that look like this</li>
+</ol>
+<pre><code>   Errors
+     * In include/aws/common/array_list.inl
+       * In aws_array_list_get_at_ptr
+         * Line 347:
+           * [trace] val != ((void*)0) check failed
+</code></pre>
+<p>Consult our <a href="management/Debug-an-error-trace.html">guide to debugging CBMC output</a> for suggestions about how to understand this output.</p>
+<ol>
+<li>
+<p>Constrain each input in turn until all warnings are resolved.
+See the sections on writing <code>_is_valid()</code> and <code>_ensure_is_allocated()</code> functions for details on how to do this</p>
+</li>
+<li>
+<p>Fix any loop-unwinding errors.
+To fix these errors, you will need update the Makefile with the correct loop bounds.
+This may cause CBMC to get quite slow.
+In this case, we recommend <strong>bounding</strong> the size of data-structures to allow CBMC to finish quickly.
+In the harness above, this is accomplished by the line</p>
+<pre><code>__CPROVER_assume(aws_array_list_is_bounded(list))
+</code></pre>
+<p>We recommend starting with very small bounds to ensure a quick REPL cycle.
+Once the proof is finished, you can increase the bounds to increase assurance.</p>
+</li>
+<li>
+<p>Check the coverage report.
+Ideally, you will have 100% coverage.
+In practice, coverage will be less than 100%, for e.g. in defensive code that redundantly checks for errors.
+In this case, inspect the uncovered code, and ensure that it matches your expectations.</p>
+</li>
+<li>
+<p>Increase assurance by adding assertions to the harness.
+There are typically three types of such assertions:</p>
+<ol>
+<li>Data structures should remain valid, whether or not the function under test succeeded.</li>
+<li>If the function failed, data-structures should remain unchanged.</li>
+<li>If the function succeeded, data-structures should be updated according to the function semantics.</li>
+</ol>
+<p>In our example harness, this is handled by the lines</p>
+</li>
+</ol>
+<pre><code class="language-c">    /* call function under verification */
+    if(!aws_array_list_get_at_ptr(list, val, index)) {
+      /* If aws_array_list_get_at_ptr is successful,
+       * i.e. ret==0, we ensure the list isn't
+       * empty and index is within bounds */
+        assert(list-&gt;data != NULL);
+        assert(list-&gt;length &gt; index);
+    }
+
+    /* postconditions */
+    assert(aws_array_list_is_valid(list));
+    assert(val != NULL);
+</code></pre>
+<h2 id="the-proof-makefile"><a class="header" href="#the-proof-makefile">The Proof Makefile</a></h2>
+<p>The Makefile for our running example looks like this:</p>
+<pre><code class="language-make"># Sufficently long to get full coverage on the aws_array_list APIs
+# short enough that all proofs complete quickly
+MAX_ITEM_SIZE ?= 2
+DEFINES += -DMAX_ITEM_SIZE=$(MAX_ITEM_SIZE)
+
+# Necessary to get full coverage when using functions from math.h
+MAX_INITIAL_ITEM_ALLOCATION ?= 9223372036854775808ULL
+DEFINES += -DMAX_INITIAL_ITEM_ALLOCATION=$(MAX_INITIAL_ITEM_ALLOCATION)
+
+# This bound allows us to reach 100% coverage rate
+UNWINDSET += memcpy_impl.0:$(shell echo $$(($(MAX_ITEM_SIZE) + 1)))
+
+CBMCFLAGS +=
+
+DEPENDENCIES += $(HELPERDIR)/source/proof_allocators.c
+DEPENDENCIES += $(HELPERDIR)/source/make_common_data_structures.c
+DEPENDENCIES += $(HELPERDIR)/source/utils.c
+DEPENDENCIES += $(HELPERDIR)/stubs/error.c
+DEPENDENCIES += $(HELPERDIR)/stubs/memcpy_override.c
+DEPENDENCIES += $(SRCDIR)/source/array_list.c
+DEPENDENCIES += $(SRCDIR)/source/common.c
+
+ENTRY = aws_array_list_get_at_ptr_harness
+###########
+
+include ../Makefile.common
+</code></pre>
+<ol>
+<li>It defines a set of variables that can be used as bounds in the proof.
+As discussed above, we recommend starting with small bounds to enable quick iteration on the proof and increasing them once the proof is complete.
+These variables are created both as Makefile variables, which can be used later (e.g. in the <code>UNWINDSET</code>, and also passed as <code>-D</code> defines, which allow</li>
+<li>It creates an <code>UNWINDSET</code> which tells CBMC how many times to unroll loops in the program.
+As shown here, loop bounds typically depend on variables within the makefile.
+Its a good idea to make this explicit, as we do here, to avoid the need to change magic constants as you experiment with the proof.</li>
+<li>A list of <code>CBMCFLAGS</code> if any are needed.
+Typically, all the required flags are set in the <code>Makefile.common</code>, and this can be left empty</li>
+<li>A list of <code>DEPENDENCIES</code>, which are the
+<ol>
+<li>Project source files</li>
+<li>Proof stubs/models [TODO, this really belongs in ABSTRACTIONS]</li>
+</ol>
+</li>
+<li>The <code>ENTRY</code>, which is the name of the function being verified</li>
+<li><code>include ../Makefile.common</code> to take advantage of the standard templates declared in that file.</li>
+</ol>
+<p>Most makefiles should like exactly like this.
+[TODO discuss wellspring, litani]</p>
+<h2 id="the-is_valid-function"><a class="header" href="#the-is_valid-function">The <code>is_valid()</code> function</a></h2>
+<p>The <code>is_valid()</code> functions used in preconditions are developed using an iterative process.
+For each <strong>data-structure</strong> module, start by specifying the simplest predicates that you can think of for the data structure --- usually, that the data of the data structure is correctly allocated.
+Then, gradually refine these predicates, until you have a set of reasonable invariants for the data structure.</p>
+<p>You can verify that invariants are reasonable by:</p>
+<ol>
+<li>
+<p>Having an explicit code-review in which subject matter experts on the development team confirm that the invariants represent the design intent of the code</p>
+</li>
+<li>
+<p>Adding these invariants are pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
+Note that unit-test failures do not necessarily reflect problems with your invariants.
+They may also reflect either</p>
+<ol>
+<li>Bugs in the code itself</li>
+<li>Bugs in the unit-tests</li>
+</ol>
+<p>In both these cases, fix the bug in the code, then make sure the invariant now succeeds during the tests.</p>
+</li>
+</ol>
+<h3 id="example-of-an-is_valid-function"><a class="header" href="#example-of-an-is_valid-function">Example of an <code>is_valid()</code> function</a></h3>
+<p>For instance, in the case of the <code>array_list</code>, we started
+with the invariant that <code>data</code> points to <code>current_size</code>
+allocated bytes.
+After several iterations, the validity invariant for <code>array_list</code> ended up looking like this:</p>
+<pre><code class="language-c">bool aws_array_list_is_valid(const struct aws_array_list *list) {
+  if (!list) return false;
+  size_t required_size = 0;
+  bool required_size_is_valid = (aws_mul_size_checked(list-&gt;length, list-&gt;item_size, &amp;required_size) == AWS_OP_SUCCESS);
+  bool current_size_is_valid = (list-&gt;current_size &gt;= required_size);
+  bool data_is_valid = ((list-&gt;current_size == 0 &amp;&amp; list-&gt;data == NULL) || AWS_MEM_IS_WRITABLE(list-&gt;data, list-&gt;current_size));
+  bool item_size_is_valid = (list-&gt;item_size != 0);
+
+  return required_size_is_valid &amp;&amp; current_size_is_valid &amp;&amp; data_is_valid &amp;&amp; item_size_is_valid;
+}
+</code></pre>
+<p>The invariant above describes four conditions satisfied by a valid <code>array_list</code>:</p>
+<ol>
+<li>the sum of the sizes of the items of the list must fit in an unsigned integer of type <code>size_t</code>, which is checked using the function <code>aws_mul_size_checked</code></li>
+<li>the size of the <code>array_list</code> in bytes (<code>current_size</code>) has to be larger than or equal to the sum of the sizes of its items;</li>
+<li>the <code>data</code> pointer must point to a valid memory location; otherwise it must be <code>NULL</code> if the size of the <code>array_list</code> is zero;
+This point is actually somewhat subtle: there was debate among the team about whether the pointer must be <code>NULL</code>, or whether any value was legal if the length was zero.
+Writing an explicit <code>is_valid()</code> function forced the team to come to a precise decision.</li>
+<li>the <code>item_size</code> must be positive.</li>
+</ol>
+<h2 id="the-ensure_allocated-function"><a class="header" href="#the-ensure_allocated-function">The <code>ensure_allocated</code> function</a></h2>
+<p>Ideally, all properties in a proof harness would be written in a declarative style.
+Unfortunately, CBMC currently does not allow to use <code>__CPROVER_assume()</code> statements to assume that memory is correctly allocated for some data structure as a precondition for function verification.
+Instead, memory must be explicitly allocated in the harness before calling the function under analysis using imperative calls to <code>malloc()</code>.
+By default, CBMC <code>malloc()</code> never returns <code>null</code>.
+So it is important that your <code>ensure_allocated</code> function explicitly defines cases where pointers can be <code>null</code>, using adequately placed calls to <code>__CPROVER_assume({some pointer} == null)</code>.</p>
+<p>It is important to separate the work done in this function from the work done in an <code>is_valid</code> function.
+This function should only worry about allocating the memory needed by the data-structure.
+Any other validity constraints should be handled by the <code>is_valid()</code> check.</p>
+<p>The <code>ensure</code> function for the running example is:</p>
+<pre><code class="language-c">void ensure_array_list_has_allocated_data_member(struct aws_array_list *const list) {
+    if (list-&gt;current_size == 0 &amp;&amp; list-&gt;length == 0) {
+        __CPROVER_assume(list-&gt;data == NULL);
+        list-&gt;alloc = can_fail_allocator();
+    } else {
+        list-&gt;data = bounded_malloc(list-&gt;current_size);
+        list-&gt;alloc = nondet_bool() ? NULL : can_fail_allocator();
+    }
+}
+</code></pre>
+<h2 id="stubs-and-abstractions"><a class="header" href="#stubs-and-abstractions">Stubs and abstractions</a></h2>
+<ul>
+<li>TODO</li>
+</ul>
+<h2 id="how-do-i-add-the-function-contract-to-the-function-being-verified"><a class="header" href="#how-do-i-add-the-function-contract-to-the-function-being-verified">How do I add the function contract to the function being verified?</a></h2>
+<p>We strongly recommend adding all checks and assumptions from the proof harness to the function being verified as runtime assertions.
+This provides value in several ways.</p>
+<ol>
+<li><strong>It connects the code and the proof.</strong>
+Proofs for all but the most simple functions require environment assumptions.
+One of the most common ways proof can go wrong is when these assumptions the real-world context in which the function is used.
+Adding the assumptions as runtime assertions in the code allows such mismatches to be detected as the code runs.
+Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes with any performance penalty on production code.
+Other teams enable these assertions for all builds, providing increased assurance at a small runtime cost.</li>
+<li><strong>It helps detect bugs in the broader codebase.</strong>
+On a number of occasions, adding function contracts to correct code detected function contracts in other parts of the code base.
+In several cases, we discovered errors in other projects, which were calling verified APIs with invalid parameters.
+Even though those projects had never been formally verified, they still benefited from the function contracts developed during the formal verification work.</li>
+<li><strong>It helps focus the mind.</strong>
+It is easy to let standards slip during code-reviews for test and verification code.
+&quot;Even if its not perfect, its better than nothing, so might as well just click approve.&quot;
+Adding the proof assumptions and checks to the codebase itself as runtime assertions causes reviewers to take them much more seriously, which leads to both increased proof quality, and improved code quality.</li>
+</ol>
+<h3 id="example-using-function-contracts"><a class="header" href="#example-using-function-contracts">Example using function contracts</a></h3>
+<p>In the running example, our verification harness assumed the following preconditions</p>
+<pre><code class="language-c">    __CPROVER_assume(aws_array_list_is_valid(list));
+    __CPROVER_assume(val != NULL);
+</code></pre>
+<p>These directly translate into preconditions in the function under test:</p>
+<pre><code class="language-c">    AWS_PRECONDITION(aws_array_list_is_valid(list));
+    AWS_PRECONDITION(val != NULL);
+</code></pre>
+<p>Similarly, the key postcondition checked in the verification harness is</p>
+<pre><code class="language-c">    assert(aws_array_list_is_valid(list))
+</code></pre>
+<p>This also directly translates into a postcondition in the function under test:</p>
+<pre><code class="language-c">    AWS_POSTCONDITION(aws_array_list_is_valid(list));
+</code></pre>
+<p>Putting it all together:</p>
+<pre><code class="language-c">int aws_array_list_get_at_ptr(
+        const struct aws_array_list* list,
+        void **val,
+        size_t index)
+{
+    AWS_PRECONDITION(aws_array_list_is_valid(list));
+    AWS_PRECONDITION(val != NULL);
+    if (aws_array_list_length(list) &gt; index) {
+        *val = (void *)((uint8_t *)list-&gt;data +
+                        (list-&gt;item_size * index));
+        AWS_POSTCONDITION(aws_array_list_is_valid(list));
+        return AWS_OP_SUCCESS;
+    }
+    AWS_POSTCONDITION(aws_array_list_is_valid(list));
+    return aws_raise_error(AWS_ERROR_INVALID_INDEX);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="debugging-an-error-trace"><a class="header" href="#debugging-an-error-trace">Debugging an error trace</a></h1>
+<ul>
+<li><a href="management/Debug-an-error-trace.html#i-see-12-proof-failures-how-do-i-select-which-one-to-debug">I see 12 proof failures. How do I select which one to debug?</a></li>
+<li><a href="management/Debug-an-error-trace.html#how-do-i-debug-a-proof-failure">How do I debug a proof failure?</a>
+<ul>
+<li><a href="management/Debug-an-error-trace.html#read-the-trace">Read the trace</a></li>
+<li><a href="management/Debug-an-error-trace.html#add-additional-information-to-the-trace">Add additional information to the trace</a></li>
+<li><a href="management/Debug-an-error-trace.html#delta-debugging">Delta debugging</a></li>
+<li><a href="management/Debug-an-error-trace.html#add-assertions-to-check-your-hypotheses">Add assertions to check your hypotheses.</a></li>
+<li><a href="management/Debug-an-error-trace.html#use-assert0-to-dump-program-state-leading-to-a-checkpoint">Use <code>assert(0)</code> to dump program state leading to a checkpoint</a></li>
+<li><a href="management/Debug-an-error-trace.html#use-assume-to-block-uninteresting-paths">Use <code>assume(...)</code> to block uninteresting paths</a></li>
+<li><a href="management/Debug-an-error-trace.html#consider-the-possibility-it-is-a-fault-in-the-code-itself">Consider the possibility it is a fault in the code itself</a></li>
+</ul>
+</li>
+<li><a href="management/Debug-an-error-trace.html#how-do-i-improve-proofs-with-low-coverage">How do I improve proofs with low coverage?</a>
+<ul>
+<li><a href="management/Debug-an-error-trace.html#fix-any-cbmc-errors">Fix any CBMC errors</a></li>
+<li><a href="management/Debug-an-error-trace.html#check-for-truly-unreachable-code">Check for truly unreachable code.</a></li>
+<li><a href="management/Debug-an-error-trace.html#check-for-over-constrained-inputs">Check for over-constrained inputs</a></li>
+</ul>
+</li>
+<li><a href="management/Debug-an-error-trace.html#how-can-i-tell-if-my-proof-is-over-constrained">How can I tell if my proof is over-constrained?</a></li>
+<li><a href="management/Debug-an-error-trace.html#what-should-i-do-if-cbmc-crashes">What should I do if CBMC crashes?</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h2 id="i-see-12-proof-failures-how-do-i-select-which-one-to-debug"><a class="header" href="#i-see-12-proof-failures-how-do-i-select-which-one-to-debug">I see 12 proof failures. How do I select which one to debug?</a></h2>
+<p>CBMC proof failures seem to come in batches: you run the proof, and see a dozen different errors reported
+In many cases, these failures are related: instead of stressing about the number of failures, pick one, debug it, and see if fixing it removes (many of) the others.
+Some good heuristics for deciding which failure to investigate:</p>
+<ol>
+<li><strong>Look for a failure that occurs early on in the proof.</strong>
+This will often be the one with the shortest trace [TODO viewer should output this information].
+The shorter the trace leading to the issue, the easier it is to debug.</li>
+<li><strong>Look for a failure in code you understand.</strong>
+Some functions are simpler than others: a failure in a simple function is often easier to analyze that one in a complicated function.
+And a failure in a function you understand is easier than one in a function you are not familiar with.</li>
+<li><strong>Look for a simple type of failure.</strong>
+For example, the trace from a null dereference is often easier to follow than the trace for a use of a DEAD pointer.
+But they're normally exactly the same bug!
+Since null dereference bugs normally give the simplest traces, start with them first.
+Often, resolving the null dereference also fixes the other related bugs.</li>
+</ol>
+<h2 id="how-do-i-debug-a-proof-failure"><a class="header" href="#how-do-i-debug-a-proof-failure">How do I debug a proof failure?</a></h2>
+<p>There are a number of techniques that have proven useful in debugging proof failures.</p>
+<h3 id="read-the-trace"><a class="header" href="#read-the-trace">Read the trace</a></h3>
+<p>[TODO link to a guide to viewer]
+CBMC viewer generates a step-by-step trace that leads to the assertion violation.
+This trace details</p>
+<ul>
+<li>Every line of code executed</li>
+<li>Every function call made</li>
+<li>Every time a variable is assigned</li>
+</ul>
+<p>Essentially, this trace contains everything you would get from attaching a debugger to the program, and single stepping until the violation occurred.
+Take a look at the values of the relevant variables right before the assertion violation.
+Do they make sense?
+If not, figure out where they were assigned.
+I often find that <code>Ctrl-F</code> is my friend here: I search for either the variable name, or the value it was assigned, and see where it appears in the trace.</p>
+<p>Similarly, look at the set of function calls that led to the error.
+Do they make sense?
+Are there functions you expect to see there, but don't?
+Are there functions you didn't expect to see there, but do?</p>
+<h3 id="add-additional-information-to-the-trace"><a class="header" href="#add-additional-information-to-the-trace">Add additional information to the trace</a></h3>
+<p>The trace has all the information you need to understand the state of program memory at every point during the execution.
+But its not always that easy to reconstruct.
+In particular, the trace records the value of a variable when it is written to.
+But it doesn't record the value of a variable that is only read, or passed along to another function.</p>
+<p>You can solve this by adding &quot;dummy writes&quot; to the program.
+For example, let's say you were debugging an error that involved the following function</p>
+<pre><code>int foo(struct bar* b, int x) {
+    baz(b-&gt;data, x);
+}
+</code></pre>
+<p>Figuring out the value of <code>b-&gt;data</code> and <code>x</code> are possible given a complete trace, but its difficult.
+Any it might harder to figure out the value of <code>b-&gt;size</code>.
+Instead, annotate the code to track those values:</p>
+<pre><code>int foo(struct bar* b, int x) {
+        struct bar debug_foo_b = *b;
+        int debug_foo_x = x;
+    baz(b-&gt;data, x);
+}
+</code></pre>
+<p>the trace will now contain an assignment to <code>debug_foo_b</code>, which will let you see what values each member of the struct had.</p>
+<h3 id="delta-debugging"><a class="header" href="#delta-debugging">Delta debugging</a></h3>
+<p><a href="http://web2.cs.columbia.edu/%7Ejunfeng/09fa-e6998/papers/delta-debug.pdf">Delta debugging</a> is a powerful technique for localizing faults and creating minimal reproducing test-cases.
+Essentially, you modify the program in some way, typically either by removing (commenting out) or modifying code.
+You then rerun the verification tool, and see if the results changed.
+The goal is to either:</p>
+<ol>
+<li>produce a small program which still displays the bug or</li>
+<li>produce a small change between two programs, one of which has the bug, and the other doesn't.</li>
+</ol>
+<p>In case 1, you now have a small program which is hopefully easy to understand;
+In case 2, you have a small change which induces the bug, and hopefully leads you toward the root cause.</p>
+<h3 id="add-assertions-to-check-your-hypotheses"><a class="header" href="#add-assertions-to-check-your-hypotheses">Add assertions to check your hypotheses.</a></h3>
+<p>For example, consider the case of a null pointer dereference of a pointer <code>p</code>.
+It is important to distinguish the case where the pointer <em>must</em> be null, vs the case where it <em>may</em> be null, vs the case where it <em>is never</em> null.
+You can test for these cases by adding <code>assert(p)</code> to the function.
+If the can be null, the assertion will trigger.
+If it cannot be null, the assertion will succeed.</p>
+<p>Now, check <code>assert(!p)</code> instead.
+If can be non-null, this assertion will fail.
+If it can only be null, this assertion will succeed.</p>
+<p>You now know which one of the three cases is true.
+And you can use the trace to see why it can be null/non-null.</p>
+<p>You can do similar things to determine why a branch is reachable, or unreachable.</p>
+<h3 id="use-assert0-to-dump-program-state-leading-to-a-checkpoint"><a class="header" href="#use-assert0-to-dump-program-state-leading-to-a-checkpoint">Use <code>assert(0)</code> to dump program state leading to a checkpoint</a></h3>
+<p>Sometimes, you want to know how/whether a particular line of code is reachable.
+One easy way to learn that is to put <code>assert(0)</code> right before the line.
+CBMC will detect the assertion violation, and give a trace explaining how it reached there, and with what values.
+If the assertion passes without error, you know that the line is unreachable given the current proof harness.</p>
+<h3 id="use-assume-to-block-uninteresting-paths"><a class="header" href="#use-assume-to-block-uninteresting-paths">Use <code>assume(...)</code> to block uninteresting paths</a></h3>
+<p>There are often many possible execution paths that reach a given line of code / assertion.
+Some of these may reflect cases you are trying to understand, while others do not help with your current debugging plan.
+Left to its own devices, CBMC will non-deterministically choose one of those traces, which may not be the one you want.
+You can guide CBMC to the trace you want by sprinkling <code>__CPROVER_assume()</code> statements within the code.
+For example, you might <code>__CPROVER_assume()</code> that a function fails with an error code, to test whether the calling function handles that error code correctly.
+Or you might <code>__CPROVER_assume()</code> that a given variable is null, to simplify you search for the root cause of a null dereference.</p>
+<h3 id="consider-the-possibility-it-is-a-fault-in-the-code-being-verified"><a class="header" href="#consider-the-possibility-it-is-a-fault-in-the-code-being-verified">Consider the possibility it is a fault in the code being verified</a></h3>
+<p>In many cases, the error detected by CBMC represents a true issue within the code being verified.
+This is particularly common in the case of functions which fail to validate their inputs.
+In this case, the fix is either to validate the inputs, and return an error if given invalid inputs, or to document the requirements on the inputs, and state that actions on illegal inputs are undefined behaviour.
+Which solution you choose depends on the risk profile of the code.</p>
+<p>It is also common that code being verified has integer-overflows and other errors that only occur in unusual circumstances.
+In these cases, the solution is to either guarantee that inputs are sufficiently small to prevent these issues, or to use overflow-safe builtins, such as gcc's <code>__builtin_mul_overflow</code> (documented <a href="https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html">here</a>).</p>
+<h2 id="how-do-i-improve-proofs-with-low-coverage"><a class="header" href="#how-do-i-improve-proofs-with-low-coverage">How do I improve proofs with low coverage?</a></h2>
+<h3 id="fix-any-error-detected-by-cbmc"><a class="header" href="#fix-any-error-detected-by-cbmc">Fix any error detected by CBMC</a></h3>
+<p>Make sure that there are no missing function definitions, or property violations.
+Both of these errors can affect coverage calculations.</p>
+<h3 id="check-for-truly-unreachable-code"><a class="header" href="#check-for-truly-unreachable-code">Check for truly unreachable code.</a></h3>
+<p>In some cases, code may be truly unreachable - for example, redundant defensive checks.
+Or this may be code which is reachable using particular inputs, but not in the context of your proof.
+For example:</p>
+<pre><code>int size_from_enum(type_enum t) {
+        switch (t) {
+        case BAR: return 1;
+        case BAZ: return 2;
+        ...
+}
+
+int function_being_tested() {
+        return size_from_enum(BAZ);
+}
+</code></pre>
+<p>In this case, most of the lines in <code>size_from_enum</code> will appear to be unreachable, even though the proof has full coverage of all truly reachable paths.</p>
+<h3 id="check-for-over-constrained-inputs"><a class="header" href="#check-for-over-constrained-inputs">Check for over-constrained inputs</a></h3>
+<p>Consider the case where one side of a branch is not reached, or where execution does not continue past an assumption.
+In this case, it is possible that the inputs have been over-constrained in the proof harness. You can try to relax some of the <code>__CPROVER_assume()</code> statements.</p>
+<h2 id="how-can-i-tell-if-my-proof-is-over-constrained"><a class="header" href="#how-can-i-tell-if-my-proof-is-over-constrained">How can I tell if my proof is over-constrained?</a></h2>
+<p>This will normally appear in coverage - overconstrained proofs will usually have unreachable portions of code.
+You can also add a &quot;smoke test&quot;, but adding assertions that you expect to fail to the code (which can be as simple as <code>assert(0)</code>).
+If these assertions do not fail, then something is wrong with your proof.</p>
+<h2 id="what-should-i-do-if-cbmc-crashes"><a class="header" href="#what-should-i-do-if-cbmc-crashes">What should I do if CBMC crashes?</a></h2>
+<ol>
+<li>Make a new branch in your project, containing the exact code that caused cbmc to crash.
+We recommend giving it a name like <code>cbmc-crashing-bug-1</code>.</li>
+<li>Push it to a public github repo (if possible)</li>
+<li>Post a bug report <a href="https://github.com/diffblue/cbmc/issues/new">here</a>, linking to the branch that you pushed containing the bug.</li>
+<li>Post a bug report on this repo, linking to the bug that you posted on the main CBMC repo.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="coding-for-verification"><a class="header" href="#coding-for-verification">Coding for verification</a></h1>
+<p>The basic principles of coding for verification are similar to those of coding for testability, with some modifications due to the nature of the SAT solver underlying CBMC.</p>
+<h2 id="code-organization-to-support-verification"><a class="header" href="#code-organization-to-support-verification">Code Organization to Support Verification</a></h2>
+<ul>
+<li>Write small functions. Functions should:
+<ul>
+<li>Do exactly one thing.</li>
+<li>Take all their input and outputs through function parameters and rely as little as possible on global state. Where possible, avoid global variables.</li>
+</ul>
+</li>
+<li>Encapsulate interaction with the environment within a small function. Interaction with the environment includes accessing files, the network, etc. This makes is possible to verify that function independently and then stub it out for the rest of the verification.</li>
+<li>Functions should check their input parameters, and return an error code when they fail to verify.
+This makes harnesses much simpler, since any value for the parameters is a valid input to the function.</li>
+<li>Avoid unbounded loops as far as possible, and encapsulate the ones that you need.  CBMC does bounded model checking, so we need to be able to compute a bound on the number of iterations of any given loop.  Loops that iterate a constant number of times are best.   Loops whose iteration depends on input will require making some assumptions about the input.</li>
+<li>Consider defining magic numbers that control loop bounds and buffer sizes in your build system, i.e., <code>-DBUFFER_SIZE=1024</code> and similar. This ensures that you can configure this value at build time, and we can also use those values in our proofs.</li>
+<li>Provide an easy way to access static functions and data structures for testing, if you must have them. For example, use a macro that overrides static.</li>
+<li>Make threads independently verifiable. When writing concurrent programs, reduce interaction to well-defined points. This enables verification of each thread in isolation.</li>
+</ul>
+<h2 id="improving-verification-performance"><a class="header" href="#improving-verification-performance">Improving Verification Performance</a></h2>
+<ul>
+<li>Avoid void pointers (<code>void*</code>). There are two reasons people use void pointers:
+<ul>
+<li>To hide implementation detail.  This use of void pointers is unnecessary, because we can replace <code>void *bar</code> with <code>struct foo *bar</code> and declare <code>struct foo</code> later within the implementation.</li>
+<li>To implement a form of polymorphism.  Don't do this for gratuitous reasons (e.g., because it might someday be useful).  Void pointers can block constant propagation which can dramatically reduce the size of the formula constructed for the constraint solver.</li>
+</ul>
+</li>
+<li>Avoid function pointers. When unavoidable, ensure that function pointer types match a minimum number of candidate functions signatures in your code base (ideally just one). They really can make the difference between a proof and no proof.  When CBMC encounters a function pointer, it has to consider all possibilities for what that function could be, based on loose signature matching.  CBMC has to consider possible any function in the entire program whose address is taken with a signature matching the function pointer.  So for each function invocation, the symbolic execution of a single function is replaced with the symbolic execution of a collection of functions (including the functions they call), and the combinatorial explosion makes the size of the formula too big for memory. The worst thing you can do is to give your functions the signature <code>void foo(void *arg)</code>; see the point above about avoiding <code>void*</code>.</li>
+<li>Large (more than several kB in size) arrays can cause trouble. Again, defining the sizes of arrays in the build system means that we can cleanly re-define them to smaller bounds for our proofs.</li>
+<li>Data-structures should explicitly carry their size, as a parameter (e.g., Pascal strings are better than C strings).</li>
+<li>Stay type safe.
+<ul>
+<li>Allocate the correct size of objects. Don't allocate less than the correct size for a struct even if you're only using some of its fields.</li>
+</ul>
+</li>
+<li>Consider encapsulating loops in a function, or even just the loop body. Nested loops can lead to a combinatorial explosion in the size of the formula sent to the constraint solver.  Encapsulated loops can be specified and validated in isolation, and the simpler specification can be used in place of the function in the rest of the validation.</li>
+<li>Try to minimize string comparisons</li>
+<li>E.g., instead of making a <code>string-&gt;string</code> hash table, consider an <code>enum-&gt;string</code> hash-table.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="proof-evaluation"><a class="header" href="#proof-evaluation">Proof evaluation</a></h1>
+<p>This is a check list intended for</p>
+<ul>
+<li>proof writers to use before checking a proof into a repository and</li>
+<li>proof reviewers to use during the code review of a pull
+request containing a proof.</li>
+</ul>
+<p>This check list is intended to ensure clear answers to two questions:</p>
+<ul>
+<li>What properties are being checked by the proof?</li>
+<li>What assumptions are being made by the proof?</li>
+</ul>
+<p>and that these answers can be found in one of three places:</p>
+<ul>
+<li>The proof harness,</li>
+<li>The proof makefiles (and, with the starter kit, these makefiles are
+the proof Makefile, the project Makefile-project-defines,
+and the project Makefile.common), and perhaps</li>
+<li>The proof readme file.</li>
+</ul>
+<p>The best practices for writing a proof are described
+in <a href="management/Write-a-good-proof.html">Write a good proof</a>.
+Reviewers should keep these best practices in mind when reading a proof.
+We recommend that any deviations from best practices be explained in the
+readme file.</p>
+<h2 id="properties-checked"><a class="header" href="#properties-checked">Properties checked</a></h2>
+<p>Check the following:</p>
+<ul>
+<li>
+<p>All of the standard property-checking flags are used:</p>
+<pre><code>  * --bounds-check
+  * --conversion-check
+  * --div-by-zero-check
+  * --float-overflow-check
+  * --malloc-fail-null
+  * --malloc-may-fail
+  * --nan-check
+  * --pointer-check
+  * --pointer-overflow-check
+  * --pointer-primitive-check
+  * --signed-overflow-check
+  * --undefined-shift-check
+  * --unsigned-overflow-check
+</code></pre>
+<p>Note that the starter kit uses these flags by default.
+The properties checked by these flags is documented <a href="http://www.cprover.org/cprover-manual/properties/">on the cprover website</a>.
+Note, however, that a developer may disable any one of these flags
+by editing project Makefile.common or
+by setting a makefile variable to the empty string
+(as in <code>CBMC_FLAG_MALLOC_MAY_FAIL = </code>)
+in the project Makefile-project-defines or a proof Makefile.
+These are the places to look for deviations.</p>
+</li>
+<li>
+<p>All deviations from the standard property-checking flags are documented.</p>
+<p>There are valid reasons to omit flags either for a project or for an
+individual proof. But the decision and the reason for the decision
+must be documented either in a project readme or a proof readme file.</p>
+</li>
+</ul>
+<p>CBMC checks assertions in the code.  This is understood and need not be
+documented.</p>
+<h2 id="assumptions-made"><a class="header" href="#assumptions-made">Assumptions made</a></h2>
+<p>Check the following:</p>
+<ul>
+<li>
+<p>All nontrivial data structures have an
+<a href="management/Write-a-good-proof.html#the-ensure_allocated-function.html"><code>ensure_allocated</code> function</a>
+as described in the training material.</p>
+<p>Feel free to use any naming scheme that makes sense for your project --- some
+projects use <code>allocate_X</code> in place of <code>ensure_allocated_X</code> --- but be
+consistent.</p>
+</li>
+<li>
+<p>All nontrivial data structures have an
+<a href="management/Write-a-good-proof.html#the-is_valid-function"><code>is_valid()</code> predicate</a>
+as described in the training material for every nontrivial data structure.</p>
+</li>
+<li>
+<p>All definitions of <code>ensure_allocated</code> functions and <code>is_valid</code> predicates
+appear in a common location.</p>
+<p>These definitions are most commonly stored in the <code>proofs/sources</code>
+subdirectory of the starter kit. Definitions are stored here and used
+consistently in the proofs.</p>
+</li>
+<li>
+<p>All pointers passed as input are allocated on the heap with <code>malloc</code>.</p>
+<p>One common mistake is to allocate a buffer <code>buf</code> on the stack and to
+pass <code>&amp;buf</code> to the function under test in the proof harness.  This prevents
+the proof from considering the case of a NULL pointer.</p>
+</li>
+<li>
+<p>All instances of <code>__CPROVER_assume</code> appear in a proof harness.</p>
+<p>Note that some exceptions are required.  For example, it may be necessary
+in an <code>ensure_allocated</code> to assume <code>length &lt; CBMC_MAX_OBJECT_SIZE</code> before
+invoking <code>malloc(length)</code> to avoid a false positive about malloc'ing a
+too-big object. But every instance of <code>__CPROVER_assume</code> in supporting code
+should be copied into the proof harness.  The goal is for all proof
+assumptions to be documented in one place.</p>
+</li>
+<li>
+<p>All preprocessor definitions related to bounds on input size or
+otherwise related to proof assumptions appear in the proof Makefile.</p>
+<p>In particular, do not embed definitions in the supporting code or header
+files. The goal is for all proof assumptions to be documented in one place.</p>
+</li>
+<li>
+<p>Confirm that all stubs used in the proof are acceptable abstractions
+of the actual code.</p>
+<p>Acceptable could mean simply that every behavior of the original code
+is a behavior of the abstraction.</p>
+</li>
+</ul>
+<h2 id="results-checked"><a class="header" href="#results-checked">Results checked</a></h2>
+<p>Look at the report in the checks attached to the pull request.</p>
+<ul>
+<li>
+<p>Confirm that the coverage is acceptable and confirm that the readme file
+explains the reason for any lines not covered.</p>
+</li>
+<li>
+<p>Confirm that the list of missing functions is acceptable.</p>
+</li>
+<li>
+<p>Confirm that there are no errors reported.</p>
+</li>
+</ul>
+<h2 id="other-things-to-consider"><a class="header" href="#other-things-to-consider">Other things to consider</a></h2>
+<ul>
+<li>
+<p>Consider writing function contracts for the function under test as
+described in <a href="management/Write-a-good-proof.html">Write a good proof</a>.
+The check list above ensures that the properties (including the
+assumptions about the input) that must be true before function
+invocation are clearly stated in the proof harness. Consider adding
+a statement of what properties must be true after function invocation
+as assertions at the end of the proof harness.</p>
+</li>
+<li>
+<p>Consider adding the assumptions made by the proof harness for a
+function under test to the source code for the function in the form
+of assertions in the code. This will validate that the assumptions made
+by the proof of a function are satisfied by each invocation of the function
+(at least during testing).</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-projects-1"><a class="header" href="#cbmc-projects-1">CBMC projects</a></h1>
+<p>Here is a list of software projects that contain some CBMC verification work.</p>
+<ul>
+<li><a href="https://github.com/awslabs/aws-c-common">AWS C Common</a>
+(<a href="https://github.com/awslabs/aws-c-common/tree/main/verification/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/aws-encryption-sdk-c">AWS Encryption SDK for C</a>
+(<a href="https://github.com/aws/aws-encryption-sdk-c/tree/master/verification/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/device-defender-for-aws-iot-embedded-sdk">AWS IoT Device Defender Library</a>
+(<a href="https://github.com/aws/device-defender-for-aws-iot-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/device-shadow-for-aws-iot-embedded-sdk">AWS IoT Device Shadow Library</a>
+(<a href="https://github.com/aws/device-shadow-for-aws-iot-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/Fleet-Provisioning-for-AWS-IoT-embedded-sdk">AWS IoT Fleet Provisioning Library</a>
+(<a href="https://github.com/aws/fleet-provisioning-for-aws-iot-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/jobs-for-aws-iot-embedded-sdk">AWS IoT Jobs Library</a>
+(<a href="https://github.com/aws/s2n-tls/tree/main/tests/cbmc">cbmc</a>)
+(<a href="https://github.com/aws/Jobs-for-AWS-IoT-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/ota-for-aws-iot-embedded-sdk">AWS IoT Over-the-air Update Library</a>
+(<a href="https://github.com/aws/ota-for-aws-iot-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/SigV4-for-AWS-IoT-embedded-sdk">AWS SigV4 Library</a>
+(<a href="https://github.com/aws/SigV4-for-AWS-IoT-embedded-sdk/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/s2n-tls">AWS s2n</a>
+(<a href="https://github.com/aws/s2n-tls/tree/main/tests/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/aws/amazon-freertos">Amazon FreeRTOS</a>
+(<a href="https://github.com/aws/amazon-freertos/tree/main/tools/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/FreeRTOS">FreeRTOS</a>
+(<a href="https://github.com/FreeRTOS/FreeRTOS/tree/main/FreeRTOS/Test/CBMC">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/FreeRTOS-Cellular-Interface">FreeRTOS Cellular Interface</a>
+(<a href="https://github.com/FreeRTOS/FreeRTOS-Cellular-Interface/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/coreHTTP">FreeRTOS coreHTTP Client Library</a>
+(<a href="https://github.com/FreeRTOS/coreHTTP/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/coreJSON">FreeRTOS coreJSON Library</a>
+(<a href="https://github.com/FreeRTOS/coreJSON/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/coreMQTT-Agent">FreeRTOS coreMQTT Agent Library</a>
+(<a href="https://github.com/FreeRTOS/coreMQTT-Agent/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/coreMQTT">FreeRTOS coreMQTT Client Library</a>
+(<a href="https://github.com/FreeRTOS/coreMQTT/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/corePKCS11">FreeRTOS corePCKS11 Library</a>
+(<a href="https://github.com/FreeRTOS/corePKCS11/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/coreSNTP">FreeRTOS coreSNTP Library</a>
+(<a href="https://github.com/FreeRTOS/coreSNTP/tree/main/test/cbmc">cbmc</a>)</li>
+<li><a href="https://github.com/FreeRTOS/FreeRTOS-Plus-TCP">FreeRTOS TCP</a>
+(<a href="https://github.com/FreeRTOS/FreeRTOS-Plus-TCP/tree/main/test/cbmc">cbmc</a>)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-resources"><a class="header" href="#cbmc-resources">CBMC resources</a></h1>
+<ul>
+<li><a href="https://www.cprover.org/cbmc/">CBMC home page</a></li>
+<li><a href="https://github.com/diffblue/cbmc">CBMC github repository</a></li>
+<li><a href="resources.html#papers">Papers</a></li>
+<li><a href="resources.html#blog-posts">Blog posts</a></li>
+<li><a href="resources.html#talks">Talks</a></li>
+</ul>
+<h2 id="papers"><a class="header" href="#papers">Papers</a></h2>
+<h3 id="cbmc-technology"><a class="header" href="#cbmc-technology">CBMC technology</a></h3>
+<ul>
+<li><a href="http://www.kroening.com/papers/dac2003.pdf">Behavioral Consistency of C and Verilog Programs Using Bounded Model
+Checking</a>.
+Daniel Kroening, Edmund Clarke, and Karen Yorav.
+In <em>Proceedings of Design Automation Conference (DAC)</em>,
+pages 368-371, 2003.
+<ul>
+<li>This is the original paper on CBMC that was later expanded into the
+following CMU technical report, which includes a good
+description of CBMC's internal architecture:</li>
+<li><a href="http://reports-archive.adm.cs.cmu.edu/anon/2003/CMU-CS-03-126.pdf">Behavioral Consistency of C and Verilog Programs</a>.
+Edmund Clarke, Daniel Kroening, Karen Yorav.
+CMU-CS-03-126, May 2003.</li>
+</ul>
+</li>
+<li>A number of further <a href="https://www.cprover.org/cbmc/applications/">applications of
+CBMC</a> can be found online.</li>
+</ul>
+<h3 id="cbmc-applications"><a class="header" href="#cbmc-applications">CBMC applications</a></h3>
+<ul>
+<li>
+<p><a href="https://link.springer.com/article/10.1007/s10703-020-00344-2">Model checking boot code from AWS data centers</a>.
+Byron Cook,
+Kareem Khazem,
+Daniel Kroening,
+Serdar Tasiran,
+Michael
+Tautschnig,
+Mark R. Tuttle.
+<em>Formal Methods in System Design</em>, volume 57, number 1, pages 34-52,
+July 2021.</p>
+<ul>
+<li>This paper originally appeared in the following paper at CAV 2018:</li>
+<li><a href="https://link.springer.com/chapter/10.1007/978-3-319-96142-2_28">Model Checking Boot Code from AWS Data Centers</a>.
+Byron Cook,
+Kareem Khazem,
+Daniel Kroening,
+Serdar Tasiran,
+Michael
+Tautschnig,
+Mark R. Tuttle:
+In <em>Proceedings of the 30th International Conference on Computer
+Aided Verification</em> (CAV 2018), pages 267-486, July 2018.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://onlinelibrary.wiley.com/doi/epdf/10.1002/spe.2949">Code-level model checking in the software development workflow at
+Amazon Web Services</a>.
+Nathan Chong,
+Byron Cook,
+Jonathan Eidelman,
+Konstantinos Kallas,
+Kareem Khazem,
+Felipe R. Monteiro,
+Daniel Schwartz-Narbonne,
+Serdar
+Tasiran,
+Michael Tautschnig,
+Mark R. Tuttle.
+<em>Journal of Software: Practice and Experience --- Special Issue:
+Introduction to the Special Issue on Software Engineering in
+Practice</em>, volume 51, issue 4, pages 772-797, April 2021.</p>
+<ul>
+<li>This paper originally appears in the following paper at ICSE 2020:</li>
+<li><a href="https://dl.acm.org/doi/pdf/10.1145/3377813.3381347">Code-Level Model Checking in the Software Development Workflow</a>.
+Nathan Chong,
+Byron Cook,
+Konstantinos Kallas,
+Kareem Khazem,
+Felipe R. Monteiro,
+Daniel Schwartz-Narbonne,
+Serdar Tasiran,
+Michael Tautschnig,  and
+Mark R. Tuttle.
+In <em>Proceedings of the ACM/IEEE 42nd International Conference on
+Software Engineering: Software Engineering in Practice</em> (ICSE-SEIP 2020),
+pages 11–20, June 2020.</li>
+</ul>
+</li>
+</ul>
+<h2 id="blog-posts"><a class="header" href="#blog-posts">Blog posts</a></h2>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/blogs/security/automated-reasoning-provable-security-of-boot-code-tlarg/">Daniel Schwartz-Narbonne shares how automated reasoning is helping
+achieve the provable security of AWS boot code</a>
+in the <a href="https://aws.amazon.com/blogs/security/">AWS Security Blog</a>.
+Supriya Anand. October 2, 2018.</p>
+</li>
+<li>
+<p><a href="https://www.freertos.org/2020/02/ensuring-the-memory-safety-of-freertos-part-1.html">Ensuring the Memory Safety of FreeRTOS Part 1</a> and
+<a href="https://www.freertos.org/2020/05/ensuring-the-memory-safety-of-freertos-part-2.html">Part 2</a> in the
+<a href="https://www.freertos.org/blog.html">FreeRTOS Blog</a>.
+Nathan Chong, February and May 2020.</p>
+</li>
+</ul>
+<h2 id="talks"><a class="header" href="#talks">Talks</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=-EuIrAP9_tU">Code-level model checking in the software development workflow</a>, Daniel Schwartz-Narbonne,
+ICSE 2020 conference talk.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>

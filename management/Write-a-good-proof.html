@@ -1,0 +1,598 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Writing a good proof - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/index.html"><strong aria-hidden="true">1.3.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.3.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.3.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.3.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../starter-kit/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.5.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../management/index.html"><strong aria-hidden="true">2.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../management/Plan-your-proof.html"><strong aria-hidden="true">2.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../management/Write-a-good-proof.html" class="active"><strong aria-hidden="true">2.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../management/Debug-an-error-trace.html"><strong aria-hidden="true">2.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../management/Code-for-verification.html"><strong aria-hidden="true">2.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../management/Code-review-for-proofs.html"><strong aria-hidden="true">2.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reference guides</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Frequently asked questions</div></li><li class="chapter-item expanded "><a href="../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="writing-a-good-proof"><a class="header" href="#writing-a-good-proof">Writing a good proof</a></h1>
+<p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="#the-components-of-a-cbmc-proof">The components of a CBMC proof</a></li>
+<li><a href="#running-example">Running example.</a></li>
+<li><a href="#the-proof-harness">The Proof harness</a>
+<ul>
+<li><a href="#what-does-a-good-proof-harness-look-like">What does a good proof harness look like?</a></li>
+<li><a href="#how-to-write-a-good-proof-harness">How to write a good proof harness</a></li>
+</ul>
+</li>
+<li><a href="#the-proof-makefile">The Proof Makefile</a></li>
+<li><a href="#the-is_valid-function">The <code>is_valid()</code> function</a>
+<ul>
+<li><a href="#example-of-an-is_valid-function">Example of an <code>is_valid()</code> function</a></li>
+</ul>
+</li>
+<li><a href="#the-ensure_allocated-function">The <code>ensure_allocated</code> function</a></li>
+<li><a href="#stubs-and-abstractions">Stubs and abstractions</a></li>
+<li><a href="#how-do-i-add-the-function-contract-to-the-function-being-verified">How do I add the function contract to the function being verified?</a>
+<ul>
+<li><a href="#example-using-function-contracts">Example using function contracts</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="the-components-of-a-cbmc-proof"><a class="header" href="#the-components-of-a-cbmc-proof">The components of a CBMC proof</a></h2>
+<p>A CBMC proof normally consists of several components:</p>
+<ol>
+<li>
+<p>A <strong>proof harness</strong> which:</p>
+<ol>
+<li>Sets up required data-structures</li>
+<li>Calls the function being verified</li>
+<li>Checks any function post-conditions</li>
+</ol>
+</li>
+<li>
+<p>A <strong>proof makefile</strong> which:</p>
+<ol>
+<li>Defines any necessary preprocessor defines
+e.g. <code>-DMAX_BUFFER_SIZE=10</code></li>
+<li>Specifies the dependencies of the code under test</li>
+<li>Specifies any abstractions or models used by proof</li>
+</ol>
+<p>Much of the work done by these Makefiles is common among proofs.
+We provide a <code>Makefile.common</code>, which provides useful makefile rules shared by all proofs.</p>
+</li>
+<li>
+<p>A set of <strong><code>_is_valid()</code> functions</strong>, one for each <strong>datatype</strong> used in the proof</p>
+<ol>
+<li>Typically go in the code-base itself</li>
+<li>Can be used in the codebase as assertions to improve runtime checking.</li>
+<li>Can be reused by multiple proofs</li>
+</ol>
+</li>
+<li>
+<p>A set of <strong><code>_allocate()</code> and <code>ensure()</code> functions</strong>,  one for each <strong>datatype</strong> used in the proof</p>
+<ol>
+<li>Due to limitations of the CBMC tools, not all properties about a datatype can be declared declaratively.
+In particular, allocation of memory must be done impartively.
+These functions handle allocation of the data-structure, and any recursive substructures.</li>
+<li>Can be put in a library and reused by multiple proofs.</li>
+</ol>
+</li>
+<li>
+<p>A <strong>library of helper functions</strong> which:</p>
+<ol>
+<li>Models any external libraries (e.g. libCrypto)</li>
+<li>Provides implementations for abstracted functions</li>
+</ol>
+</li>
+</ol>
+<p>The remainder of this document describes how build each one of these components.</p>
+<h2 id="running-example"><a class="header" href="#running-example">Running example.</a></h2>
+<p>We will use the <code>aws_array_list</code> module from <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> open-source project as our running example.
+This module provides a polymorphic array defined as follows:</p>
+<pre><code class="language-c">struct aws_array_list {
+    struct aws_allocator *alloc;
+    size_t current_size;
+    size_t length;
+    size_t item_size;
+    void *data;
+};
+</code></pre>
+<ul>
+<li><code>alloc</code> represents the allocator used by the list (to allow consumers of the list to override <code>malloc</code> if desired)</li>
+<li><code>current_size</code> represents the bytes of memory that the array has allocated</li>
+<li><code>length</code> is the number of items that it contains</li>
+<li><code>data_size</code> represents the size of the objects stored in the list (in bytes)</li>
+<li><code>data</code> points to a byte array in memory that contains the data of the array list.</li>
+</ul>
+<p>Users of this data structure are expected to access its fields using getter and setter methods, although C does not offer language support to ensure that they do so.
+Similarly, since the C type system does not have support for polymorphism, authors of the getters and setters are responsible for ensuring that the list is accessed safely.
+The getter itself is defined as:</p>
+<pre><code class="language-c">int aws_array_list_get_at_ptr(const struct aws_array_list *AWS_RESTRICT list, void **val, size_t index) {
+    if (aws_array_list_length(list) &gt; index) {
+        *val = (void *)((uint8_t *)list-&gt;data + (list-&gt;item_size * index));
+        return AWS_OP_SUCCESS;
+    }
+    return aws_raise_error(AWS_ERROR_INVALID_INDEX);
+}
+</code></pre>
+<h2 id="the-proof-harness"><a class="header" href="#the-proof-harness">The Proof harness</a></h2>
+<h3 id="what-does-a-good-proof-harness-look-like"><a class="header" href="#what-does-a-good-proof-harness-look-like">What does a good proof harness look like?</a></h3>
+<p>Syntactically, a proof harness looks quite similar to a unit test.
+The main difference is that a proof harness calls the target function with a partially-constrained input rather than a concrete value; when symbolically executed by CBMC, this has the effect of exploring the function under <em>all</em> possible inputs that satisfy the constraints.</p>
+<p>We have developed a style of writing proofs that we believe is readable, maintainable, and modular.
+This style was driven by feedback from developers, and addresses the need to communicate <em>exactly what we are proving</em> to developers and users.</p>
+<p>Our proofs have the following features:</p>
+<ol>
+<li>They are structured as <em>harnesses</em> that call into the function being verified, similar to unit tests.
+This makes them easier to write, because they follow a pattern most developers are familiar with.
+This style also yields more useful error traces.
+Most importantly, it makes proofs easier to understand and maintain, since a developer reviewing a proof has an &quot;executable&quot; which they can understand using their existing knowledge and intuition about C code.</li>
+<li>They state their assumptions declaratively.
+Rather than creating a fully-initialized data structure in imperative style, we create unconstrained data structures and then constrain them just enough to prove the property of interest.
+This means the only assumptions on the data structure's values are the ones we state in the harness.</li>
+<li>They follow a predictable pattern: setting up data structures, assuming preconditions on them, calling into the code being verified, and asserting postconditions.</li>
+</ol>
+<p>The following code is an example of a proof harness:</p>
+<pre><code class="language-c">void aws_array_list_get_at_ptr_harness() {
+    /* initialization */
+    struct aws_array_list* list = can_fail_malloc(sizeof(*list));
+    __CPROVER_assume(list != NULL));
+    __CPROVER_assume(aws_array_list_is_bounded(list));
+    ensure_array_list_has_allocated_data_member(list);
+
+    /* generate unconstrained inputs */
+    void **val = can_fail_malloc(sizeof(void *));
+    size_t index;
+
+    /* preconditions */
+    __CPROVER_assume(aws_array_list_is_valid(list));
+    __CPROVER_assume(val != NULL);
+
+    /* call function under verification */
+    if(!aws_array_list_get_at_ptr(list, val, index)) {
+      /* If aws_array_list_get_at_ptr is successful,
+       * i.e. ret==0, we ensure the list isn't
+       * empty and index is within bounds */
+        assert(list-&gt;data != NULL);
+        assert(list-&gt;length &gt; index);
+    }
+
+    /* postconditions */
+    assert(aws_array_list_is_valid(list));
+    assert(val != NULL);
+}
+</code></pre>
+<p>The harness shown above consists of five parts:</p>
+<ol>
+<li>Initialize the data structure to unconstrained values.
+We recommend initializers for all verified data structures use a consistent naming scheme:
+<code>ensure_{data_structure}_has_allocated_data_member()</code>.</li>
+<li>Generate unconstrained inputs to the function.</li>
+<li>Constrain all inputs to meet the function specification and assume all preconditions using <code>assume</code> statements.
+If necessary, bound the data structures so that the proof terminates.</li>
+<li>Call the function under verification with these inputs.</li>
+<li>Check any function postconditions using <code>assert</code> statements.</li>
+</ol>
+<h3 id="how-to-write-a-good-proof-harness"><a class="header" href="#how-to-write-a-good-proof-harness">How to write a good proof harness</a></h3>
+<p>We recommend approaching writing a proof-harness as an iterative process:</p>
+<ol>
+<li>
+<p>Write a minimally constrained harness, which simply</p>
+<ol>
+<li>declares the necessary variables</li>
+<li>and then calls the function under test using them.</li>
+</ol>
+<p>For example, for the harness given above, an initial harness might look like:</p>
+</li>
+</ol>
+<pre><code class="language-c">void aws_array_list_get_at_ptr_harness() {
+    /* initialization */
+    struct aws_array_list* list;
+
+    /* generate unconstrained inputs */
+    void **val;
+    size_t index;
+
+    /* call function under verification */
+     aws_array_list_get_at_ptr(list, val, index);
+}
+</code></pre>
+<p>Note that we are leaving the inputs to the function completely unconstrained: we are simply declaring them on the stack, and then using them without assigning any values to them.
+In a normal C compiler, this would be undefined behaviour.
+In CBMC, this is legal, but represents an <strong>unconstrained value</strong> (you may also hear this called a <strong>non-determinstic</strong> value).
+The CBMC tool will use a mathematical solver which considers every possible value of an unconstrained variable.
+If there exists a value which can cause an assertion failure, the solver will find it.
+Conversely, if the solver says the assertion cannot be violated, this forms mathematical <em>proof</em> that no such value exists.</p>
+<p>Leaving these values unconstrained will almost certainly lead to CBMC detecting violations, because real functions have implicit (or, if you're lucky, explicit) constraints on their inputs.
+For example, it is typically a precondition of a function that pointers must either reference valid memory, or be <code>null</code>.
+However, sometimes you may be surprised: if a function doesn't use a given input, or uses it in a defensive way, it may accept totally unconstrained values.
+What we are attempting to do is find the minimum constraint that will allow the function to succeed with no assertion violations.
+So we start with unconstrained values, and slowly constrain them just enough to get the function to verify.</p>
+<ol>
+<li>Run CBMC and observe the output.
+In the case of our running example, you will see errors that look like this</li>
+</ol>
+<pre><code>   Errors
+     * In include/aws/common/array_list.inl
+       * In aws_array_list_get_at_ptr
+         * Line 347:
+           * [trace] val != ((void*)0) check failed
+</code></pre>
+<p>Consult our <a href="Debug-an-error-trace.html">guide to debugging CBMC output</a> for suggestions about how to understand this output.</p>
+<ol>
+<li>
+<p>Constrain each input in turn until all warnings are resolved.
+See the sections on writing <code>_is_valid()</code> and <code>_ensure_is_allocated()</code> functions for details on how to do this</p>
+</li>
+<li>
+<p>Fix any loop-unwinding errors.
+To fix these errors, you will need update the Makefile with the correct loop bounds.
+This may cause CBMC to get quite slow.
+In this case, we recommend <strong>bounding</strong> the size of data-structures to allow CBMC to finish quickly.
+In the harness above, this is accomplished by the line</p>
+<pre><code>__CPROVER_assume(aws_array_list_is_bounded(list))
+</code></pre>
+<p>We recommend starting with very small bounds to ensure a quick REPL cycle.
+Once the proof is finished, you can increase the bounds to increase assurance.</p>
+</li>
+<li>
+<p>Check the coverage report.
+Ideally, you will have 100% coverage.
+In practice, coverage will be less than 100%, for e.g. in defensive code that redundantly checks for errors.
+In this case, inspect the uncovered code, and ensure that it matches your expectations.</p>
+</li>
+<li>
+<p>Increase assurance by adding assertions to the harness.
+There are typically three types of such assertions:</p>
+<ol>
+<li>Data structures should remain valid, whether or not the function under test succeeded.</li>
+<li>If the function failed, data-structures should remain unchanged.</li>
+<li>If the function succeeded, data-structures should be updated according to the function semantics.</li>
+</ol>
+<p>In our example harness, this is handled by the lines</p>
+</li>
+</ol>
+<pre><code class="language-c">    /* call function under verification */
+    if(!aws_array_list_get_at_ptr(list, val, index)) {
+      /* If aws_array_list_get_at_ptr is successful,
+       * i.e. ret==0, we ensure the list isn't
+       * empty and index is within bounds */
+        assert(list-&gt;data != NULL);
+        assert(list-&gt;length &gt; index);
+    }
+
+    /* postconditions */
+    assert(aws_array_list_is_valid(list));
+    assert(val != NULL);
+</code></pre>
+<h2 id="the-proof-makefile"><a class="header" href="#the-proof-makefile">The Proof Makefile</a></h2>
+<p>The Makefile for our running example looks like this:</p>
+<pre><code class="language-make"># Sufficently long to get full coverage on the aws_array_list APIs
+# short enough that all proofs complete quickly
+MAX_ITEM_SIZE ?= 2
+DEFINES += -DMAX_ITEM_SIZE=$(MAX_ITEM_SIZE)
+
+# Necessary to get full coverage when using functions from math.h
+MAX_INITIAL_ITEM_ALLOCATION ?= 9223372036854775808ULL
+DEFINES += -DMAX_INITIAL_ITEM_ALLOCATION=$(MAX_INITIAL_ITEM_ALLOCATION)
+
+# This bound allows us to reach 100% coverage rate
+UNWINDSET += memcpy_impl.0:$(shell echo $$(($(MAX_ITEM_SIZE) + 1)))
+
+CBMCFLAGS +=
+
+DEPENDENCIES += $(HELPERDIR)/source/proof_allocators.c
+DEPENDENCIES += $(HELPERDIR)/source/make_common_data_structures.c
+DEPENDENCIES += $(HELPERDIR)/source/utils.c
+DEPENDENCIES += $(HELPERDIR)/stubs/error.c
+DEPENDENCIES += $(HELPERDIR)/stubs/memcpy_override.c
+DEPENDENCIES += $(SRCDIR)/source/array_list.c
+DEPENDENCIES += $(SRCDIR)/source/common.c
+
+ENTRY = aws_array_list_get_at_ptr_harness
+###########
+
+include ../Makefile.common
+</code></pre>
+<ol>
+<li>It defines a set of variables that can be used as bounds in the proof.
+As discussed above, we recommend starting with small bounds to enable quick iteration on the proof and increasing them once the proof is complete.
+These variables are created both as Makefile variables, which can be used later (e.g. in the <code>UNWINDSET</code>, and also passed as <code>-D</code> defines, which allow</li>
+<li>It creates an <code>UNWINDSET</code> which tells CBMC how many times to unroll loops in the program.
+As shown here, loop bounds typically depend on variables within the makefile.
+Its a good idea to make this explicit, as we do here, to avoid the need to change magic constants as you experiment with the proof.</li>
+<li>A list of <code>CBMCFLAGS</code> if any are needed.
+Typically, all the required flags are set in the <code>Makefile.common</code>, and this can be left empty</li>
+<li>A list of <code>DEPENDENCIES</code>, which are the
+<ol>
+<li>Project source files</li>
+<li>Proof stubs/models [TODO, this really belongs in ABSTRACTIONS]</li>
+</ol>
+</li>
+<li>The <code>ENTRY</code>, which is the name of the function being verified</li>
+<li><code>include ../Makefile.common</code> to take advantage of the standard templates declared in that file.</li>
+</ol>
+<p>Most makefiles should like exactly like this.
+[TODO discuss wellspring, litani]</p>
+<h2 id="the-is_valid-function"><a class="header" href="#the-is_valid-function">The <code>is_valid()</code> function</a></h2>
+<p>The <code>is_valid()</code> functions used in preconditions are developed using an iterative process.
+For each <strong>data-structure</strong> module, start by specifying the simplest predicates that you can think of for the data structure --- usually, that the data of the data structure is correctly allocated.
+Then, gradually refine these predicates, until you have a set of reasonable invariants for the data structure.</p>
+<p>You can verify that invariants are reasonable by:</p>
+<ol>
+<li>
+<p>Having an explicit code-review in which subject matter experts on the development team confirm that the invariants represent the design intent of the code</p>
+</li>
+<li>
+<p>Adding these invariants are pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
+Note that unit-test failures do not necessarily reflect problems with your invariants.
+They may also reflect either</p>
+<ol>
+<li>Bugs in the code itself</li>
+<li>Bugs in the unit-tests</li>
+</ol>
+<p>In both these cases, fix the bug in the code, then make sure the invariant now succeeds during the tests.</p>
+</li>
+</ol>
+<h3 id="example-of-an-is_valid-function"><a class="header" href="#example-of-an-is_valid-function">Example of an <code>is_valid()</code> function</a></h3>
+<p>For instance, in the case of the <code>array_list</code>, we started
+with the invariant that <code>data</code> points to <code>current_size</code>
+allocated bytes.
+After several iterations, the validity invariant for <code>array_list</code> ended up looking like this:</p>
+<pre><code class="language-c">bool aws_array_list_is_valid(const struct aws_array_list *list) {
+  if (!list) return false;
+  size_t required_size = 0;
+  bool required_size_is_valid = (aws_mul_size_checked(list-&gt;length, list-&gt;item_size, &amp;required_size) == AWS_OP_SUCCESS);
+  bool current_size_is_valid = (list-&gt;current_size &gt;= required_size);
+  bool data_is_valid = ((list-&gt;current_size == 0 &amp;&amp; list-&gt;data == NULL) || AWS_MEM_IS_WRITABLE(list-&gt;data, list-&gt;current_size));
+  bool item_size_is_valid = (list-&gt;item_size != 0);
+
+  return required_size_is_valid &amp;&amp; current_size_is_valid &amp;&amp; data_is_valid &amp;&amp; item_size_is_valid;
+}
+</code></pre>
+<p>The invariant above describes four conditions satisfied by a valid <code>array_list</code>:</p>
+<ol>
+<li>the sum of the sizes of the items of the list must fit in an unsigned integer of type <code>size_t</code>, which is checked using the function <code>aws_mul_size_checked</code></li>
+<li>the size of the <code>array_list</code> in bytes (<code>current_size</code>) has to be larger than or equal to the sum of the sizes of its items;</li>
+<li>the <code>data</code> pointer must point to a valid memory location; otherwise it must be <code>NULL</code> if the size of the <code>array_list</code> is zero;
+This point is actually somewhat subtle: there was debate among the team about whether the pointer must be <code>NULL</code>, or whether any value was legal if the length was zero.
+Writing an explicit <code>is_valid()</code> function forced the team to come to a precise decision.</li>
+<li>the <code>item_size</code> must be positive.</li>
+</ol>
+<h2 id="the-ensure_allocated-function"><a class="header" href="#the-ensure_allocated-function">The <code>ensure_allocated</code> function</a></h2>
+<p>Ideally, all properties in a proof harness would be written in a declarative style.
+Unfortunately, CBMC currently does not allow to use <code>__CPROVER_assume()</code> statements to assume that memory is correctly allocated for some data structure as a precondition for function verification.
+Instead, memory must be explicitly allocated in the harness before calling the function under analysis using imperative calls to <code>malloc()</code>.
+By default, CBMC <code>malloc()</code> never returns <code>null</code>.
+So it is important that your <code>ensure_allocated</code> function explicitly defines cases where pointers can be <code>null</code>, using adequately placed calls to <code>__CPROVER_assume({some pointer} == null)</code>.</p>
+<p>It is important to separate the work done in this function from the work done in an <code>is_valid</code> function.
+This function should only worry about allocating the memory needed by the data-structure.
+Any other validity constraints should be handled by the <code>is_valid()</code> check.</p>
+<p>The <code>ensure</code> function for the running example is:</p>
+<pre><code class="language-c">void ensure_array_list_has_allocated_data_member(struct aws_array_list *const list) {
+    if (list-&gt;current_size == 0 &amp;&amp; list-&gt;length == 0) {
+        __CPROVER_assume(list-&gt;data == NULL);
+        list-&gt;alloc = can_fail_allocator();
+    } else {
+        list-&gt;data = bounded_malloc(list-&gt;current_size);
+        list-&gt;alloc = nondet_bool() ? NULL : can_fail_allocator();
+    }
+}
+</code></pre>
+<h2 id="stubs-and-abstractions"><a class="header" href="#stubs-and-abstractions">Stubs and abstractions</a></h2>
+<ul>
+<li>TODO</li>
+</ul>
+<h2 id="how-do-i-add-the-function-contract-to-the-function-being-verified"><a class="header" href="#how-do-i-add-the-function-contract-to-the-function-being-verified">How do I add the function contract to the function being verified?</a></h2>
+<p>We strongly recommend adding all checks and assumptions from the proof harness to the function being verified as runtime assertions.
+This provides value in several ways.</p>
+<ol>
+<li><strong>It connects the code and the proof.</strong>
+Proofs for all but the most simple functions require environment assumptions.
+One of the most common ways proof can go wrong is when these assumptions the real-world context in which the function is used.
+Adding the assumptions as runtime assertions in the code allows such mismatches to be detected as the code runs.
+Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes with any performance penalty on production code.
+Other teams enable these assertions for all builds, providing increased assurance at a small runtime cost.</li>
+<li><strong>It helps detect bugs in the broader codebase.</strong>
+On a number of occasions, adding function contracts to correct code detected function contracts in other parts of the code base.
+In several cases, we discovered errors in other projects, which were calling verified APIs with invalid parameters.
+Even though those projects had never been formally verified, they still benefited from the function contracts developed during the formal verification work.</li>
+<li><strong>It helps focus the mind.</strong>
+It is easy to let standards slip during code-reviews for test and verification code.
+&quot;Even if its not perfect, its better than nothing, so might as well just click approve.&quot;
+Adding the proof assumptions and checks to the codebase itself as runtime assertions causes reviewers to take them much more seriously, which leads to both increased proof quality, and improved code quality.</li>
+</ol>
+<h3 id="example-using-function-contracts"><a class="header" href="#example-using-function-contracts">Example using function contracts</a></h3>
+<p>In the running example, our verification harness assumed the following preconditions</p>
+<pre><code class="language-c">    __CPROVER_assume(aws_array_list_is_valid(list));
+    __CPROVER_assume(val != NULL);
+</code></pre>
+<p>These directly translate into preconditions in the function under test:</p>
+<pre><code class="language-c">    AWS_PRECONDITION(aws_array_list_is_valid(list));
+    AWS_PRECONDITION(val != NULL);
+</code></pre>
+<p>Similarly, the key postcondition checked in the verification harness is</p>
+<pre><code class="language-c">    assert(aws_array_list_is_valid(list))
+</code></pre>
+<p>This also directly translates into a postcondition in the function under test:</p>
+<pre><code class="language-c">    AWS_POSTCONDITION(aws_array_list_is_valid(list));
+</code></pre>
+<p>Putting it all together:</p>
+<pre><code class="language-c">int aws_array_list_get_at_ptr(
+        const struct aws_array_list* list,
+        void **val,
+        size_t index)
+{
+    AWS_PRECONDITION(aws_array_list_is_valid(list));
+    AWS_PRECONDITION(val != NULL);
+    if (aws_array_list_length(list) &gt; index) {
+        *val = (void *)((uint8_t *)list-&gt;data +
+                        (list-&gt;item_size * index));
+        AWS_POSTCONDITION(aws_array_list_is_valid(list));
+        return AWS_OP_SUCCESS;
+    }
+    AWS_POSTCONDITION(aws_array_list_is_valid(list));
+    return aws_raise_error(AWS_ERROR_INVALID_INDEX);
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../management/Plan-your-proof.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../management/Debug-an-error-trace.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../management/Plan-your-proof.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../management/Debug-an-error-trace.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

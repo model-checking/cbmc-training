@@ -1,0 +1,505 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Using CBMC on a project - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/index.html"><strong aria-hidden="true">1.3.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.3.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.3.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.3.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../../starter-kit/overview/index.html" class="active"><strong aria-hidden="true">1.4.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.5.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../../management/index.html"><strong aria-hidden="true">2.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../management/Plan-your-proof.html"><strong aria-hidden="true">2.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../../management/Write-a-good-proof.html"><strong aria-hidden="true">2.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../../management/Debug-an-error-trace.html"><strong aria-hidden="true">2.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../../management/Code-for-verification.html"><strong aria-hidden="true">2.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../../management/Code-review-for-proofs.html"><strong aria-hidden="true">2.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reference guides</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Frequently asked questions</div></li><li class="chapter-item expanded "><a href="../../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cbmc-starter-kit-overview"><a class="header" href="#cbmc-starter-kit-overview">CBMC starter kit overview</a></h1>
+<p>The <a href="https://github.com/awslabs/aws-templates-for-cbmc-proofs">CBMC starter kit</a>
+makes it easy to add CBMC verification to a software project.</p>
+<p>In this tutorial, we want to verify the memory safety of a memory allocator that
+comes with the <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel">FreeRTOS Kernel</a>.
+The kernel comes with five allocators, and we look at the simplest one.
+It allocates blocks from a region of memory set aside for the heap.
+It maintains a linked list of free blocks and allocates a block from
+the first block in the free list that is big enough to satisfy the request.
+When the block is freed, it is added back to the free list and merged with
+adjacent free blocks already in the free list.
+The function we want to prove memory safe is the allocator
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
+in the source file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.</p>
+<p>Using the starter kit consists of five steps</p>
+<ul>
+<li><a href="#clone-the-source-repository">Clone the source repository</a></li>
+<li><a href="#add-the-starter-kit">Add the starter kit</a></li>
+<li><a href="#configure-the-starter-kit">Configure the starter kit</a></li>
+<li><a href="#configure-the-proof">Configure the proof</a></li>
+<li><a href="#write-the-proof">Write the proof</a></li>
+<li><a href="#run-cbmc">Run CBMC</a></li>
+</ul>
+<p>For each step, we give the shell commands required to implement
+the step, and we examine what changes the commands have made to the repository.
+A reader wanting
+to push as rapidly as possible to the verification can simply cut-and-paste
+the commands into a shell and begin the verification.  A reader wanting to
+understand how the starter kit works can pause to read the explanations.</p>
+<h2 id="clone-the-source-repository"><a class="header" href="#clone-the-source-repository">Clone the source repository</a></h2>
+<h3 id="commands"><a class="header" href="#commands">Commands</a></h3>
+<p>The first step is to clone the FreeRTOS Kernel repository and
+its submodules, and to create a <code>cbmc</code> subdirectory to hold
+everything related to CBMC verification:</p>
+<pre><code>git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git kernel
+cd kernel
+git submodule update --init --checkout --recursive
+mkdir cbmc
+cd cbmc
+</code></pre>
+<h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
+<p>The name of the directory <code>cbmc</code> and its location within the
+repository is unimportant.  Just choose a reasonable place
+within the repository.  For example, you could put <code>cbmc</code>
+under a <code>test</code> or <code>verification</code> directory that contains your unit
+tests and other verification work.</p>
+<h2 id="add-the-starter-kit"><a class="header" href="#add-the-starter-kit">Add the starter kit</a></h2>
+<h3 id="commands-1"><a class="header" href="#commands-1">Commands</a></h3>
+<p>The next step is to add the starter kit and the litani build system as
+submodules.</p>
+<pre><code>git submodule add https://github.com/awslabs/aws-templates-for-cbmc-proofs.git starter-kit
+git submodule add https://github.com/awslabs/aws-build-accumulator.git litani
+</code></pre>
+<h3 id="explanation-1"><a class="header" href="#explanation-1">Explanation</a></h3>
+<p>The first command adds the starter kit as a submodule.</p>
+<p>The second command adds the litani build system as a submodule.
+Litani is the build system used by the starter kit.  For the purpose of
+this tutorial, what makes litani interesting is that the starter kit
+uses litani to do CBMC verification as concurrently as possible, and
+to build a dashboard of the results.</p>
+<h2 id="configure-the-starter-kit"><a class="header" href="#configure-the-starter-kit">Configure the starter kit</a></h2>
+<h3 id="commands-2"><a class="header" href="#commands-2">Commands</a></h3>
+<p>The next step is to configure CBMC verification for this project and
+copy the contents of the starter kit into place.
+We need to know the answers to three questions:</p>
+<ul>
+<li>What is the root of the repository?
+<ul>
+<li>Since <code>kernel/cbmc</code> is the current directory and <code>kernel</code> is the root
+of the repository, we will use the relative path <code>..</code> to the root.</li>
+</ul>
+</li>
+<li>What is the path to the litani build tool?
+<ul>
+<li>Since litani is located in
+the root of the litani submodule, we will use the relative path <code>litani/litani</code>
+to the tool.</li>
+</ul>
+</li>
+<li>What is the name of the project?
+<ul>
+<li>We will use the name <code>Kernel</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Let's run the setup script:</p>
+<pre><code>./starter-kit/scripts/setup.py
+What is the path to the source root? ..
+What is the path to the litani script? ./litani/litani
+What is the project name? Kernel
+</code></pre>
+<h3 id="explanation-2"><a class="header" href="#explanation-2">Explanation</a></h3>
+<p>Looking at the <code>cbmc</code> directory, we see that a few subdirectories have
+been added to <code>cbmc</code>.</p>
+<pre><code>ls
+</code></pre>
+<pre><code>include         negative_tests  sources         stubs
+litani          proofs          starter-kit
+</code></pre>
+<p>In addition to litani and the starter-kit submodules, we see</p>
+<ul>
+<li><code>include</code> for header files written for verification.</li>
+<li><code>sources</code> for common source files written for verification.</li>
+<li><code>stubs</code> for any stubs of project code written for verification.
+Examples of useful stubs for a communication protocol might be models of
+the <code>send</code> and <code>receive</code> methods that interact with the physical network.</li>
+<li><code>proofs</code> for the verification itself.  In the end, this directory will
+contain one subdirectory for every function or entry point we want to verify.
+This <code>proofs</code> directory is usually just a flat collection of subdirectories,
+but these subdirectories can be nested if it makes sense to group
+together the verification of similar functions.</li>
+</ul>
+<p>The <code>proofs</code> directory itself is worth further examination.</p>
+<pre><code>ls proofs
+</code></pre>
+<pre><code>Makefile-project-defines        Makefile.common
+Makefile-project-targets        README.md
+Makefile-project-testing        run-cbmc-proofs.py
+Makefile-template-defines
+</code></pre>
+<p>The important files are</p>
+<ul>
+<li><code>Makefile.common</code> implements best practices for verification using CBMC.
+It describes a method of building the goto binary for
+CBMC that is likely to yield good CBMC performance, and it describes
+a set of checks we recommend performing with CBMC.  It invokes CBMC
+several times to do property checking and coverage checking (currently
+just line coverage and not branch coverage), and it
+invokes a tool that builds a dashboard of the results in a form
+that is easy to debug.  It works by calling
+<code>litani</code> to perform all of these build and verification steps with
+maximal concurrency.</li>
+<li><code>run-cbmc-proofs.py</code> is a script that runs with maximal concurrency
+all of the CBMC verification under the <code>proofs</code> directory, and builds
+a dashboard of the results.
+In another tutorial, we will introduce our
+implementation of continuous integration that runs all of the CBMC verification
+against each pull request to check that proposed code changes
+preserve the CBMC results.  This is the script invoked by continuous integration
+to run the verification.</li>
+</ul>
+<p>The remaining Makefiles are just hooks for describing project-specific
+modifications or definitions.  For example, within <code>Makefile-project-defines</code>
+you can define the <code>INCLUDES</code> variable to set the search path for the header
+files needed to build the project functions being verified.</p>
+<h2 id="configure-the-proof"><a class="header" href="#configure-the-proof">Configure the proof</a></h2>
+<h3 id="commands-3"><a class="header" href="#commands-3">Commands</a></h3>
+<p>The next step is to configure CBMC verification of  the memory allocator
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
+in the source file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.  We need to know the answers to four questions:</p>
+<ul>
+<li>What is the function name?
+<ul>
+<li>We will use <code>pvPortMalloc</code>.</li>
+</ul>
+</li>
+<li>What is the path to the source file defining the function?
+<ul>
+<li>Since <code>kernel/cbmc/proofs</code> is the current directory and
+<code>kernel/portable/MemMang/heap_5.c</code> is the source file, we will use the
+relative path <code>../../portable/MemMang/heap_5.c</code> to the file.</li>
+</ul>
+</li>
+<li>What is the path to the source root?
+<ul>
+<li>Since <code>kernel/cbmc/proofs</code> is the current directory and
+<code>kernel</code> is the source file, we will use the relative path <code>../..</code>
+to the source root.</li>
+</ul>
+</li>
+<li>What is the path to the 'proofs' directory (usually '.')?
+<ul>
+<li>Since <code>kernel/test/cbmc/proofs</code> is the current directory,
+we will just use <code>.</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Let's run the setup script:</p>
+<pre><code>../starter-kit/scripts/setup-proof.py
+What is the function name? pvPortMalloc
+What is the path to the source file defining the function? ../../portable/MemMang/heap_5.c
+What is the path to the source root? ../..
+What is the path to the 'proofs' directory (usually '.')? .
+</code></pre>
+<h3 id="explanation-3"><a class="header" href="#explanation-3">Explanation</a></h3>
+<p>The <code>proofs</code> directory now contains a subdirectory <code>pvPortMalloc</code>
+for verification of the memory allocator <code>pvPortMalloc</code>.</p>
+<pre><code>ls pvPortMalloc
+</code></pre>
+<pre><code>Makefile                cbmc-proof.txt
+README.md               pvPortMalloc_harness.c
+</code></pre>
+<p>The important files are</p>
+<ul>
+<li><code>pvPortMalloc_harness.c</code> is the start of a proof harness for <code>pvPortMalloc</code>.</li>
+<li><code>Makefile</code> drives building and linking <code>pvPortMalloc</code> and its proof harness
+and running CBMC on the result.</li>
+</ul>
+<h2 id="write-the-proof"><a class="header" href="#write-the-proof">Write the proof</a></h2>
+<p>Let's change to the <code>pvPortMalloc</code> subdirectory:</p>
+<pre><code>cd pvPortMalloc
+</code></pre>
+<h3 id="building-source-code"><a class="header" href="#building-source-code">Building source code</a></h3>
+<p>Every software project has its own build procedure.  It is quite likely
+that if you can build the project for execution with <code>make CC=gcc</code> then
+you can build the project for model checking by CBMC with <code>make CC=goto-cc</code>.
+The compiler
+<code>goto-cc</code> is a drop-in replacement for <code>gcc</code> that compiles
+source code into a <em>goto program</em> used by CBMC.  In theory, you can link
+your proof harness against this goto program and run CBMC on the result.
+In practice,
+the result is huge and the performance of CBMC is disappointing.
+Our approach is to build only the source code that is required to run
+the function under test.</p>
+<p>In our case, all we need is the single file
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">kernel/portable/MemMang/heap_5.c</a>.</p>
+<p>Building FreeRTOS requires a configuration file, so let's add to the current
+directory a slightly simplified <a href="FreeRTOSconfig.h">FreeRTOSconfig.h</a> that we have
+taken from another repository that demonstrates FreeRTOS.
+Building FreeRTOS also requires an implementation of a portable interface, so
+let's use an implementation in <code>kernel/portable/ThirdParty/GCC/Posix</code> that comes
+with the kernel repository.</p>
+<p>Now we can build heap_5.c with</p>
+<pre><code>gcc -I. -I../../include -I../../portable/ThirdParty/GCC/Posix \
+  ../../portable/MemMang/heap_5.c
+</code></pre>
+<h3 id="the-proof-harness"><a class="header" href="#the-proof-harness">The proof harness</a></h3>
+<p>Let's look at the initial outline of the proof harness <code>pvPortMalloc_harness.c</code>:</p>
+<pre><code class="language-c">/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+/*
+ * Insert project header files that
+ *   - include the declaration of the function
+ *   - include the types needed to declare function arguments
+ */
+
+void harness()
+{
+
+  /* Insert argument declarations */
+
+  pvPortMalloc( /* Insert arguments */ );
+}
+</code></pre>
+<p>The first thing we need to do is add the prototype for <code>pvPortMalloc</code>:</p>
+<pre><code>void * pvPortMalloc( size_t xWantedSize );
+</code></pre>
+<p>This prototype refers to the type <code>size_t</code>, so we need to add the header file
+defining this type</p>
+<pre><code>#include &lt;stdlib.h&gt;
+</code></pre>
+<p>Finally, we need to allocate an unconstrained value for <code>xWantedSize</code>
+and add <code>xWantedSize</code> to the invocation of <code>pvPortMalloc</code>:</p>
+<pre><code>  size_t xWantedSize;
+  pvPortMalloc( xWantedSize );
+</code></pre>
+<p>The final proof harness <code>pvPortMalloc_harness.c</code> is:</p>
+<pre><code class="language-c">/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+#include &lt;stdlib.h&gt;
+void * pvPortMalloc( size_t xWantedSize );
+
+void harness()
+{
+  size_t xWantedSize;
+  pvPortMalloc( xWantedSize );
+}
+</code></pre>
+<h3 id="the-makefile"><a class="header" href="#the-makefile">The makefile</a></h3>
+<p>Let's look at the initial outline of <code>Makefile</code>:</p>
+<pre><code>HARNESS_ENTRY = harness
+HARNESS_FILE = pvPortMalloc_harness
+
+# This should be a unique identifier for this proof, and will appear on the
+# Litani dashboard. It can be human-readable and contain spaces if you wish.
+PROOF_UID = pvPortMalloc
+
+DEFINES +=
+INCLUDES +=
+
+REMOVE_FUNCTION_BODY +=
+UNWINDSET +=
+
+PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE).c
+PROJECT_SOURCES += $(SRCDIR)/portable/MemMang/heap_5.c
+
+# If this proof is found to consume huge amounts of RAM, you can set the
+# EXPENSIVE variable. With new enough versions of the proof tools, this will
+# restrict the number of EXPENSIVE CBMC jobs running at once. See the
+# documentation in Makefile.common under the &quot;Job Pools&quot; heading for details.
+# EXPENSIVE = true
+
+include ../Makefile.common
+</code></pre>
+<p>All we need to do here is to define the search path for the needed header
+files.  Since the variable <code>$(SRCDIR)</code> points to the root of the repository
+(the source root), and the variabld <code>$(PROOFDIR)</code> points to the current
+proof directory, all we need to do is add the lines</p>
+<pre><code>INCLUDES += -I$(PROOFDIR)
+INCLUDES += -I$(SRCDIR)/include
+INCLUDES += -I$(SRCDIR)/portable/ThirdParty/GCC/Posix
+</code></pre>
+<h2 id="run-cbmc"><a class="header" href="#run-cbmc">Run CBMC</a></h2>
+<p>Now we can run CBMC on <code>pvPortMalloc</code> with</p>
+<pre><code>make
+</code></pre>
+<p>This takes about 30 seconds on MacOS.
+It builds the proof harness, builds the relevant source code, links them
+together, runs CBMC several times to do property checking and coverage checking,
+and runs another tool to build a summary of the results that can be opened
+in a web browser.  On MacOS, open the report with</p>
+<pre><code>open report/html/index.html
+</code></pre>
+<p>and study the results.</p>
+<p>With this, in just minutes, you have used the starter kit to get started
+writing CBMC proofs for the FreeRTOS kernel.  The proof is not done.  If you
+look at the report you have opened in your web browser, you can see that
+the current proof harness fails to exercise a large fraction of the function
+<code>pvPortMalloc</code>.  For example, the proof harness currently fails to allocate
+the region of memory from which <code>pvPortMalloc</code> should allocate blocks
+of memory.  But this is where the fun begins...</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cbmc/overview/proof-harnesses.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../management/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cbmc/overview/proof-harnesses.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../management/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

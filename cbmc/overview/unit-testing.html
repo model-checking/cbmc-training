@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CBMC as unit testing - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/unit-testing.html" class="active"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/index.html"><strong aria-hidden="true">1.3.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.3.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.3.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.3.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../../starter-kit/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.5.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../../management/index.html"><strong aria-hidden="true">2.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../management/Plan-your-proof.html"><strong aria-hidden="true">2.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../../management/Write-a-good-proof.html"><strong aria-hidden="true">2.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../../management/Debug-an-error-trace.html"><strong aria-hidden="true">2.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../../management/Code-for-verification.html"><strong aria-hidden="true">2.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../../management/Code-review-for-proofs.html"><strong aria-hidden="true">2.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reference guides</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Frequently asked questions</div></li><li class="chapter-item expanded "><a href="../../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cbmc-as-unit-testing"><a class="header" href="#cbmc-as-unit-testing">CBMC as unit testing</a></h1>
+<p>Think of CBMC as a form of unit testing.  One of the things we can do
+with unit testing is to run a function on a set of inputs, and to
+compare the result  with the expected result.  Think of
+CBMC as a unit tester that runs the function on all possible inputs.</p>
+<p>Here is a
+function <code>quartile</code> from <a href="quartile.c">quartile.c</a>
+that returns the quartile of an integer between 0 and 99.</p>
+<pre><code class="language-c">int quartile(int x) {
+  int y;
+
+  if (x &lt; 0 || x &gt; 99) return 0;
+
+  if (x &lt; 50)
+    if (x &lt; 25)
+      y = 1;
+    else
+      y = 2;
+  else
+    if (x &lt; 75)
+      y = 3;
+    else
+      y = 4;
+
+  return y;
+}
+</code></pre>
+<p>Here a unit test from <a href="unit-test.c">unit-test.c</a> that tests
+<code>quartile</code> using a number in the first quartile.</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x = 1;
+  int result = quartile(x);
+  assert(result == 1);
+}
+</code></pre>
+<p>We can build the unit test with <code>gcc</code> and run it.
+When we do, the unit test runs successfully,
+and the assertion does not fail:</p>
+<pre><code class="language-bash">gcc quartile.c unit-test.c -o unit-test
+./unit-test
+</code></pre>
+<p>But we can also build the unit test with <code>goto-cc</code>, which is a drop-in
+replacement for <code>gcc</code> that comes with CBMC.  Now we can use CBMC to
+run the unit test, and again the assertion does not fail:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc ./unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: SUCCESS
+
+** 0 of 1 failed (1 iterations)
+VERIFICATION SUCCESSFUL
+</code></pre>
+<p>But now we can do something interesting with CBMC.
+The unit test currently initializes the
+variable <code>x</code> to 1, and CBMC considers the value of <code>x</code> to be 1.  If
+we remove the initializer, CBMC considers the value of <code>x</code> to be any
+possible value of type <code>int</code>. We say that CBMC treats uninitialized
+variables as having unconstrained values.</p>
+<p>If we rewrite the unit test</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x; // The value of x is now any value of type int
+  int result = quartile(x);
+  assert(result == 1);
+}
+</code></pre>
+<p>and rerun CBMC</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc ./unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>we can see that the assertion has failed.  We can ask CBMC to produce
+an error trace that demonstrates one way in which the assertion can fail</p>
+<pre><code class="language-bash">cbmc ./unit-test --trace
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: FAILURE
+
+Trace for main.assertion.1:
+
+State 21 file unit-test.c function main line 6 thread 0
+----------------------------------------------------
+  x=-2147483547 (10000000 00000000 00000000 01100101)
+
+State 22 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  result=0 (00000000 00000000 00000000 00000000)
+
+State 26 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  x=-2147483547 (10000000 00000000 00000000 01100101)
+
+State 27 file quartile.c function quartile line 2 thread 0
+----------------------------------------------------
+  y=0 (00000000 00000000 00000000 00000000)
+
+State 33 file unit-test.c function main line 7 thread 0
+----------------------------------------------------
+  result=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file unit-test.c function main line 8 thread 0
+  assertion result == 1
+  !((signed long int)(signed long int)!(result == 1) != 0l)
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>and we see that in the first step of this error trace the variable <code>x</code>
+is initialized to the integer value <code>x=-2147483547</code>.</p>
+<p>Well, that's not quite what we intended.  We don't expect <code>quartile</code>
+to return 1 on every integer, just on integers in the first quartile.
+We can constrain <code>x</code> to be an integer in the first quartile by adding
+an assumption to the unit test:</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+int quartile(int x);
+
+int main() {
+  int x;
+  __CPROVER_assume(0 &lt;= x &amp;&amp; x &lt; 25);    // this is a precondition
+  int result = quartile(x);
+  assert(result == 1);                   // this is a postcondition
+}
+</code></pre>
+<p>Rerunning CBMC, we see that the assertion is always true:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc unit-test
+</code></pre>
+<pre><code>** Results:
+unit-test.c function main
+[main.assertion.1] line 9 assertion result == 1: SUCCESS
+
+** 0 of 1 failed (1 iterations)
+VERIFICATION SUCCESSFUL
+</code></pre>
+<p>Let's pause for a moment to notice that we have already done something
+interesting.
+We have proved that the function <code>quartile</code> returns 1 when it is called
+on any integer in the first quartile.
+We have partially specified the behavior of the function using
+a precondition (the assumption that <code>x</code> is in the first quartile)
+and a postcondition (the assertion that the return value is <code>1</code>).
+If the function is called with an input that satisifes the precondition,
+then the function returns with a value that satisfies the postcondition.
+Of course, we have only partially specified the behavior of the function.
+What happens when it is called with an integer in the second
+quartile?  The specification doesn't say.  But we have taken
+the first step toward specificiation and verification of our function.</p>
+<p>Finally, to make the connection between unit testing and model
+checking,
+we have replaced <code>gcc</code> with <code>goto-cc</code> and run the result with <code>cbmc</code>:</p>
+<pre><code class="language-bash">goto-cc quartile.c unit-test.c -o unit-test
+cbmc unit-test
+</code></pre>
+<p>For programs this simple, however, we can skip explicit compilation
+and invoke <code>cbmc</code> directly:</p>
+<pre><code class="language-bash">cbmc quartile.c unit-test.c
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../cbmc/overview/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../cbmc/overview/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

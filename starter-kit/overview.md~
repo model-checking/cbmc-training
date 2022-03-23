@@ -1,0 +1,28 @@
+# CBMC starter kit overview
+
+The CBMC starter kit was written to make it easy to add CBMC verification
+to a software repository.
+This tutorial illustrates how to add the starter kit to the
+FreeRTOS Kernel repository and how to start CBMC verification fo
+a memory allocator in that repository.
+
+## Clone the repository
+
+The first step is to clone the FreeRTOS Kernel repository and
+its submodules.
+
+```
+git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git kernel
+cd kernel; git submodule update --init --checkout --recursive
+```
+
+## Install the starter kit
+
+The next step is to add the starter kit and the litani build system as
+submodules.
+
+```
+mkdir -p kernel/test/cbmc
+cd kernel/test/cbmc; git clone https://github.com/awslabs/aws-templates-for-cbmc-proofs.git starter-kit
+cd kernel/test/cbmc; git clone https://github.com/awslabs/aws-build-accumulator.git litani
+```

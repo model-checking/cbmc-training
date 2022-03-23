@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Proof harnesses - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/index.html"><strong aria-hidden="true">1.3.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.3.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.3.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-harnesses.html" class="active"><strong aria-hidden="true">1.3.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../../starter-kit/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.5.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../../management/index.html"><strong aria-hidden="true">2.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../management/Plan-your-proof.html"><strong aria-hidden="true">2.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../../management/Write-a-good-proof.html"><strong aria-hidden="true">2.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../../management/Debug-an-error-trace.html"><strong aria-hidden="true">2.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../../management/Code-for-verification.html"><strong aria-hidden="true">2.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../../management/Code-review-for-proofs.html"><strong aria-hidden="true">2.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reference guides</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Frequently asked questions</div></li><li class="chapter-item expanded "><a href="../../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="proof-harnesses"><a class="header" href="#proof-harnesses">Proof harnesses</a></h1>
+<p>This section gives simple examples of writing a proof harness to use with CBMC.
+The purpose of a proof harness is to build a model of the environment of
+the function under test.  The purpose of this model (the proof harness)
+is to collect in one place all of the assumptions required for the proof
+to hold.</p>
+<ul>
+<li><a href="#modeling-input">Modeling input</a></li>
+<li><a href="#modeling-global-state">Modeling global state</a></li>
+<li><a href="#modeling-interfaces">Modeling interfaces</a></li>
+<li><a href="#allocating-data">Allocating data</a></li>
+<li><a href="#validating-data">Validating data</a></li>
+<li><a href="#proof-assumptions">Proof assumptions</a></li>
+</ul>
+<h2 id="modeling-input"><a class="header" href="#modeling-input">Modeling input</a></h2>
+<p>For simple functions, the model of the environment is just the input to the
+function.</p>
+<p>Suppose we have a library <a href="examples/harness/library1.c">library1.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int alpha1(int a) {
+    return a+1;
+}
+
+int beta1(int b) {
+    int bb = alpha1(b);
+    assert(bb == b);
+}
+</code></pre>
+<p>and we want to test function <code>beta1</code>.  The input to function <code>beta1</code>
+is an integer <code>b</code>.  We write a proof harness <a href="examples/harness/harness1.c">harness1.c</a></p>
+<pre><code class="language-c">int beta1(int b);
+
+main() {
+   int x;
+   beta1(x);
+}
+</code></pre>
+<p>that allocates an unconstrained integer named <code>x</code> and invokes <code>beta1</code> on <code>x</code>.</p>
+<p>We run CBMC on the result with</p>
+<pre><code class="language-bash">goto-cc -o library1.goto library1.c
+goto-cc -o harness1.goto harness1.c
+goto-cc -o proof1.goto library1.goto harness1.goto
+cbmc proof1.goto
+</code></pre>
+<p>and we see a violation of the assertion <code>bb == b</code>.</p>
+<pre><code class="language-bash">** Results:
+library1.c function beta1
+[beta1.assertion.1] line 9 assertion bb == b: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>Correcting this assertion to <code>bb == b + 1</code> fixes the problem.</p>
+<h2 id="modeling-global-state"><a class="header" href="#modeling-global-state">Modeling global state</a></h2>
+<p>Sometimes a function depends on global state.  A common example
+is low-level system code that depends on a system table, and we want
+to know the code works no matter what has been stored in the system
+table.</p>
+<p>Suppose we have a library <a href="examples/harness/library2.c">library2.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int counter = 0;
+
+int alpha2(int a) {
+    counter = counter + 1;
+    return a+counter;
+}
+
+int beta2(int b) {
+    int bb = alpha2(b);
+    assert(bb == b + 1);
+}
+</code></pre>
+<p>and we want to test function <code>beta2</code>.  This time the function <code>beta2</code>
+depends on its input <code>b</code>, but it also depends on a global variable
+<code>counter</code> that is initialized to <code>0</code> but is changed with each invocation
+of <code>beta2</code>.  We want to know that <code>beta2</code> always works, no matter how
+many times <code>beta2</code> has been invoked in the past.</p>
+<p>We do this by writing a proof harness that choses an unconstrained value
+for both the function input <code>b</code> and the global variable <code>counter</code>.
+We write a proof harness <a href="examples/harness/harness2.c">harness2.c</a></p>
+<pre><code class="language-c">extern int counter;
+int beta2(int b);
+
+main() {
+    int cnt;
+    counter = cnt;
+
+    int x;
+    beta2(x);
+}
+</code></pre>
+<p>We run CBMC on the result with</p>
+<pre><code class="language-bash">goto-cc -o library2.goto library2.c
+goto-cc -o harness2.goto harness2.c
+goto-cc -o proof2.goto library2.goto harness2.goto
+cbmc proof2.goto
+</code></pre>
+<p>and see a violation of the assertion <code>bb == b + 1</code>.</p>
+<pre><code class="language-bash">** Results:
+library2.c function beta2
+[beta2.assertion.1] line 12 assertion bb == b + 1: FAILURE
+
+** 1 of 1 failed (2 iterations)
+VERIFICATION FAILED
+</code></pre>
+<p>We correct this to <code>bb &gt;= b + 1</code> and we are done.</p>
+<h2 id="modeling-interfaces"><a class="header" href="#modeling-interfaces">Modeling interfaces</a></h2>
+<p>Sometimes a function depends on an implementation of an interface that
+we don't care to test.  A common example is a function the depends on
+a network communication protocol like HTTP with <code>send</code> and <code>receive</code>
+methods.  We want our code to work independent of the protocol implementation,
+so we replace the implementations of the functions in the protocol interface
+with stubs that over-approximate the behaviors of the implementations.</p>
+<p>Suppose we have a library <a href="examples/harness/library3.c">library3.c</a></p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+void send(int msg);
+int receive();
+
+int alpha(int x) {
+    int y = receive();
+    assert(y &gt; 0);
+    return y+1;
+}
+</code></pre>
+<p>that depends on <code>send</code> and <code>receive</code> methods from a network interface.
+We stub out the network interface with <a href="examples/harness/network3.c">network3.c</a></p>
+<pre><code class="language-c">int receive() {
+    // model receiving an unconstrained integer value from the network
+    int msg;
+    return msg;
+}
+
+void send(int msg) {
+    // model sending an integer over the network (nothing to do)
+    return;
+}
+</code></pre>
+<p>We write the proof harness <a href="examples/harness/harness3.c">harness3.c</a></p>
+<pre><code class="language-c">int alpha(int x);
+
+main() {
+    int x;
+    alpha(x);
+}
+</code></pre>
+<p>We run CBMC with</p>
+<pre><code class="language-bash">goto-cc -o network3.goto network3.c
+goto-cc -o library3.goto library3.c
+goto-cc -o harness3.goto harness3.c
+goto-cc -o proof3.goto network3.goto library3.goto harness3.goto
+cbmc proof3.goto
+</code></pre>
+<p>and we get a failure of the assertion <code>y &gt; 0</code>.</p>
+<p>Suppose the mistake is in our model of the network.  Suppose our
+network only transmits positive integers.  Then we can fix our stub of
+the <code>receive</code> method to return not an unconstrained integer but an
+unconstrained positive integer.
+We change our stubs for the network to <a href="examples/harness/network3a.c">network3a.c</a></p>
+<pre><code class="language-c">int receive() {
+    // model receiving an unconstrained POSTIVE integer value from the network
+    int msg;
+    __CPROVER_assume(msg &gt; 0);
+    return msg;
+}
+
+void send(int msg) {
+    // model sending an integer over the network (nothing to do)
+    return;
+}
+</code></pre>
+<p>We run CBMC with</p>
+<pre><code class="language-bash">goto-cc -o network3a.goto network3a.c
+goto-cc -o library3.goto library3.c
+goto-cc -o harness3.goto harness3.c
+goto-cc -o proof3.goto network3a.goto library3.goto harness3.goto
+cbmc proof3.goto
+</code></pre>
+<p>and declare victory at the successful verification.</p>
+<h2 id="allocating-data"><a class="header" href="#allocating-data">Allocating data</a></h2>
+<p>For projects where functions take pointers to data on the heap, we
+recommend writing functions to allocate unconstrained values on the
+heap of the appropriate types for use in proof harnesses.</p>
+<p>Consider a string buffer defined by</p>
+<pre><code class="language-c">typedef struct { size_t length; char* buffer; } strbuf;
+</code></pre>
+<p>and consider a function that takes a pointer to a string buffer and
+caches the fifth character in the buffer into a global variable</p>
+<pre><code class="language-c">char cache;
+void cache_fifth_char(strbuf* str) { cache = str-&gt;buffer[4]; }
+</code></pre>
+<p>Let's try to prove that this function is memory safe (although,
+obviously, it is not).  Memory safety means that we never dereference
+an invalid pointer and we never try to access data outside the bounds
+of a valid object.  We can do this by calling CBMC with the flags
+<code>--pointer-check</code> and <code>--bounds-check</code>.  Let's prove this even in the
+case where malloc can fail and return NULL instead of a pointer.  The
+default model of malloc in CBMC never fails, but we can change to a
+model of mailloc that can fail and return NULL by calling CBMC with
+the flags <code>--malloc-may-fail</code> and <code>--malloc-fail-null</code>.</p>
+<p>The function <code>cache_fifth_char</code> takes a pointer to a string buffer on
+the heap, so let write a function that allocates a string buffer.</p>
+<pre><code class="language-c">strbuf* strbuf_allocate(size_t length) {
+  strbuf* str = malloc(sizeof(strbuf));
+  if (str == NULL) return NULL;
+  str-&gt;length = length;
+  str-&gt;buffer = malloc(length);
+  return str;
+}
+</code></pre>
+<p>Now we can write a proof harness for the function</p>
+<pre><code class="language-c">main() {
+  size_t len;
+  strbuf* str = strbuf_allocate(len);
+
+  cache_fifth_char(str);
+}
+</code></pre>
+<p>Pulling all of this together into a single file
+<a href="examples/harness/strbuf1.c">strbuf1.c</a>, we can run cbmc on this file
+with</p>
+<pre><code class="language-bash">cbmc --pointer-check --bounds-check --malloc-may-fail --malloc-fail-null strbuf1.c
+</code></pre>
+<p>and the result is a slew of verification failures including</p>
+<pre><code class="language-bash">[cache_fifth_char.pointer_dereference.1] line 7 dereference failure: pointer NULL in str-&gt;buffer: FAILURE
+[cache_fifth_char.pointer_dereference.7] line 7 dereference failure: pointer NULL in str-&gt;buffer[(signed long int)4]: FAILURE
+[cache_fifth_char.pointer_dereference.11] line 7 dereference failure: pointer outside object bounds in str-&gt;buffer[(signed long int)4]: FAILURE
+</code></pre>
+<p>The first is saying that <code>str</code> may be NULL, the second is saying that
+<code>str-&gt;buffer</code> may be NULL, and the third is saying that <code>str-&gt;buffer</code>
+may not have 5 character in it.</p>
+<p>We are obviously going to have to make some assumptions about the
+string buffer before we can prove that the function is memory safe.</p>
+<h2 id="validating-data"><a class="header" href="#validating-data">Validating data</a></h2>
+<p>For projects that require allocating objects of various types on the heap, we
+recommend writing predicates that say what well-formed objects of these
+types look like.</p>
+<p>In the case of our example, a valid pointer to a string buffer must be
+nonnull, and a valid string buffer must have a buffer that is non-null.</p>
+<pre><code class="language-c">bool strbuf_is_valid(strbuf* str) {
+  if (str == NULL) return false;
+  if (str-&gt;buffer == NULL) return false;
+  return true;
+}
+</code></pre>
+<p>With this predicate, we can write a proof harness that assumes the string
+buffer allocated on the heap is valid before calling the function.  We can
+also assert that the string buffer remains valid after calling the function.
+And we can assume that the buffer has at least 5 characters in it.
+In fact, we can prove the this remains true after the function invocation,
+meaning that the function preserves the validity of its input.</p>
+<pre><code class="language-c">main() {
+  size_t len;
+  strbuf* str = strbuf_allocate(len);
+
+  __CPROVER_assume(strbuf_is_valid(str));
+  __CPROVER_assume(str-&gt;length &gt; 4);
+
+  cache_fifth_char(str);
+
+  __CPROVER_assert(strbuf_is_valid(str), &quot;String buffer remains valid&quot;);
+  __CPROVER_assert(str-&gt;length &gt; 4, &quot;String buffer remains length &gt;4&quot;);
+}
+</code></pre>
+<p>Pulling all of this together into <a href="examples/harness/strbuf2.c">strbuf2.c</a>,
+we can run CBMC</p>
+<pre><code class="language-bash">cbmc --pointer-check --bounds-check --malloc-may-fail --malloc-fail-null strbuf2.c
+</code></pre>
+<p>and rejoice in the successful validation.</p>
+<h2 id="proof-assumptions"><a class="header" href="#proof-assumptions">Proof assumptions</a></h2>
+<p>Notice that in our last proof harness, we worked hard to make as
+explicit as possible all of the assumptions required for memory safety
+to hold: The pointer must be a valid pointer to a valid string buffer
+with at least five characters in it. It is the responsibility of the
+programmer to make certain that these assumptions are true when the
+function is called.
+All bets are off when the function is called in a weaker context where some of these assumptions are false. The memory safety proof of the function does not hold in that context since the assumptions it is based on do not hold.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cbmc/overview/checking-properties.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../starter-kit/overview/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cbmc/overview/checking-properties.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../starter-kit/overview/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
