@@ -1,0 +1,33 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT
+
+name: CBMC training publication
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+
+jobs:
+  publish:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install mdbook
+        run: brew install mdbook
+
+      - name: Build documentation
+        run: cd docs && mdbook build && touch book/.nojekyll
+
+      - name: Publish documentation on push to main
+        if: ${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: docs/book/
