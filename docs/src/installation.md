@@ -4,10 +4,11 @@
 
 On MacOS, install the CBMC tools with
 ```bash
-python3 -m pip install cbmc-viewer
-brew install cbmc litani universal-ctags
+brew tap aws/tap
+brew install cbmc cbmc-viewer litani universal-ctags
 ```
 The installation of `ctags` is optional, see below.
+The first line taps the AWS repository with cbmc-viewer.
 
 ## Ubuntu
 
