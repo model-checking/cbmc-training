@@ -2,6 +2,7 @@
 
 * [Getting started with CBMC](README.md)
   * [CBMC installation](installation.md)
+  * [CBMC introduction](cbmc/overview/introduction.md)
   * [CBMC as unit testing](cbmc/overview/unit-testing.md)
   * [Using CBMC](cbmc/overview/README.md)
     * [Checking assertions](cbmc/overview/checking-assertions.md)

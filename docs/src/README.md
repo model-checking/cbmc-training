@@ -21,6 +21,7 @@ CBMC in software verification.
 
 For a quick start on simple problems, read
   * [CBMC installation](installation.md)
+  * [CBMC introduction](cbmc/overview/introduction.md)
   * [CBMC as unit testing](cbmc/overview/unit-testing.md)
   * [Using CBMC](cbmc/overview)
 
