@@ -59,23 +59,15 @@ tests and other verification work.
 
 ### Commands
 
-The next step is to add the starter kit and the litani build system as
-submodules.
+The next step is to add the starter kit as a submodule.
 
 ```
-git submodule add https://github.com/awslabs/aws-templates-for-cbmc-proofs.git starter-kit
-git submodule add https://github.com/awslabs/aws-build-accumulator.git litani
+git submodule add https://github.com/model-checking/cbmc-starter-kit starter-kit
 ```
 
 ### Explanation
 
-The first command adds the starter kit as a submodule.
-
-The second command adds the litani build system as a submodule.
-Litani is the build system used by the starter kit.  For the purpose of
-this tutorial, what makes litani interesting is that the starter kit
-uses litani to do CBMC verification as concurrently as possible, and
-to build a dashboard of the results.
+This just adds the starter kit as a submodule.
 
 ## Configure the starter kit
 
@@ -83,23 +75,11 @@ to build a dashboard of the results.
 
 The next step is to configure CBMC verification for this project and
 copy the contents of the starter kit into place.
-We need to know the answers to three questions:
-
-* What is the root of the repository?
-  * Since `kernel/cbmc` is the current directory and `kernel` is the root
-    of the repository, we will use the relative path `..` to the root.
-* What is the path to the litani build tool?
-  * Since litani is located in
-    the root of the litani submodule, we will use the relative path `litani/litani`
-    to the tool.
-* What is the name of the project?
-  * We will use the name `Kernel`.
-
 Let's run the setup script:
 ```
 ./starter-kit/scripts/setup.py
-What is the path to the source root? ..
-What is the path to the litani script? ./litani/litani
+```
+```
 What is the project name? Kernel
 ```
 
@@ -111,8 +91,7 @@ been added to `cbmc`.
 ls
 ```
 ```
-include         negative_tests  sources         stubs
-litani          proofs          starter-kit
+include         proofs          sources         starter-kit     stubs
 ```
 In addition to litani and the starter-kit submodules, we see
 * `include` for header files written for verification.
@@ -168,28 +147,27 @@ files needed to build the project functions being verified.
 The next step is to configure CBMC verification of  the memory allocator
 [`pvPortMalloc`](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155)
 in the source file
-[portable/MemMang/heap_5.c](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c).  We need to know the answers to four questions:
-* What is the function name?
-  * We will use `pvPortMalloc`.
-* What is the path to the source file defining the function?
-  * Since `kernel/cbmc/proofs` is the current directory and
-    `kernel/portable/MemMang/heap_5.c` is the source file, we will use the
-    relative path `../../portable/MemMang/heap_5.c` to the file.
-* What is the path to the source root?
-  * Since `kernel/cbmc/proofs` is the current directory and
-    `kernel` is the source file, we will use the relative path `../..`
-    to the source root.
-* What is the path to the 'proofs' directory (usually '.')?
-  * Since `kernel/test/cbmc/proofs` is the current directory,
-    we will just use `.`.
-
-Let's run the setup script:
+[portable/MemMang/heap_5.c](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c).  Let's run the setup script:
 ```
+cd proofs
 ../starter-kit/scripts/setup-proof.py
+```
+```
 What is the function name? pvPortMalloc
-What is the path to the source file defining the function? ../../portable/MemMang/heap_5.c
-What is the path to the source root? ../..
-What is the path to the 'proofs' directory (usually '.')? .
+These source files define a function 'pvPortMalloc':
+   0 ../../portable/ARMv8M/secure/heap/secure_heap.c
+   1 ../../portable/GCC/ARM_CM23/secure/secure_heap.c
+   2 ../../portable/GCC/ARM_CM33/secure/secure_heap.c
+   3 ../../portable/IAR/ARM_CM23/secure/secure_heap.c
+   4 ../../portable/IAR/ARM_CM33/secure/secure_heap.c
+   5 ../../portable/MemMang/heap_1.c
+   6 ../../portable/MemMang/heap_2.c
+   7 ../../portable/MemMang/heap_3.c
+   8 ../../portable/MemMang/heap_4.c
+   9 ../../portable/MemMang/heap_5.c
+  10 ../../portable/WizC/PIC18/port.c
+  11 The source file is not listed here
+Select a source file (the options are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11): 9
 ```
 
 ### Explanation
@@ -271,15 +249,12 @@ void harness()
 
 The first thing we need to do is add the prototype for `pvPortMalloc`:
 ```
+#include <stdlib.h>
 void * pvPortMalloc( size_t xWantedSize );
 ```
-This prototype refers to the type `size_t`, so we need to add the header file
-defining this type
-```
-#include <stdlib.h>
-```
-Finally, we need to allocate an unconstrained value for `xWantedSize`
-and add `xWantedSize` to the invocation of `pvPortMalloc`:
+
+The second thing we need to do is allocate an unconstrained value
+for `xWantedSize` and pass it to `pvPortMalloc`:
 ```
   size_t xWantedSize;
   pvPortMalloc( xWantedSize );
