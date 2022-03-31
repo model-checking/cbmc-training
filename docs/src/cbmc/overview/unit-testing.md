@@ -1,5 +1,10 @@
 # CBMC as unit testing
 
+To follow the discussion in this section on your computer,
+download these files:
+* [quartile.c](quartile.c)
+* [unit-test.c](unit-test.c)
+
 Think of CBMC as a form of unit testing.  One of the things we can do
 with unit testing is to run a function on a set of inputs, and to
 compare the result  with the expected result.  Think of
@@ -50,12 +55,26 @@ gcc quartile.c unit-test.c -o unit-test
 ./unit-test
 ```
 
-But we can also build the unit test with `goto-cc`, which is a drop-in
+We can also build the unit test with `goto-cc`, which is a drop-in
 replacement for `gcc` that comes with CBMC.  Now we can use CBMC to
 run the unit test, and again the assertion does not fail:
 ```bash
 goto-cc quartile.c unit-test.c -o unit-test
 cbmc ./unit-test
+```
+```
+** Results:
+unit-test.c function main
+[main.assertion.1] line 8 assertion result == 1: SUCCESS
+
+** 0 of 1 failed (1 iterations)
+VERIFICATION SUCCESSFUL
+```
+
+In fact, we can run CBMC directly on the source files
+(without explicitly invoking `goto-cc`) for examples this simple:
+```
+cbmc quartile.c unit-test.c
 ```
 ```
 ** Results:
@@ -86,8 +105,7 @@ int main() {
 ```
 and rerun CBMC
 ```bash
-goto-cc quartile.c unit-test.c -o unit-test
-cbmc ./unit-test
+cbmc quartile.c unit-test.c
 ```
 ```
 ** Results:
@@ -101,7 +119,7 @@ we can see that the assertion has failed.  We can ask CBMC to produce
 an error trace that demonstrates one way in which the assertion can fail
 
 ```bash
-cbmc ./unit-test --trace
+cbmc quartile.c unit-test.c --trace
 ```
 ```
 ** Results:
@@ -159,8 +177,7 @@ int main() {
 
 Rerunning CBMC, we see that the assertion is always true:
 ```bash
-goto-cc quartile.c unit-test.c -o unit-test
-cbmc unit-test
+cbmc quartile.c unit-test.c
 ```
 ```
 ** Results:
@@ -184,16 +201,3 @@ Of course, we have only partially specified the behavior of the function.
 What happens when it is called with an integer in the second
 quartile?  The specification doesn't say.  But we have taken
 the first step toward specificiation and verification of our function.
-
-Finally, to make the connection between unit testing and model
-checking,
-we have replaced `gcc` with `goto-cc` and run the result with `cbmc`:
-```bash
-goto-cc quartile.c unit-test.c -o unit-test
-cbmc unit-test
-```
-For programs this simple, however, we can skip explicit compilation
-and invoke `cbmc` directly:
-```bash
-cbmc quartile.c unit-test.c
-```
