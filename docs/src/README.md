@@ -4,13 +4,13 @@
 C. This means that CBMC will explore all possible paths through your code
 on all possible inputs, and will check that all assertions in your code are
 true.
+CBMC can also check for the possibility of
+memory safety errors (like buffer overflow) and for instances of
+undefined behavior (like signed integer overflow).
 CBMC is a bounded model checker, however, which means that using CBMC may
 require restricting this set of all possible inputs to inputs of some
 bounded size.
-CBMC can also check for the possibility of
-memory safety errors (like buffer overflow) and for instances of
-undefined behavior (code whose behavior is left undefined by the C
-specification).  CBMC has been used on
+CBMC has been used on
 [over a dozen software projects](projects.md) as part of software
 development and continuous integration.
 
