@@ -139,16 +139,17 @@
 <p>On MacOS, install the CBMC tools with</p>
 <pre><code class="language-bash">brew tap aws/tap
 brew install cbmc cbmc-viewer litani
+python3 -m pip install cbmc-starter-kit
 </code></pre>
 <p>The first line taps the AWS repository with cbmc-viewer.
-The second line installs the tools.</p>
+The last two lines install the tools.</p>
 <h2 id="ubuntu"><a class="header" href="#ubuntu">Ubuntu</a></h2>
 <p>On Ubuntu, install the CBMC tools by downloading the installation packages
 for your operating system from the
 <a href="https://github.com/diffblue/cbmc/releases/latest">CBMC release page</a> and the
 <a href="https://github.com/awslabs/aws-build-accumulator/releases/latest">Litani release page</a>
 and running</p>
-<pre><code class="language-bash">python3 -m pip install cbmc-viewer
+<pre><code class="language-bash">python3 -m pip install cbmc-viewer cbmc-starter-kit
 sudo apt install *cbmc*.deb *litani*.deb universal-ctags
 </code></pre>
 <p>The installation of <code>ctags</code> is optional, see below.</p>

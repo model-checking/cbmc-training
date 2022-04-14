@@ -135,10 +135,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="cbmc-starter-kit-overview"><a class="header" href="#cbmc-starter-kit-overview">CBMC starter kit overview</a></h1>
-<p>The <a href="https://github.com/awslabs/aws-templates-for-cbmc-proofs">CBMC starter kit</a>
-makes it easy to add CBMC verification to a software project.</p>
-<p>In this tutorial, we want to verify the memory safety of a memory allocator that
-comes with the <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel">FreeRTOS Kernel</a>.
+<p>The <a href="https://github.com/model-checking/cbmc-starter-kit">CBMC starter kit</a>
+makes it easy to add CBMC verification to an existing software project.</p>
+<p>In this tutorial, we show how to begin proving the memory safety of
+a memory allocator that comes with the
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel">FreeRTOS Kernel</a>.
 The kernel comes with five allocators, and we look at the simplest one.
 It allocates blocks from a region of memory set aside for the heap.
 It maintains a linked list of free blocks and allocates a block from
@@ -149,75 +150,54 @@ The function we want to prove memory safe is the allocator
 <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
 in the source file
 <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.</p>
+<p>This tutorial is actually a slightly cleaned-up version of the work done by two
+developers who used the starter kit to begin verification of <code>pvPortMalloc</code>.
+Two developers who had little more hand-on experience that the demonstration of
+CBMC running on a few simple examples were able to use the starter kit
+to begin verification in about ten or fifteen minutes, and were able to
+breathe some real life into the proof within a few more hours.</p>
 <p>Using the starter kit consists of five steps</p>
 <ul>
 <li><a href="#clone-the-source-repository">Clone the source repository</a></li>
-<li><a href="#add-the-starter-kit">Add the starter kit</a></li>
-<li><a href="#configure-the-starter-kit">Configure the starter kit</a></li>
+<li><a href="#configure-the-repository">Configure the repository</a></li>
 <li><a href="#configure-the-proof">Configure the proof</a></li>
 <li><a href="#write-the-proof">Write the proof</a></li>
 <li><a href="#run-cbmc">Run CBMC</a></li>
 </ul>
-<p>For each step, we give the shell commands required to implement
-the step, and we examine what changes the commands have made to the repository.
-A reader wanting
-to push as rapidly as possible to the verification can simply cut-and-paste
-the commands into a shell and begin the verification.  A reader wanting to
-understand how the starter kit works can pause to read the explanations.</p>
 <h2 id="clone-the-source-repository"><a class="header" href="#clone-the-source-repository">Clone the source repository</a></h2>
-<h3 id="commands"><a class="header" href="#commands">Commands</a></h3>
-<p>The first step is to clone the FreeRTOS Kernel repository and
-its submodules, and to create a <code>cbmc</code> subdirectory to hold
-everything related to CBMC verification:</p>
+<p>The first step is to clone the FreeRTOS Kernel repository.</p>
 <pre><code>git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git kernel
 cd kernel
 git submodule update --init --checkout --recursive
-mkdir cbmc
+</code></pre>
+<p>The first line clones the repository into the directory <code>kernel</code>.
+The remaining lines step into the directory <code>kernel</code>
+and clone the kernel's submodules.</p>
+<h2 id="configure-the-repository"><a class="header" href="#configure-the-repository">Configure the repository</a></h2>
+<p>The next step is to configure the repository for CBMC verification.</p>
+<pre><code>mkdir cbmc
 cd cbmc
-</code></pre>
-<h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
-<p>The name of the directory <code>cbmc</code> and its location within the
-repository is unimportant.  Just choose a reasonable place
-within the repository.  For example, you could put <code>cbmc</code>
-under a <code>test</code> or <code>verification</code> directory that contains your unit
-tests and other verification work.</p>
-<h2 id="add-the-starter-kit"><a class="header" href="#add-the-starter-kit">Add the starter kit</a></h2>
-<h3 id="commands-1"><a class="header" href="#commands-1">Commands</a></h3>
-<p>The next step is to add the starter kit as a submodule.</p>
-<pre><code>git submodule add https://github.com/model-checking/cbmc-starter-kit starter-kit
-</code></pre>
-<h3 id="explanation-1"><a class="header" href="#explanation-1">Explanation</a></h3>
-<p>This just adds the starter kit as a submodule.</p>
-<h2 id="configure-the-starter-kit"><a class="header" href="#configure-the-starter-kit">Configure the starter kit</a></h2>
-<h3 id="commands-2"><a class="header" href="#commands-2">Commands</a></h3>
-<p>The next step is to configure CBMC verification for this project and
-copy the contents of the starter kit into place.
-Let's run the setup script:</p>
-<pre><code>./starter-kit/scripts/setup.py
+cbmc-starter-kit-setup
 </code></pre>
 <pre><code>What is the project name? Kernel
 </code></pre>
-<h3 id="explanation-2"><a class="header" href="#explanation-2">Explanation</a></h3>
-<p>Looking at the <code>cbmc</code> directory, we see that a few subdirectories have
-been added to <code>cbmc</code>.</p>
+<p>The first line create a <code>cbmc</code> directory to hold everything
+related to CBMC verification.  The last line runs a setup script
+to configure the repository for CBMC verification.
+It examines the layout of the repository and asks for a name to use for
+the CBMC verification project.  We use the project name <code>Kernel</code>.</p>
+<p>Looking at the <code>cbmc</code> directory, we see that some infrastructure has
+been installed:</p>
 <pre><code>ls
 </code></pre>
-<pre><code>include         proofs          sources         starter-kit     stubs
+<pre><code>include         proofs          sources         stubs
 </code></pre>
-<p>In addition to litani and the starter-kit submodules, we see</p>
-<ul>
-<li><code>include</code> for header files written for verification.</li>
-<li><code>sources</code> for common source files written for verification.</li>
-<li><code>stubs</code> for any stubs of project code written for verification.
-Examples of useful stubs for a communication protocol might be models of
-the <code>send</code> and <code>receive</code> methods that interact with the physical network.</li>
-<li><code>proofs</code> for the verification itself.  In the end, this directory will
-contain one subdirectory for every function or entry point we want to verify.
-This <code>proofs</code> directory is usually just a flat collection of subdirectories,
-but these subdirectories can be nested if it makes sense to group
-together the verification of similar functions.</li>
-</ul>
-<p>The <code>proofs</code> directory itself is worth further examination.</p>
+<p>We see directories for holding header files, source files, and stubs written
+for the verification work.  Examples of useful stubs for a verification project
+are <code>send</code> and <code>receive</code> methods for a physical communication network that
+isn't being explicitly modeled.</p>
+<p>The most important directory here is the <code>proofs</code> directory that will hold
+the CBMC proofs themselves:</p>
 <pre><code>ls proofs
 </code></pre>
 <pre><code>Makefile-project-defines        Makefile.common
@@ -225,39 +205,30 @@ Makefile-project-targets        README.md
 Makefile-project-testing        run-cbmc-proofs.py
 Makefile-template-defines
 </code></pre>
-<p>The important files are</p>
+<p>The most important files here are</p>
 <ul>
-<li><code>Makefile.common</code> implements best practices for verification using CBMC.
-It describes a method of building the goto binary for
-CBMC that is likely to yield good CBMC performance, and it describes
-a set of checks we recommend performing with CBMC.  It invokes CBMC
-several times to do property checking and coverage checking (currently
-just line coverage and not branch coverage), and it
-invokes a tool that builds a dashboard of the results in a form
-that is easy to debug.  It works by calling
-<code>litani</code> to perform all of these build and verification steps with
-maximal concurrency.</li>
-<li><code>run-cbmc-proofs.py</code> is a script that runs with maximal concurrency
-all of the CBMC verification under the <code>proofs</code> directory, and builds
-a dashboard of the results.
-In another tutorial, we will introduce our
-implementation of continuous integration that runs all of the CBMC verification
-against each pull request to check that proposed code changes
-preserve the CBMC results.  This is the script invoked by continuous integration
-to run the verification.</li>
+<li><code>Makefile.common</code>  This makefile
+implements our best practices for CBMC verification:
+our best practices for building code for CBMC, our best practices
+for running CBMC, and for building a report of CBMC results in a form
+that makes it easy to debug issues found by CBMC.</li>
+<li><code>run-cbmc-proofs.py</code> This python script runs all of the CBMC proofs in
+the <code>proofs</code> directory with maximal concurrency,
+and builds a dashboard of the results.
+This script is invoked by continuous integration to recheck the proofs on
+changes proposed in a pull request.</li>
 </ul>
 <p>The remaining Makefiles are just hooks for describing project-specific
 modifications or definitions.  For example, within <code>Makefile-project-defines</code>
 you can define the <code>INCLUDES</code> variable to set the search path for the header
 files needed to build the project functions being verified.</p>
 <h2 id="configure-the-proof"><a class="header" href="#configure-the-proof">Configure the proof</a></h2>
-<h3 id="commands-3"><a class="header" href="#commands-3">Commands</a></h3>
 <p>The next step is to configure CBMC verification of  the memory allocator
 <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155"><code>pvPortMalloc</code></a>
 in the source file
-<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.  Let's run the setup script:</p>
+<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.</p>
 <pre><code>cd proofs
-../starter-kit/scripts/setup-proof.py
+cbmc-starter-kit-setup-proof
 </code></pre>
 <pre><code>What is the function name? pvPortMalloc
 These source files define a function 'pvPortMalloc':
@@ -275,95 +246,29 @@ These source files define a function 'pvPortMalloc':
   11 The source file is not listed here
 Select a source file (the options are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11): 9
 </code></pre>
-<h3 id="explanation-3"><a class="header" href="#explanation-3">Explanation</a></h3>
+<p>This runs a setup script for the proof that first asks for the name
+of the function being verified.  We give it the name <code>pvPortMalloc</code>.
+It then examines the source code in the repository and lists all of
+the source files that define a function named <code>pvPortMalloc</code>.  It lists
+these files and asks us to chose the file with the implementation we
+want to verify.  We choose source file number 9.</p>
 <p>The <code>proofs</code> directory now contains a subdirectory <code>pvPortMalloc</code>
 for verification of the memory allocator <code>pvPortMalloc</code>.</p>
-<pre><code>ls pvPortMalloc
+<pre><code>cd pvPortMalloc
+ls
 </code></pre>
-<pre><code>Makefile                cbmc-proof.txt
-README.md               pvPortMalloc_harness.c
+<pre><code>Makefile                cbmc-proof.txt          pvPortMalloc_harness.c
+README.md               cbmc-viewer.json
 </code></pre>
-<p>The important files are</p>
+<p>The most important files in this directory are</p>
 <ul>
-<li><code>pvPortMalloc_harness.c</code> is the start of a proof harness for <code>pvPortMalloc</code>.</li>
-<li><code>Makefile</code> drives building and linking <code>pvPortMalloc</code> and its proof harness
-and running CBMC on the result.</li>
+<li><code>Makefile</code> This is a skeleton of a Makefile to build and run the proof.</li>
+<li><code>pvPortMalloc_harness.c</code> This is a skeleton of a proof harness
+for <code>pvPortMalloc</code>.</li>
 </ul>
 <h2 id="write-the-proof"><a class="header" href="#write-the-proof">Write the proof</a></h2>
-<p>Let's change to the <code>pvPortMalloc</code> subdirectory:</p>
-<pre><code>cd pvPortMalloc
-</code></pre>
-<h3 id="building-source-code"><a class="header" href="#building-source-code">Building source code</a></h3>
-<p>Every software project has its own build procedure.  It is quite likely
-that if you can build the project for execution with <code>make CC=gcc</code> then
-you can build the project for model checking by CBMC with <code>make CC=goto-cc</code>.
-The compiler
-<code>goto-cc</code> is a drop-in replacement for <code>gcc</code> that compiles
-source code into a <em>goto program</em> used by CBMC.  In theory, you can link
-your proof harness against this goto program and run CBMC on the result.
-In practice,
-the result is huge and the performance of CBMC is disappointing.
-Our approach is to build only the source code that is required to run
-the function under test.</p>
-<p>In our case, all we need is the single file
-<a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">kernel/portable/MemMang/heap_5.c</a>.</p>
-<p>Building FreeRTOS requires a configuration file, so let's add to the current
-directory a slightly simplified <a href="FreeRTOSconfig.h">FreeRTOSconfig.h</a> that we have
-taken from another repository that demonstrates FreeRTOS.
-Building FreeRTOS also requires an implementation of a portable interface, so
-let's use an implementation in <code>kernel/portable/ThirdParty/GCC/Posix</code> that comes
-with the kernel repository.</p>
-<p>Now we can build heap_5.c with</p>
-<pre><code>gcc -I. -I../../include -I../../portable/ThirdParty/GCC/Posix \
-  ../../portable/MemMang/heap_5.c
-</code></pre>
-<h3 id="the-proof-harness"><a class="header" href="#the-proof-harness">The proof harness</a></h3>
-<p>Let's look at the initial outline of the proof harness <code>pvPortMalloc_harness.c</code>:</p>
-<pre><code class="language-c">/**
- * @file pvPortMalloc_harness.c
- * @brief Implements the proof harness for pvPortMalloc function.
- */
-
-/*
- * Insert project header files that
- *   - include the declaration of the function
- *   - include the types needed to declare function arguments
- */
-
-void harness()
-{
-
-  /* Insert argument declarations */
-
-  pvPortMalloc( /* Insert arguments */ );
-}
-</code></pre>
-<p>The first thing we need to do is add the prototype for <code>pvPortMalloc</code>:</p>
-<pre><code>#include &lt;stdlib.h&gt;
-void * pvPortMalloc( size_t xWantedSize );
-</code></pre>
-<p>The second thing we need to do is allocate an unconstrained value
-for <code>xWantedSize</code> and pass it to <code>pvPortMalloc</code>:</p>
-<pre><code>  size_t xWantedSize;
-  pvPortMalloc( xWantedSize );
-</code></pre>
-<p>The final proof harness <code>pvPortMalloc_harness.c</code> is:</p>
-<pre><code class="language-c">/**
- * @file pvPortMalloc_harness.c
- * @brief Implements the proof harness for pvPortMalloc function.
- */
-
-#include &lt;stdlib.h&gt;
-void * pvPortMalloc( size_t xWantedSize );
-
-void harness()
-{
-  size_t xWantedSize;
-  pvPortMalloc( xWantedSize );
-}
-</code></pre>
-<h3 id="the-makefile"><a class="header" href="#the-makefile">The makefile</a></h3>
-<p>Let's look at the initial outline of <code>Makefile</code>:</p>
+<h3 id="the-makefile"><a class="header" href="#the-makefile">The Makefile</a></h3>
+<p>The Makefile is very simple.</p>
 <pre><code>HARNESS_ENTRY = harness
 HARNESS_FILE = pvPortMalloc_harness
 
@@ -388,33 +293,158 @@ PROJECT_SOURCES += $(SRCDIR)/portable/MemMang/heap_5.c
 
 include ../Makefile.common
 </code></pre>
-<p>All we need to do here is to define the search path for the needed header
-files.  Since the variable <code>$(SRCDIR)</code> points to the root of the repository
-(the source root), and the variabld <code>$(PROOFDIR)</code> points to the current
-proof directory, all we need to do is add the lines</p>
+<p>You can see that it identifies the the function <code>pvPortMalloc</code>, it
+identifies the source file <code>portable/MemMang/heap_5.c</code>, and it includes
+the <code>Makefile.common</code> describing our best practices for using CBMC.</p>
+<p>It also gives us the option of defining <code>INCLUDES</code> to set the include path
+for header files.  We do need a few header files to build <code>pvPortMalloc</code>,
+so let us update the Makefile with</p>
 <pre><code>INCLUDES += -I$(PROOFDIR)
 INCLUDES += -I$(SRCDIR)/include
 INCLUDES += -I$(SRCDIR)/portable/ThirdParty/GCC/Posix
 </code></pre>
-<h2 id="run-cbmc"><a class="header" href="#run-cbmc">Run CBMC</a></h2>
-<p>Now we can run CBMC on <code>pvPortMalloc</code> with</p>
+<p>The final <a href="Makefile"><code>Makefile</code></a> is:</p>
+<pre><code>HARNESS_ENTRY = harness
+HARNESS_FILE = pvPortMalloc_harness
+
+# This should be a unique identifier for this proof, and will appear on the
+# Litani dashboard. It can be human-readable and contain spaces if you wish.
+PROOF_UID = pvPortMalloc
+
+DEFINES +=
+INCLUDES += -I$(PROOFDIR)
+INCLUDES += -I$(SRCDIR)/include
+INCLUDES += -I$(SRCDIR)/portable/ThirdParty/GCC/Posix
+
+REMOVE_FUNCTION_BODY +=
+UNWINDSET +=
+
+PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE).c
+PROJECT_SOURCES += $(SRCDIR)/portable/MemMang/heap_5.c
+
+# If this proof is found to consume huge amounts of RAM, you can set the
+# EXPENSIVE variable. With new enough versions of the proof tools, this will
+# restrict the number of EXPENSIVE CBMC jobs running at once. See the
+# documentation in Makefile.common under the &quot;Job Pools&quot; heading for details.
+# EXPENSIVE = true
+
+include ../Makefile.common
+</code></pre>
+<h3 id="the-proof-harness"><a class="header" href="#the-proof-harness">The proof harness</a></h3>
+<p>The proof harness is also very simple (especially after omitting some
+comments at the top of the file).</p>
+<pre><code>/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+void harness()
+{
+
+  /* Insert argument declarations */
+
+  pvPortMalloc( /* Insert arguments */ );
+}
+</code></pre>
+<p>We need to add the main header file <code>FreeRTOS.h</code> for the FreeRTOS project,
+and we need to add a function prototype for <code>pvPortMalloc</code> saying that it
+takes a size and returns a pointer.</p>
+<pre><code>#include &lt;stdlib.h&gt;
+#include &quot;FreeRTOS.h&quot;
+void *pvPortMalloc(size_t size);
+</code></pre>
+<p>All that is left is to declare an unconstrained size of type <code>size_t</code> and
+pass it to <code>pvPortMalloc.</code></p>
+<pre><code>size_t size;
+pvPortMalloc(size);
+</code></pre>
+<p>The final <a href="pvPortMalloc_harness.c"><code>pvPortMalloc_harness.c</code></a> is:</p>
+<pre><code>/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+#include &lt;stdlib.h&gt;
+#include &quot;FreeRTOS.h&quot;
+void *pvPortMalloc(size_t size);
+
+void harness()
+{
+  size_t size;
+  pvPortMalloc(size);
+}
+</code></pre>
+<p>And that is it, with the exception of one last detail.  Building FreeRTOS
+requires a configuration file that sets all the parameters used to define
+a system configuration.  This kernel repository does not contain a
+configuration file, so let us use a simplified
+configuration file from a demonstration in another repository.  Let us add
+<a href="FreeRTOSConfig.h"><code>FreeRTOSConfig.h</code></a> to the <code>pvPortMalloc</code> directory.</p>
+<h2 id="run-the-proof"><a class="header" href="#run-the-proof">Run the proof</a></h2>
+<p>Finally, we can run the proof:</p>
 <pre><code>make
 </code></pre>
-<p>This takes about 30 seconds on MacOS.
-It builds the proof harness, builds the relevant source code, links them
-together, runs CBMC several times to do property checking and coverage checking,
-and runs another tool to build a summary of the results that can be opened
-in a web browser.  On MacOS, open the report with</p>
+<p>This builds a report of the results that we can open in a browser</p>
 <pre><code>open report/html/index.html
 </code></pre>
-<p>and study the results.</p>
-<p>With this, in just minutes, you have used the starter kit to get started
-writing CBMC proofs for the FreeRTOS kernel.  The proof is not done.  If you
-look at the report you have opened in your web browser, you can see that
-the current proof harness fails to exercise a large fraction of the function
-<code>pvPortMalloc</code>.  For example, the proof harness currently fails to allocate
-the region of memory from which <code>pvPortMalloc</code> should allocate blocks
-of memory.  But this is where the fun begins...</p>
+<p>Examining <a href="report/index.html">the report</a>, we see a list of coverage results, a list of
+warnings, and a list of errors or issues found by CBMC.  In this report,
+there are no errors, but the coverage is <em>terrible</em>: only 40% of the lines
+in the function are exercised by CBMC!</p>
+<p>Further thought makes it clear that we haven't set up the heap
+that the allocator is supposed to be using.  We have invoked
+an allocator to allocate space on a heap, but we haven't allocated
+or initialized the heap itself yet!</p>
+<p>At this point it is interesting to see what the developers
+did to breathe some life into this verification effort.
+Their proof harness looked something like this
+<a href="pvPortMalloc_harness1.c"><code>pvPortMalloc_harness.c</code></a>:</p>
+<pre><code>/**
+ * @file pvPortMalloc_harness.c
+ * @brief Implements the proof harness for pvPortMalloc function.
+ */
+
+#include &lt;stdlib.h&gt;
+#include &quot;FreeRTOS.h&quot;
+void * pvPortMalloc( size_t xWantedSize );
+
+void harness()
+{
+  /* allocate heap */
+  uint8_t app_heap[ configTOTAL_HEAP_SIZE ];
+
+  /* initialize heap */
+  HeapRegion_t xHeapRegions[] =
+    {
+      { ( unsigned char * ) app_heap, sizeof( app_heap ) },
+      { NULL,                         0                  }
+    };
+  vPortDefineHeapRegions( xHeapRegions );
+
+  /* mess up heap */
+  size_t xWantedSize1, xWantedSize2, xWantedSize3;
+  void* pv1 = pvPortMalloc( xWantedSize1 );
+  void* pv2 = pvPortMalloc( xWantedSize2 );
+  void* pv3 = pvPortMalloc( xWantedSize3 );
+  vPortFree( pv2 );
+
+  size_t xWantedSize;
+  pvPortMalloc( xWantedSize );
+}
+</code></pre>
+<p>You can see that they allocate the heap, they initialize the heap
+data structures, and then they mess up the heap a bit by allocating
+three chunks of unconstrained size and freeing the middle one.
+Then they invoke <code>pvPortMalloc</code> with an unconstrained size.
+Doing this was enough to get complete code coverage and uncover a
+few minor instances of integer overflow.</p>
+<p>Of course, this is not a complete proof of memory safety.  This is a proof that
+if you allocate a heap consisting of a single chunk of memory of a size
+fixed by the configuration, and if you allocate three chunks of unconstrained
+size and free the middle one, then <code>pvPortMalloc</code> will exhibit no memory
+safety errors or other undefined behaviors.  But it is an elegant example
+of how quickly developers were able to get started doing real work.
+Good for them!  And, soon, good for you.</p>
 
                     </main>
 
