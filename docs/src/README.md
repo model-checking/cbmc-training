@@ -27,7 +27,7 @@ For a quick start on simple problems, read
 
 For a quick start on using the CBMC starter kit to add CBMC verification
 to an existing software project, read
-  * [Using CBMC on a project]()
+  * [Using CBMC on a project](starter-kit/overview)
 
 For more information, see our list of [CBMC resources](resources.md).
 
