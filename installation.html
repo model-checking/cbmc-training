@@ -136,23 +136,28 @@
                     <main>
                         <h1 id="cbmc-installation"><a class="header" href="#cbmc-installation">CBMC installation</a></h1>
 <h2 id="macos"><a class="header" href="#macos">MacOS</a></h2>
-<p>On MacOS, install the CBMC tools with</p>
+<p>On MacOS, we recommend installing with <a href="https://brew.sh/">brew</a>. Install with</p>
 <pre><code class="language-bash">brew tap aws/tap
-brew install cbmc cbmc-viewer litani
-python3 -m pip install cbmc-starter-kit
+brew install cbmc cbmc-viewer cbmc-starter-kit litani universal-ctags
 </code></pre>
-<p>The first line taps the AWS repository with cbmc-viewer.
-The last two lines install the tools.</p>
+<p>The <a href="https://brew.sh/">brew home page</a> gives instructions for
+installing <code>brew</code>. The first command taps the AWS repository that
+contains some of the brew packages, and the second command installs the
+packages. Installing <code>ctags</code> is recommended but optional, see
+<a href="#installation-notes">below</a>.</p>
 <h2 id="ubuntu"><a class="header" href="#ubuntu">Ubuntu</a></h2>
-<p>On Ubuntu, install the CBMC tools by downloading the installation packages
-for your operating system from the
+<p>On Ubuntu, we recommend installing by downloading the <code>cbmc</code> and <code>litani</code>
+installation packages for your operating system from the
 <a href="https://github.com/diffblue/cbmc/releases/latest">CBMC release page</a> and the
 <a href="https://github.com/awslabs/aws-build-accumulator/releases/latest">Litani release page</a>
 and running</p>
-<pre><code class="language-bash">python3 -m pip install cbmc-viewer cbmc-starter-kit
-sudo apt install *cbmc*.deb *litani*.deb universal-ctags
+<pre><code class="language-bash">sudo apt install python3 python3-pip *cbmc*.deb *litani*.deb universal-ctags
+python3 -m pip install cbmc-viewer cbmc-starter-kit
 </code></pre>
-<p>The installation of <code>ctags</code> is optional, see below.</p>
+<p>Installing <code>ctags</code> is recommended but optional, see
+<a href="#installation-notes">below</a>. The <code>pip</code> installation packages for
+<code>cbmc-viewer</code> and <code>cbmc-starter-kit</code> can be used on any machine with
+<code>python3</code> including MacOS.</p>
 <h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
 <p>On Windows, we recommend using the <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a> (WSL) and using
 the Ubuntu instructions above.  CBMC and CBMC viewer
@@ -170,14 +175,14 @@ PATH=&quot;C:\Program Files\cbmc\bin&quot;;%PATH%
 <p>If you have difficulty installing these tools, please let us know
 by submitting a
 <a href="https://github.com/model-checking/cbmc-training/issues">GitHub issue</a>.</p>
-<p>The installation of <code>ctags</code> is optional, but without ctags, <code>cbmc-viewer</code>
+<p>The installation of <code>ctags</code> is optional, but without <code>ctags</code>, <code>cbmc-viewer</code>
 will fail to link some symbols appearing in error traces to their
 definitions in the source code.
 The <a href="https://en.wikipedia.org/wiki/Ctags">ctags</a> tool has a long history.
 The original ctags was resplaced by
 <a href="http://ctags.sourceforge.net/">exhuberant ctags</a> which was replaced by
 <a href="https://github.com/universal-ctags/ctags">universal ctags</a>.
-We recommend using universal ctags.</p>
+Any version will work better than none, but we recommend universal ctags.</p>
 
                     </main>
 
