@@ -14,6 +14,15 @@
   * [Using litani]()
   * [Using continuous integration]()
 
+* [Frequently asked questions](faq/README.md)
+  * [How does CBMC work?](faq/cbmc.md)
+  * [What is loop unwinding?](faq/loop-unwinding.md)
+  * [How do memory pointers work?](faq/memory-model.md)
+  * [How do function pointers work?]()
+  * [How does malloc work?](faq/malloc.md)
+  * [What is a proof assumption?](faq/proof-assumptions.md)
+  * [How do I debug why CBMC won't stop?](faq/termination.md)
+
 * [CBMC project management](management/README.md)
   * [Project planning](management/Plan-your-proof.md)
   * [Writing a good proof](management/Write-a-good-proof.md)
@@ -22,8 +31,6 @@
   * [Proof evaluation](management/Code-review-for-proofs.md)
 
 * [Reference guides]()
-
-* [Frequently asked questions]()
 
 * [CBMC projects](projects.md)
 
