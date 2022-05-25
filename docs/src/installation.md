@@ -27,6 +27,8 @@ sudo apt install python3 python3-pip *cbmc*.deb *litani*.deb universal-ctags
 python3 -m pip install cbmc-viewer cbmc-starter-kit
 ```
 
+The [python download page](https://www.python.org/downloads/)
+gives instructions for installing python and pip.
 Installing `ctags` is recommended but optional, see
 [below](#installation-notes). The `pip` installation packages for
 `cbmc-viewer` and `cbmc-starter-kit` can be used on any machine with
