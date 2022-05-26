@@ -156,7 +156,7 @@ The problem is in the last block of code (the last line) deleted that
 caused CBMC to terminate.</p>
 <p>The second problem is to fix the problem.  Usually the solution involves
 some form of function abstraction.  It is a known problem, for example,
-for the standard library functison <code>memcpy</code>, <code>memmove</code>, and 'memset'
+for the standard library functions <code>memcpy</code>, <code>memmove</code>, and 'memset'
 to be a problem.  It is a common solution to abstract these functions
 to havoc the entire destination object and not just the portion being
 updated.  This works because functions under test commonly copy data to
@@ -167,7 +167,7 @@ for <code>memcpy</code> would be</p>
 </code></pre>
 <p>A better stub would check that <code>src</code> and <code>dst</code> are nonnull pointers to
 nonoverlapping regions of memory.  For a good stub, see <a href="https://github.com/awslabs/aws-c-common/blob/main/verification/cbmc/stubs/memcpy_override_havoc.c">memcpy</a> in the <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> repository.</p>
-<p>A final tip is that sometimes it is interesting to knwo which stage
+<p>A final tip is that sometimes it is interesting to know which stage
 of CBMC is taking so long.  The
 output of CBMC can general indicate where the problem is.  Running CBMC with</p>
 <pre><code>  cbmc --flush
