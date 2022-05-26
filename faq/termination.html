@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>CBMC project management - CBMC</title>
+        <title>How do I debug why CBMC won&#x27;t stop? - CBMC</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/introduction.html"><strong aria-hidden="true">1.2.</strong> CBMC introduction</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.3.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.4.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.4.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.4.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.4.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../starter-kit/overview/index.html"><strong aria-hidden="true">1.5.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.8.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../faq/index.html"><strong aria-hidden="true">2.</strong> Frequently asked questions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../faq/cbmc.html"><strong aria-hidden="true">2.1.</strong> How does CBMC work?</a></li><li class="chapter-item expanded "><a href="../faq/loop-unwinding.html"><strong aria-hidden="true">2.2.</strong> What is loop unwinding?</a></li><li class="chapter-item expanded "><a href="../faq/memory-model.html"><strong aria-hidden="true">2.3.</strong> How do memory pointers work?</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.4.</strong> How do function pointers work?</div></li><li class="chapter-item expanded "><a href="../faq/malloc.html"><strong aria-hidden="true">2.5.</strong> How does malloc work?</a></li><li class="chapter-item expanded "><a href="../faq/proof-assumptions.html"><strong aria-hidden="true">2.6.</strong> What is a proof assumption?</a></li><li class="chapter-item expanded "><a href="../faq/termination.html"><strong aria-hidden="true">2.7.</strong> How do I debug why CBMC won't stop?</a></li></ol></li><li class="chapter-item expanded "><a href="../management/index.html" class="active"><strong aria-hidden="true">3.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../management/Plan-your-proof.html"><strong aria-hidden="true">3.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../management/Write-a-good-proof.html"><strong aria-hidden="true">3.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../management/Debug-an-error-trace.html"><strong aria-hidden="true">3.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../management/Code-for-verification.html"><strong aria-hidden="true">3.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../management/Code-review-for-proofs.html"><strong aria-hidden="true">3.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Reference guides</div></li><li class="chapter-item expanded "><a href="../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting started with CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/introduction.html"><strong aria-hidden="true">1.2.</strong> CBMC introduction</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.3.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/index.html"><strong aria-hidden="true">1.4.</strong> Using CBMC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cbmc/overview/checking-assertions.html"><strong aria-hidden="true">1.4.1.</strong> Checking assertions</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/checking-properties.html"><strong aria-hidden="true">1.4.2.</strong> Checking properties</a></li><li class="chapter-item expanded "><a href="../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">1.4.3.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.4.4.</strong> Controlling CBMC</div></li></ol></li><li class="chapter-item expanded "><a href="../starter-kit/overview/index.html"><strong aria-hidden="true">1.5.</strong> Using CBMC on a project</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.6.</strong> Using CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.7.</strong> Using litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.8.</strong> Using continuous integration</div></li></ol></li><li class="chapter-item expanded "><a href="../faq/index.html"><strong aria-hidden="true">2.</strong> Frequently asked questions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../faq/cbmc.html"><strong aria-hidden="true">2.1.</strong> How does CBMC work?</a></li><li class="chapter-item expanded "><a href="../faq/loop-unwinding.html"><strong aria-hidden="true">2.2.</strong> What is loop unwinding?</a></li><li class="chapter-item expanded "><a href="../faq/memory-model.html"><strong aria-hidden="true">2.3.</strong> How do memory pointers work?</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.4.</strong> How do function pointers work?</div></li><li class="chapter-item expanded "><a href="../faq/malloc.html"><strong aria-hidden="true">2.5.</strong> How does malloc work?</a></li><li class="chapter-item expanded "><a href="../faq/proof-assumptions.html"><strong aria-hidden="true">2.6.</strong> What is a proof assumption?</a></li><li class="chapter-item expanded "><a href="../faq/termination.html" class="active"><strong aria-hidden="true">2.7.</strong> How do I debug why CBMC won't stop?</a></li></ol></li><li class="chapter-item expanded "><a href="../management/index.html"><strong aria-hidden="true">3.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../management/Plan-your-proof.html"><strong aria-hidden="true">3.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../management/Write-a-good-proof.html"><strong aria-hidden="true">3.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../management/Debug-an-error-trace.html"><strong aria-hidden="true">3.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../management/Code-for-verification.html"><strong aria-hidden="true">3.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../management/Code-review-for-proofs.html"><strong aria-hidden="true">3.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Reference guides</div></li><li class="chapter-item expanded "><a href="../projects.html"><strong aria-hidden="true">5.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../resources.html"><strong aria-hidden="true">6.</strong> CBMC resources</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,31 +134,61 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="cbmc-projects"><a class="header" href="#cbmc-projects">CBMC projects</a></h1>
-<p>This is a short tutorial on how to use CBMC on a software project.  We discuss:</p>
+                        <h1 id="how-do-i-debug-why-cbmc-wont-stop"><a class="header" href="#how-do-i-debug-why-cbmc-wont-stop">How do I debug why CBMC won't stop?</a></h1>
+<p>CBMC goes through several stages.  CBMC can theoretically get stuck in any
+stage, but the most commonly slow stages are</p>
 <ul>
-<li><a href="Plan-your-proof.html">Project planning</a>:
-How organize your proof, estimate the effort involved, and estimate
-the return on investment</li>
-<li><a href="Write-a-good-proof.html">Writing a good proof</a>:
-What does a good proof look like?</li>
-<li><a href="Debug-an-error-trace.html">Debugging an error trace</a>:
-How to debug and repair an issue discovered by CBMC</li>
-<li><a href="Code-for-verification.html">Coding for verification</a>:
-How to write code to make it easy to prove with CBMC</li>
-<li><a href="Code-review-for-proofs.html">Proof evaluation</a>:
-A checklist for proof writers and reviewers to know when a proof is
-done</li>
+<li>Doing the symbolic execution</li>
+<li>Generating the SAT formula from the symbolic execution</li>
+<li>Solving the SAT formula with the SAT solver</li>
 </ul>
+<p>Almost always the problem is just one or two lines of code.  For example,
+under certain circumstances something as simple as</p>
+<pre><code>  memcpy(dst, src, length);
+</code></pre>
+<p>can cause CBMC to become stuck generating the SAT formula that results from
+considering all places <code>dst</code> and <code>src</code> might be pointing.</p>
+<p>The first problem is to find the line of code.  Most programmers are
+used to delta debugging in which the programmer performs a kind of
+binary search on the code to find the problem.  Delete more and more
+from the bottom of the function under test until CBMC no longer hangs.
+The problem is in the last block of code (the last line) deleted that
+caused CBMC to terminate.</p>
+<p>The second problem is to fix the problem.  Usually the solution involves
+some form of function abstraction.  It is a known problem, for example,
+for the standard library functison <code>memcpy</code>, <code>memmove</code>, and 'memset'
+to be a problem.  It is a common solution to abstract these functions
+to havoc the entire destination object and not just the portion being
+updated.  This works because functions under test commonly copy data to
+the output and never look at the data actually copied.  A simple stub
+for <code>memcpy</code> would be</p>
+<pre><code class="language-C">void memcpy(char *dst, char *src, size_t length) {
+  __CPROVER_havoc(dst);
+</code></pre>
+<p>A better stub would check that <code>src</code> and <code>dst</code> are nonnull pointers to
+nonoverlapping regions of memory.  For a good stub, see <a href="https://github.com/awslabs/aws-c-common/blob/main/verification/cbmc/stubs/memcpy_override_havoc.c">memcpy</a> in the <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> repository.</p>
+<p>A final tip is that sometimes it is interesting to knwo which stage
+of CBMC is taking so long.  The
+output of CBMC can general indicate where the problem is.  Running CBMC with</p>
+<pre><code>  cbmc --flush
+</code></pre>
+<p>will flush to the terminal log messages saying that a given stage
+is starting or finishing.  This usually gives some hint.  The most
+difficult stage to debug is why CBMC is taking so long to generate
+the SAT formula.  If the problem is the SAT solver is taking too long,
+you may be able to figure out what is going on by running CBMC with
+one flag at a time (eg, check <code>--bounds-check</code> and then check
+<code>--unsigned-overflow-check</code>) until you can identify the check that is
+taking so much time.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../faq/termination.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../faq/proof-assumptions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../management/Plan-your-proof.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../management/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -167,10 +197,10 @@ done</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../faq/termination.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../faq/proof-assumptions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../management/Plan-your-proof.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../management/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
