@@ -61,7 +61,7 @@ The installation of `ctags` is optional, but without `ctags`, `cbmc-viewer`
 will fail to link some symbols appearing in error traces to their
 definitions in the source code.
 The [ctags](https://en.wikipedia.org/wiki/Ctags) tool has a long history.
-The original ctags was resplaced by
-[exhuberant ctags](http://ctags.sourceforge.net/) which was replaced by
+The original ctags was replaced by
+[exuberant ctags](http://ctags.sourceforge.net/) which was replaced by
 [universal ctags](https://github.com/universal-ctags/ctags).
 Any version will work better than none, but we recommend universal ctags.

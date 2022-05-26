@@ -23,7 +23,7 @@ caused CBMC to terminate.
 
 The second problem is to fix the problem.  Usually the solution involves
 some form of function abstraction.  It is a known problem, for example,
-for the standard library functison `memcpy`, `memmove`, and 'memset'
+for the standard library functions `memcpy`, `memmove`, and 'memset'
 to be a problem.  It is a common solution to abstract these functions
 to havoc the entire destination object and not just the portion being
 updated.  This works because functions under test commonly copy data to
@@ -36,7 +36,7 @@ void memcpy(char *dst, char *src, size_t length) {
 A better stub would check that `src` and `dst` are nonnull pointers to
 nonoverlapping regions of memory.  For a good stub, see [memcpy](https://github.com/awslabs/aws-c-common/blob/main/verification/cbmc/stubs/memcpy_override_havoc.c) in the [AWS C Common](https://github.com/awslabs/aws-c-common) repository.
 
-A final tip is that sometimes it is interesting to knwo which stage
+A final tip is that sometimes it is interesting to know which stage
 of CBMC is taking so long.  The
 output of CBMC can general indicate where the problem is.  Running CBMC with
 ```

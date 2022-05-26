@@ -18,7 +18,7 @@ the result is not absolute proof of memory safety.
 Just to clear, every proof in mathematics depends on proof assumptions.
 In number theory, a theorem may hold for all integers `n`, assuming `n`
 is nonzero.  The theorem is powerful because it is applicable to nearly
-every integer.  In cryptography, a theorm may hold only if `n` is the product
+every integer.  In cryptography, a theorem may hold only if `n` is the product
 of two prime numbers `p` and `q` of roughly the same size.  The theorem
 may still have powerful applications, but it applies only to a much smaller
 set of integers.
@@ -118,7 +118,7 @@ Consider a cryptographic key generator
 ```
 As with the random number generator, including the code for a cryptographic
 key generator may be too much for CBMC.  Reconstructing cryptographic keys is,
-after all, designed to be intractible!
+after all, designed to be intractable!
 
 A reasonable stub for the key generator is:
 ```C

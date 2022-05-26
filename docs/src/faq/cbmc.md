@@ -42,7 +42,7 @@ state of the program changes during an execution.
 
 CBMC then formulates the following question for each property we
 want to check about the program: "Does there exist an input and a path
-through the program that violates the property?"  CBMC forumlates
+through the program that violates the property?"  CBMC formulates
 this question as a constraint problem, and hands the constraint problem
 to a constraint solver called a SAT solver.  The SAT solver looks for
 an assignment of values to variables that satisfies the constraint
@@ -62,4 +62,4 @@ that the program is memory safe.
 
 A proof of memory safety, of course, assuming all the assumptions the
 proof harness is
-making.  See our discussion of [proof assumptions](proof-assumptions.md) for more invormation.
+making.  See our discussion of [proof assumptions](proof-assumptions.md) for more information.

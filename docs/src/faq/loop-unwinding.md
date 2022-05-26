@@ -125,7 +125,7 @@ as desired.
 A final comment on this off-by-one issue:
 At some point in the future, you may come to learn that
 you can also pass the `cbmc` flags `--unwind` and `--unwindset` to a tool
-named `goto-intrument`.  For historical reasons, `cbmc` interprets `K` as
+named `goto-instrument`.  For historical reasons, `cbmc` interprets `K` as
 `K=T` and `goto-instrument` interprets `K` as `K=B`.
 Of course, when choosing between unrolling a loop `T=B+1` and `B` times,
 it is always safe to unroll a loop more times than necessary.
