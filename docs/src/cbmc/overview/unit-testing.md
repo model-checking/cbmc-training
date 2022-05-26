@@ -1,14 +1,10 @@
 # CBMC as unit testing
 
-To follow the discussion in this section on your computer,
-download these files:
-* [quartile.c](quartile.c)
-* [unit-test.c](unit-test.c)
-
-Think of CBMC as a form of unit testing.  One of the things we can do
-with unit testing is to run a function on a set of inputs, and to
-compare the result  with the expected result.  Think of
-CBMC as a unit tester that runs the function on all possible inputs.
+Think of CBMC as a form of unit testing: If you can write a unit test,
+then you can write a CBMC proof.  One of the things we can do with
+unit testing is to run a function on a set of inputs, and to compare
+the result with the expected result.  Think of CBMC as a unit tester
+that runs the function on all possible inputs.
 
 Here is a
 function `quartile` from [quartile.c](quartile.c)
@@ -35,7 +31,7 @@ int quartile(int x) {
 ```
 
 Here a unit test from [unit-test.c](unit-test.c) that tests
-`quartile` using a number in the first quartile.
+`quartile` using a number from the first quartile.
 ```c
 #include <assert.h>
 int quartile(int x);
@@ -71,8 +67,9 @@ unit-test.c function main
 VERIFICATION SUCCESSFUL
 ```
 
-In fact, we can run CBMC directly on the source files
-(without explicitly invoking `goto-cc`) for examples this simple:
+For examples as simple as this,
+we can actually run CBMC directly on the source files
+(without explicitly invoking `goto-cc`):
 ```
 cbmc quartile.c unit-test.c
 ```
@@ -86,11 +83,14 @@ VERIFICATION SUCCESSFUL
 ```
 
 But now we can do something interesting with CBMC.
-The unit test currently initializes the
-variable `x` to 1, and CBMC considers the value of `x` to be 1.  If
-we remove the initializer, CBMC considers the value of `x` to be any
-possible value of type `int`. We say that CBMC treats uninitialized
-variables as having unconstrained values.
+The unit test currently initializes the variable `x` to 1,
+and CBMC considers 1 to be the initial value of `x`.  If
+we remove the initializer, CBMC allows any integer value to be
+the initial value of `x`. This is a general rule: If CBMC encounters
+an uninitialized variable, then CBMC allows any value from the variable's
+type to be the variable's initial value.
+We say that CBMC treats uninitialized variables as having unconstrained
+initial values.
 
 If we rewrite the unit test
 ```c
@@ -159,7 +159,7 @@ VERIFICATION FAILED
 and we see that in the first step of this error trace the variable `x`
 is initialized to the integer value `x=-2147483547`.
 
-Well, that's not quite what we intended.  We don't expect `quartile`
+Well, that's not quite what we intended, but we don't expect `quartile`
 to return 1 on every integer, just on integers in the first quartile.
 We can constrain `x` to be an integer in the first quartile by adding
 an assumption to the unit test:

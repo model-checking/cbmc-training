@@ -20,8 +20,8 @@ packages. Installing `ctags` is recommended but optional, see
 On Ubuntu, we recommend installing by downloading the `cbmc` and `litani`
 installation packages for your operating system from the
 [CBMC release page](https://github.com/diffblue/cbmc/releases/latest) and the
-[Litani release page](https://github.com/awslabs/aws-build-accumulator/releases/latest)
-and running
+[Litani release page](https://github.com/awslabs/aws-build-accumulator/releases/latest).
+Install with
 ```bash
 sudo apt install python3 python3-pip *cbmc*.deb *litani*.deb universal-ctags
 python3 -m pip install cbmc-viewer cbmc-starter-kit

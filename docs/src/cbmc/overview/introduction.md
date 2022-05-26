@@ -1,11 +1,8 @@
-# CBMC introduction
+# CBMC as debugging
 
-To follow the discussion in this section on your computer,
-download these files:
-* [memory-safety.c](examples/simple/memory-safety.c)
-* [termination.c](examples/simple/termination.c)
-
-What follows are some simple examples of using CBMC.
+This of CBMC as a form of debugging: CBMC does an exhaustive search for
+issues affecting functional correctness and memory safety.  Let's look
+at a few examples of the kinds of things that CBMC can find.
 
 ## Memory safety
 
@@ -119,11 +116,11 @@ cbmc termination.c
 CBMC will go on forever unwinding the loop forever because it cannot easily
 tell from the source code how many times the loop iterates.
 
-If you coach CBMC to unwind the loop just four times,
+You can coach CBMC to unwind the loop just four times with the `--unwind` flag
 ```bash
 cbmc termination.c --unwind 4
 ```
-CBMC terminates with apparent success:
+and CBMC terminates with apparent success:
 ```
 VERIFICATION SUCCESSFUL
 ```

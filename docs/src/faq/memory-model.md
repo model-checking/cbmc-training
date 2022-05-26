@@ -23,7 +23,7 @@ CBMC_OBJECT_BITS = K
 ```
 
 You may see CBMC fail with an error message saying that CBMC tried to
-allocation "too many objects."
+allocate "too many objects."
 One option is to increase the number of
 object bits and see if the problem goes way.  Even if this works, it is
 worth getting your hands dirty and trying to understand why CBMC

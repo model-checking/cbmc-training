@@ -1,4 +1,4 @@
-# Using CBMC
+# CBMC proofs
 
 CBMC is a model checker for C. It will explore all paths through your code
 on all inputs and check that all assertions in your code are true.  What

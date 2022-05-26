@@ -1,4 +1,4 @@
-# CBMC starter kit overview
+# CBMC proof projects
 
 The [CBMC starter kit](https://github.com/model-checking/cbmc-starter-kit)
 makes it easy to add CBMC verification to an existing software project.
@@ -29,7 +29,7 @@ Using the starter kit consists of five steps
 * [Configure the repository](#configure-the-repository)
 * [Configure the proof](#configure-the-proof)
 * [Write the proof](#write-the-proof)
-* [Run CBMC](#run-cbmc)
+* [Run the proof](#run-the-proof)
 
 ## Clone the source repository
 
@@ -46,6 +46,8 @@ and clone the kernel's submodules.
 ## Configure the repository
 
 The next step is to configure the repository for CBMC verification.
+Choose some location within the repository to create a `cbmc` directory
+to hold the CBMC verification work.
 ```
 mkdir cbmc
 cd cbmc
@@ -103,7 +105,9 @@ files needed to build the project functions being verified.
 
 ## Configure the proof
 
-The next step is to configure CBMC verification of  the memory allocator
+The next step is to configure the repository for the CBMC verification of
+a particular function.
+The function we want to verify is
 [`pvPortMalloc`](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c#L155)
 in the source file
 [portable/MemMang/heap_5.c](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c).
@@ -284,7 +288,7 @@ configuration file from a demonstration in another repository.  Let us add
 
 ## Run the proof
 
-Finally, we can run the proof:
+Finally, we can run the proof.  In the directory containing the proof, we run
 ```
 make
 ```
@@ -354,3 +358,40 @@ size and free the middle one, then `pvPortMalloc` will exhibit no memory
 safety errors or other undefined behaviors.  But it is an elegant example
 of how quickly developers were able to get started doing real work.
 Good for them!  And, soon, good for you.
+
+## Run all the proofs
+
+To run a single proof, as we have already seen, just change to the directory
+containing the proof and run
+```
+make
+open report/html/index.html
+```
+to run the proof and open a summary of the results in a web browser.
+
+To run all proofs in the repository, there a script installed
+by the starter kit that will run all proofs in the repository
+and summarize the results in a report that you can open in a web
+browser.
+Just change to the directory `cbmc/proofs` and run the script with
+```
+run-cbmc-proofs.py
+```
+When the script is done it will print a line like
+```
+Report was rendered at file:////repository/cbmc/proofs/output/latest/html/index.html
+```
+You can open this report in a web browser
+```
+open file:////repository/cbmc/proofs/output/latest/html/index.html
+```
+and see a summary of the results.  The results will list the proofs that
+failed at the top.  For each proof, you can click in the column labeled
+"Report" to see same the html report you would see if you ran the proof
+on its own.  You can also click on the "pipeline" icon on the left
+to see the logs for each stage in the pipeline that built the code and
+ran the proof.
+
+This run script is the script to run from continuous integration.
+Continuous integration can run this script and use the report it
+generates to report the results back to the users.
