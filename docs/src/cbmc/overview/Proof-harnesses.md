@@ -1,11 +1,14 @@
 # Proof harnesses
 
-This section gives simple examples of writing a proof harness to use with CBMC.
+This section is about writing proof harnesses for CBMC.
+Our [proof harness overview](proof.md#memory-safety-proof-harness)
+has already introduced the notion of a proof harness,
+and this section goes into greater detail about the issues to consider
+when writing a harness.
 The purpose of a proof harness is to build a model of the environment of
-the function under test.  The purpose of this model (the proof harness)
-is to collect in one place all of the assumptions required for the proof
-to hold.
-
+the function under test.  The purpose of this model is to collect in one
+place all of the assumptions required for the proof to hold.  The proof
+harness is responsible for:
 * [Modeling input](#modeling-input)
 * [Modeling global state](#modeling-global-state)
 * [Modeling interfaces](#modeling-interfaces)

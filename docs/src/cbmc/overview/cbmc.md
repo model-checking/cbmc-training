@@ -55,14 +55,16 @@ gave this first (and only) loop in the function `main` the loop name `main.0`.
 
 After some logging output (describing the sequence of transformations
 CBMC performs on the program to turn it into a Boolean constraint problem
-and invocation of the SAT solver to solve the constraint problem),
+and the invocation of the SAT solver to solve the constraint problem),
 CBMC prints its results.
 
 ```
 ** Results:
 vector.c function main
-[main.array_bounds.1] line 14 array 'vector' lower bound in vector[(signed long int)i]: SUCCESS
-[main.array_bounds.2] line 14 array 'vector' upper bound in vector[(signed long int)i]: FAILURE
+[main.array_bounds.1] line 14
+  array 'vector' lower bound in vector[(signed long int)i]: SUCCESS
+[main.array_bounds.2] line 14
+  array 'vector' upper bound in vector[(signed long int)i]: FAILURE
 ```
 
 CBMC is reporting that it performed two array bounds check on line 14:
@@ -107,10 +109,12 @@ Violated property:
 
 ```
 The trace is a step-by-step execution of the program from an initial
-state to the array bounds violation.  The trace has six steps numbered
-21 through 33 because there were a lot of steps internal to CBMC that
-it did not include in the trace.  The steps included in the trace
-are assignments to program variables made during the execution.
+state to the array bounds violation.  The trace has six steps.
+The steps are numbered
+21 through 33 because there were a lot of CBMC internal steps like
+initialization of CBMC internal variables that CBMC did not include
+in the program trace.  The steps included in the trace
+are all assignments to program variables made during the execution.
 
 The first step shows the initialization of `vector`.  CBMC chose
 two fairly large integers as the initial values of the two
@@ -121,5 +125,5 @@ The next four steps show the variable assignments made during
 the first two iterations of the loop: each iteration does
 one assignment to `i` and one assignment to `vector`.
 
-The final two steps show the assignemnt `i=2` and the attempt to
+The final two steps show the assignment `i=2` and the attempt to
 access `vector[i]` with `i==2` that caused the array bounds violation.

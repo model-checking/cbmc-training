@@ -1,6 +1,6 @@
 # CBMC as debugging
 
-This of CBMC as a form of debugging: CBMC does an exhaustive search for
+Think of CBMC as a form of debugging: CBMC does an exhaustive search for
 issues affecting functional correctness and memory safety.  Let's look
 at a few examples of the kinds of things that CBMC can find.
 
@@ -8,7 +8,8 @@ at a few examples of the kinds of things that CBMC can find.
 
 The source code in [memory-safety.c](examples/simple/memory-safety.c)
 ```c
-char buffer[20];
+#define SIZE 20
+char buffer[SIZE];
 
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }

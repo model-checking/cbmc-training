@@ -11,4 +11,5 @@ on GitHub.
 * [How do function pointers work?]()
 * [How does malloc work?](malloc.md)
 * [What is a proof assumption?](proof-assumptions.md)
-* [How do I debug why CBMC won't stop?](termination.md)
+* [How do I write a good stub?]()
+* [What do I do when CBMC won't stop?](termination.md)

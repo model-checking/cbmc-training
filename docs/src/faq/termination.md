@@ -1,4 +1,4 @@
-# How do I debug why CBMC won't stop?
+# What do I do when CBMC won't stop?
 
 CBMC goes through several stages.  CBMC can theoretically get stuck in any
 stage, but the most commonly slow stages are

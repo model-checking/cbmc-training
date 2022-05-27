@@ -81,19 +81,18 @@ VERIFICATION SUCCESSFUL
 
 In summary, we use the flag `--unwind` to tell CBMC to bound the
 unwinding of loops in the program.  We use `--unwind 11` to bound loop
-unwinding to 11 iterations.  We can use the flag `--unwindset` to give a
-different bound to a particular loop.  CBMC gives names to loops in a
-program by giving the name of the function containing the loop and the
-number of the loop within the function.  For example, the two loops in the
-program above would be named `main.0` and `main.1`.  We could tell CBMC to
-unwind all loops in the program at most 11 times, but to unwind the
-second loop in main at most 21 times.  We do this by invoking CBMC with
+unwinding to 11 iterations.  We can use the flag `--unwindset` to give
+different bounds to different loops.  CBMC names the loops in a
+program with the name of the function containing the loop and the
+position of the loop within the function.  For example, the two loops in the
+program above would be named `main.0` and `main.1`.  We can run CBMC with
 ```
-cbmc --unwind 11 --unwindset main.1:21 loop2.c
+cbmc --unwindset main.0:11 --unwindset main.1:11 loop2.c
 ```
-and we get the same successful verification result.
-
-
+and get the same successful verification result.  The flags `--unwind` and
+`--unwindset` can be used together and with different bounds.
+CBMC will use the `--unwind` bound
+by default and use the `--unwindset` bound for the loop it names.
 
 ## Loop uwinding assertions
 
@@ -101,12 +100,15 @@ Now, however, we have a problem.  CBMC has proved that there is no assertion
 failure in the program as long as we limit loops to 10 iterations.  But
 how do we know that 10 iterations is enough?  What if it is possible for a
 loop to iterate 11 times, and the error we are looking for occurs on the
-11th iteration?
+11th iteration, and we missed it?
 
-We can ask CBMC to prove that we have unwounded loops enough times: We
-can ask CBMC to prove that the loop termination condition is guaranteed
-to be true after the specified number of unwindings.  We do this by
-running CBMC with the flag `--unwinding-assertions`.  For example, running
+CBMC has a solution for this called *loop unwinding assertions*.
+We can ask CBMC to insert loop unwinding assertions with the flag
+`--unwinding-assertions`.
+Now, after CBMC has unrolled a loop, it will insert immediately after the
+unrolled loop an assertion that the loop termination is true.  In other words,
+CBMC will check that it has completely unrolled the loop.
+For example, running
 CBMC on the first program [loop1.c](examples/assertions/loop1.c) with
 
 ```bash
