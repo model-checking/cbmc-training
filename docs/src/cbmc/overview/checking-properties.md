@@ -1,4 +1,4 @@
-# Checking properties
+# Property checking
 
 CBMC can check more than just assertions in the code.
 In this section, we describe properties like memory safety that we

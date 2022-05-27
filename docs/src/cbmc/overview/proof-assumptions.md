@@ -1,4 +1,4 @@
-# What is a proof assumption?
+# Proof assumptions
 
 A proof assumption is anything that limits the applicability of a
 statement that has been otherwise proved by CBMC.
