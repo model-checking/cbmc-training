@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Running cbmc - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> CBMC quick start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/debugging.html"><strong aria-hidden="true">1.3.</strong> CBMC as debugging</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.4.</strong> CBMC as proof</div></li></ol></li><li class="chapter-item expanded "><a href="../../cbmc/overview/index.html"><strong aria-hidden="true">2.</strong> CBMC proofs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cbmc/overview/cbmc.html" class="active"><strong aria-hidden="true">2.1.</strong> Running cbmc</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/loop-unwinding.html"><strong aria-hidden="true">2.2.</strong> Loop unwinding</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-properties.html"><strong aria-hidden="true">2.3.</strong> Property checking</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">2.4.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-assumptions.html"><strong aria-hidden="true">2.5.</strong> Proof assumptions</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.6.</strong> Goto programs</div></li></ol></li><li class="chapter-item expanded "><a href="../../starter-kit/overview/index.html"><strong aria-hidden="true">3.</strong> CBMC proof projects</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Continuous integration</div></li><li class="chapter-item expanded "><a href="../../faq/index.html"><strong aria-hidden="true">7.</strong> Frequently asked questions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../faq/cbmc.html"><strong aria-hidden="true">7.1.</strong> How does CBMC work?</a></li><li class="chapter-item expanded "><a href="../../faq/loop-unwinding.html"><strong aria-hidden="true">7.2.</strong> What is loop unwinding?</a></li><li class="chapter-item expanded "><a href="../../faq/memory-model.html"><strong aria-hidden="true">7.3.</strong> How do memory pointers work?</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.4.</strong> How do function pointers work?</div></li><li class="chapter-item expanded "><a href="../../faq/malloc.html"><strong aria-hidden="true">7.5.</strong> How does malloc work?</a></li><li class="chapter-item expanded "><a href="../../faq/termination.html"><strong aria-hidden="true">7.6.</strong> How do I debug why CBMC won't stop?</a></li></ol></li><li class="chapter-item expanded "><a href="../../management/index.html"><strong aria-hidden="true">8.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../management/Plan-your-proof.html"><strong aria-hidden="true">8.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../../management/Write-a-good-proof.html"><strong aria-hidden="true">8.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../../management/Debug-an-error-trace.html"><strong aria-hidden="true">8.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../../management/Code-for-verification.html"><strong aria-hidden="true">8.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../../management/Code-review-for-proofs.html"><strong aria-hidden="true">8.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><a href="../../projects.html"><strong aria-hidden="true">9.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../../resources.html"><strong aria-hidden="true">10.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="running-cbmc"><a class="header" href="#running-cbmc">Running cbmc</a></h1>
+<p>At this point we already have some experience with running CBMC
+on simple source files.  For example, we have used CBMC to
+find <a href="debugging.html#memory-safety">memory safety issues</a>
+and debug a <a href="debugging.html#termination">termination issue</a>.</p>
+<p>One thing we have touhed on only lightly is how to interpret the
+output of CBMC.  Let's do that now.</p>
+<p>Consider the following program <a href="examples/vector.c">vector.c</a></p>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#define LENGTH 2
+
+void init(int *, size_t);
+
+int main() {
+  int vector[LENGTH];
+
+  init(vector, LENGTH);
+  for (int i=0; i&lt;=LENGTH; i++)
+    vector[i] = vector[i] + 1;
+
+  return 0;
+}
+</code></pre>
+<p>Suppose we run CBMC on this program and ask CBMC to do array bounds checking
+and to produce an error trace for every array bounds violation that it finds.</p>
+<pre><code class="language-bash">cbmc vector.c --bounds-check --trace
+</code></pre>
+<p>Let's examine the output of CBMC one section at a time.
+After some preliminary output, CBMC begins with</p>
+<pre><code>Starting Bounded Model Checking
+**** WARNING: no body for function init
+Unwinding loop main.0 iteration 1 file vector.c line 13 function main thread 0
+Unwinding loop main.0 iteration 2 file vector.c line 13 function main thread 0
+Unwinding loop main.0 iteration 3 file vector.c line 13 function main thread 0
+</code></pre>
+<p>CBMC is warning us that it found no function body for <code>init</code>.
+We included the function declaration but forgot to include the function
+definition.  CBMC treats a function like <code>init</code> with no function body as
+a function with no side effects (<code>init</code> will not initialize the vector)
+that returns an unconstrained return value (<code>init</code> will return an
+arbitrary integer value).</p>
+<p>CBMC is also telling us that it unwounded the for loop three times.
+This makes sense since the array has <code>LENGTH=2</code>.  Notice that CBMC
+gave this first (and only) loop in the function <code>main</code> the loop name <code>main.0</code>.</p>
+<p>After some logging output (describing the sequence of transformations
+CBMC performs on the program to turn it into a Boolean constraint problem
+and invocation of the SAT solver to solve the constraint problem),
+CBMC prints its results.</p>
+<pre><code>** Results:
+vector.c function main
+[main.array_bounds.1] line 14 array 'vector' lower bound in vector[(signed long int)i]: SUCCESS
+[main.array_bounds.2] line 14 array 'vector' upper bound in vector[(signed long int)i]: FAILURE
+</code></pre>
+<p>CBMC is reporting that it performed two array bounds check on line 14:
+it checked whether the lower bound of <code>vector</code> could be violated, and whether
+the upper bound could be violated. The lower bound check succeded and the
+upper bound check failed.</p>
+<p>Finally, CBMC prints a complete error trace for each check that failed.
+In our case, it was the second array bounds check in the function <code>main</code>
+that failed, and CBMC gave that check the name <code>main.array_bounds.2</code>.</p>
+<pre><code>Trace for main.array_bounds.2:
+
+State 21 file vector.c function main line 10 thread 0
+----------------------------------------------------
+  vector={ 2760991, 33628711 } ({ 00000000 00101010 00100001 00011111, 00000010 00000001 00100010 00100111 })
+
+State 26 file vector.c function main line 13 thread 0
+----------------------------------------------------
+  i=0 (00000000 00000000 00000000 00000000)
+
+State 28 file vector.c function main line 14 thread 0
+----------------------------------------------------
+  vector[0l]=2760992 (00000000 00101010 00100001 00100000)
+
+State 29 file vector.c function main line 13 thread 0
+----------------------------------------------------
+  i=1 (00000000 00000000 00000000 00000001)
+
+State 32 file vector.c function main line 14 thread 0
+----------------------------------------------------
+  vector[1l]=33628712 (00000010 00000001 00100010 00101000)
+
+State 33 file vector.c function main line 13 thread 0
+----------------------------------------------------
+  i=2 (00000000 00000000 00000000 00000010)
+
+Violated property:
+  file vector.c function main line 14 thread 0
+  array 'vector' upper bound in vector[(signed long int)i]
+  !((signed long int)i &gt;= 2l)
+
+</code></pre>
+<p>The trace is a step-by-step execution of the program from an initial
+state to the array bounds violation.  The trace has six steps numbered
+21 through 33 because there were a lot of steps internal to CBMC that
+it did not include in the trace.  The steps included in the trace
+are assignments to program variables made during the execution.</p>
+<p>The first step shows the initialization of <code>vector</code>.  CBMC chose
+two fairly large integers as the initial values of the two
+integers in the array.  Notice that CBMC is printing the values in
+both decimal and binary notation.</p>
+<p>The next four steps show the variable assignments made during
+the first two iterations of the loop: each iteration does
+one assignment to <code>i</code> and one assignment to <code>vector</code>.</p>
+<p>The final two steps show the assignemnt <code>i=2</code> and the attempt to
+access <code>vector[i]</code> with <code>i==2</code> that caused the array bounds violation.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cbmc/overview/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../cbmc/overview/loop-unwinding.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cbmc/overview/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../cbmc/overview/loop-unwinding.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
