@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Goto programs - CBMC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> CBMC quick start</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation.html"><strong aria-hidden="true">1.1.</strong> CBMC installation</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/unit-testing.html"><strong aria-hidden="true">1.2.</strong> CBMC as unit testing</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/debugging.html"><strong aria-hidden="true">1.3.</strong> CBMC as debugging</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof.html"><strong aria-hidden="true">1.4.</strong> CBMC as proof</a></li></ol></li><li class="chapter-item expanded "><a href="../../cbmc/overview/index.html"><strong aria-hidden="true">2.</strong> CBMC proofs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cbmc/overview/cbmc.html"><strong aria-hidden="true">2.1.</strong> Running cbmc</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/loop-unwinding.html"><strong aria-hidden="true">2.2.</strong> Loop unwinding</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-properties.html"><strong aria-hidden="true">2.3.</strong> Property checking</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/checking-coverage.html"><strong aria-hidden="true">2.4.</strong> Coverage checking</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-harnesses.html"><strong aria-hidden="true">2.5.</strong> Proof harnesses</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/proof-assumptions.html"><strong aria-hidden="true">2.6.</strong> Proof assumptions</a></li><li class="chapter-item expanded "><a href="../../cbmc/overview/goto-programs.html" class="active"><strong aria-hidden="true">2.7.</strong> Goto programs</a></li></ol></li><li class="chapter-item expanded "><a href="../../starter-kit/overview/index.html"><strong aria-hidden="true">3.</strong> CBMC proof projects</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> CBMC viewer</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Litani</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Continuous integration</div></li><li class="chapter-item expanded "><a href="../../faq/index.html"><strong aria-hidden="true">7.</strong> Frequently asked questions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../faq/cbmc.html"><strong aria-hidden="true">7.1.</strong> How does CBMC work?</a></li><li class="chapter-item expanded "><a href="../../faq/loop-unwinding.html"><strong aria-hidden="true">7.2.</strong> What is loop unwinding?</a></li><li class="chapter-item expanded "><a href="../../faq/memory-model.html"><strong aria-hidden="true">7.3.</strong> How do memory pointers work?</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.4.</strong> How do function pointers work?</div></li><li class="chapter-item expanded "><a href="../../faq/malloc.html"><strong aria-hidden="true">7.5.</strong> How does malloc work?</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.6.</strong> How do I write a good stub?</div></li><li class="chapter-item expanded "><a href="../../faq/termination.html"><strong aria-hidden="true">7.7.</strong> What do I do when CBMC won't stop?</a></li></ol></li><li class="chapter-item expanded "><a href="../../management/index.html"><strong aria-hidden="true">8.</strong> CBMC project management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../management/Plan-your-proof.html"><strong aria-hidden="true">8.1.</strong> Project planning</a></li><li class="chapter-item expanded "><a href="../../management/Write-a-good-proof.html"><strong aria-hidden="true">8.2.</strong> Writing a good proof</a></li><li class="chapter-item expanded "><a href="../../management/Debug-an-error-trace.html"><strong aria-hidden="true">8.3.</strong> Debugging an error trace</a></li><li class="chapter-item expanded "><a href="../../management/Code-for-verification.html"><strong aria-hidden="true">8.4.</strong> Coding for verification</a></li><li class="chapter-item expanded "><a href="../../management/Code-review-for-proofs.html"><strong aria-hidden="true">8.5.</strong> Proof evaluation</a></li></ol></li><li class="chapter-item expanded "><a href="../../projects.html"><strong aria-hidden="true">9.</strong> CBMC projects</a></li><li class="chapter-item expanded "><a href="../../resources.html"><strong aria-hidden="true">10.</strong> CBMC resources</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CBMC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="goto-programs"><a class="header" href="#goto-programs">Goto programs</a></h1>
+<p>The goto program is the intermediate representation of a program used by
+CBMC to do bounded model checking.
+CBMC comes with a compiler called <code>goto-cc</code> that is intended to be a
+drop-in replacement for <code>gcc</code>.  The difference is that <code>goto-cc</code> produces
+a goto program instead of the executable binary produced by <code>gcc</code>.
+We've already <a href="proof.html#building-code-for-proof">touched on these topics</a>
+in our <a href="proof.html">overview</a> of how to use CBMC.
+Most important, we've demonstrated how to use <code>goto-cc</code> to produce the
+goto program and how to run CBMC on the goto program.</p>
+<p>Sometimes, however, it is helpful (and just plain interesting) to look at
+the goto program produced by <code>goto-cc</code>.  Two commands are particularly
+helpful:</p>
+<ul>
+<li><code>cbmc program.goto --list-goto-functions</code> displays the function names of
+all the functions appearing in the goto program <code>program.goto</code></li>
+<li><code>cbmc program.goto --show-goto-functions</code> displays function bodies of all
+the functions appearing in the goto program <code>program.goto</code>.</li>
+</ul>
+<h2 id="a-goto-program"><a class="header" href="#a-goto-program">A goto program</a></h2>
+<p>Consider a little program <a href="examples/function-pointer.c">function-pointer.c</a>
+that declares two functions <code>alpha</code> and <code>beta</code>,
+assigns nondeterministically
+one of <code>alpha</code> and <code>beta</code> to a function pointer <code>function</code>,
+and then invokes the function pointed to by <code>function</code>.</p>
+<pre><code class="language-c">#include &lt;assert.h&gt;
+
+int alpha(int x) {
+  return x+1;
+}
+
+int beta(int x) {
+  return x+2;
+}
+
+main() {
+  int (*function)();
+
+  int bool;
+  function = bool ? alpha : beta;
+
+  int x;
+  int rc = function(x);
+}
+</code></pre>
+<p>Let's compile the program into a goto program.</p>
+<pre><code class="language-bash">goto-cc function-pointer.c -o function-pointer.goto
+</code></pre>
+<h2 id="the-function-names"><a class="header" href="#the-function-names">The function names</a></h2>
+<p>Let's print the function names:</p>
+<pre><code class="language-bash">cbmc function-pointer.goto --list-goto-functions
+</code></pre>
+<pre><code>__CPROVER__start /* __CPROVER__start */
+__CPROVER_initialize /* __CPROVER_initialize */
+alpha /* alpha */
+beta /* beta */
+main /* main */
+</code></pre>
+<p>The second <code>initialize</code> function initializes some CBMC internal variables.
+The first <code>start</code> function is the entry point for the goto program.
+It calls the <code>initialize</code> function followed by the <code>main</code> function.
+You can print the function bodies and see this for yourself.</p>
+<h2 id="the-function-bodies"><a class="header" href="#the-function-bodies">The function bodies</a></h2>
+<p>Let's print the function bodies:</p>
+<pre><code class="language-bash">cbmc function-pointer.goto --show-goto-functions
+</code></pre>
+<p>The result is a little too long to include here, but in the middle
+of the function body for <code>main</code> we find</p>
+<pre><code>     // 7 file function-pointers.c line 18 function main
+     IF main::1::function = cast(address_of(beta), code*) THEN GOTO 1
+     // 8 file function-pointers.c line 18 function main
+     IF main::1::function = cast(address_of(alpha), code*) THEN GOTO 2
+     // 9 file function-pointers.c line 18 function main
+     ASSUME false
+     // 10 file function-pointers.c line 18 function main
+  1: CALL main::$tmp::return_value := beta(main::1::x)
+     // 11 file function-pointers.c line 18 function main
+     GOTO 3
+     // 12 file function-pointers.c line 18 function main
+  2: CALL main::$tmp::return_value := alpha(main::1::x)
+     // 13 no location
+  3: ASSIGN main::1::rc := main::$tmp::return_value
+</code></pre>
+<p>This is interesting because it demonstrates how CBMC handles
+function pointers.  What we see is essentially a switch statement
+that compares the function pointer <code>function</code> with pointers to
+each of the functions whose address has been taken anywhere in the program.
+In this case, pointers to the functions <code>alpha</code> and <code>beta</code>.  Depending on
+the outcome of the comparison, either <code>alpha</code> or <code>beta</code> is invoked
+and its return value is assigned to <code>rc</code>.</p>
+<p>We include this discussion as an example of how looking at the goto program
+can help debug issues with CBMC.  If, for example, CBMC were surprisingly
+slow to terminate, you might look at the goto program and discover that
+there is another function <code>gamma</code>
+that is being considered as a possible value for <code>function</code>.
+This is impossible in our example, but if <code>gamma</code> is defined in another
+source file that was accidentally included in the build of the goto program,
+one solution might be simply to omit that source file from the build for
+this proof.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cbmc/overview/proof-assumptions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../starter-kit/overview/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cbmc/overview/proof-assumptions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../starter-kit/overview/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
