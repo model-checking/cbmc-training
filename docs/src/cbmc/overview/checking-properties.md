@@ -81,7 +81,7 @@ is an issue because the CBMC heap model interprets a pointer as
 an object id together with an offset into the object.  Pointer arithmetic
 in C uses signed integers for offsets.  So it is theoretically possible for
 the offset into the object to have a magnitude larger than the
-maximium offset CBMC is using for objects on the heap.
+maximum offset CBMC is using for objects on the heap.
 
 Given the file [`pointer-overflow.c`](examples/properties/pointer-overflow.c)
 ```

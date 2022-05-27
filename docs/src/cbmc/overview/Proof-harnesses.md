@@ -104,7 +104,7 @@ depends on its input `b`, but it also depends on a global variable
 of `beta2`.  We want to know that `beta2` always works, no matter how
 many times `beta2` has been invoked in the past.
 
-We do this by writing a proof harness that choses an unconstrained value
+We do this by writing a proof harness that chooses an unconstrained value
 for both the function input `b` and the global variable `counter`.
 We write a proof harness [harness2.c](examples/harness/harness2.c)
 
@@ -214,7 +214,7 @@ We change our stubs for the network to [network3a.c](examples/harness/network3a.
 
 ```c
 int receive() {
-    // model receiving an unconstrained POSTIVE integer value from the network
+    // model receiving an unconstrained POSITIVE integer value from the network
     int msg;
     __CPROVER_assume(msg > 0);
     return msg;

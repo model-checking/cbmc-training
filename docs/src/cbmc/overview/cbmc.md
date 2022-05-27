@@ -5,7 +5,7 @@ on simple source files.  For example, we have used CBMC to
 find [memory safety issues](debugging.html#memory-safety)
 and debug a [termination issue](debugging.html#termination).
 
-One thing we have touhed on only lightly is how to interpret the
+One thing we have touched on only lightly is how to interpret the
 output of CBMC.  Let's do that now.
 
 Consider the following program [vector.c](examples/vector.c)
@@ -49,7 +49,7 @@ a function with no side effects (`init` will not initialize the vector)
 that returns an unconstrained return value (`init` will return an
 arbitrary integer value).
 
-CBMC is also telling us that it unwounded the for loop three times.
+CBMC is also telling us that it unwound the for loop three times.
 This makes sense since the array has `LENGTH=2`.  Notice that CBMC
 gave this first (and only) loop in the function `main` the loop name `main.0`.
 
@@ -69,7 +69,7 @@ vector.c function main
 
 CBMC is reporting that it performed two array bounds check on line 14:
 it checked whether the lower bound of `vector` could be violated, and whether
-the upper bound could be violated. The lower bound check succeded and the
+the upper bound could be violated. The lower bound check succeeded and the
 upper bound check failed.
 
 Finally, CBMC prints a complete error trace for each check that failed.

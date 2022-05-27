@@ -94,7 +94,7 @@ and get the same successful verification result.  The flags `--unwind` and
 CBMC will use the `--unwind` bound
 by default and use the `--unwindset` bound for the loop it names.
 
-## Loop uwinding assertions
+## Loop unwinding assertions
 
 Now, however, we have a problem.  CBMC has proved that there is no assertion
 failure in the program as long as we limit loops to 10 iterations.  But

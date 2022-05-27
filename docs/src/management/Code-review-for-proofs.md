@@ -46,7 +46,7 @@ Check the following:
         * --unsigned-overflow-check
 
   Note that the starter kit uses these flags by default.
-  The properties checked by these flags is documented [on the cprover website](http://www.cprover.org/cprover-manual/properties/).
+  The properties checked by these flags is documented [on the CPROVER website](http://www.cprover.org/cprover-manual/properties/).
   Note, however, that a developer may disable any one of these flags
   by editing project Makefile.common or
   by setting a makefile variable to the empty string
@@ -68,7 +68,7 @@ documented.
 Check the following:
 
 * All nontrivial data structures have an
-  [`ensure_allocated` function](Write-a-good-proof.html#the-ensure_allocated-function.md)
+  [`ensure_allocated` function](Write-a-good-proof.html#the-ensure_allocated-function)
   as described in the training material.
 
   Feel free to use any naming scheme that makes sense for your project --- some

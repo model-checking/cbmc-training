@@ -117,7 +117,7 @@ complete victory.
 Back when we introduced [CBMC as a form of unit testing](unit-testing.md),
 we had a function [quartile](quartile.c) under test
 and a [unit test](unit-test.c) for `quartile`.
-The unit test set up the sofware environment for the function under test
+The unit test set up the software environment for the function under test
 and invoked the function.
 The function `quartile` was so simple that all the unit test had to do
 was initialize the argument `x` passed to `quartile` and invoke
@@ -245,7 +245,7 @@ One approach is to build the library using `goto-cc` in place of `gcc`.
 The compiler `goto-cc` is intended to be a drop-in replacement for `gcc`.
 Using `goto-cc` should be as easy as building with `CC=goto-cc` in place
 of `CC=gcc`.
-The difference is that `goto-cc` produces an intermediate reprsentation for
+The difference is that `goto-cc` produces an intermediate representation for
 the program called
 a "goto program" or "goto binary" that is used by CBMC for model checking.
 When we run `cbmc`

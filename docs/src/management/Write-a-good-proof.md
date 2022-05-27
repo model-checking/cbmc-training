@@ -39,7 +39,7 @@ A CBMC proof normally consists of several components:
    1. Can be reused by multiple proofs
 1. A set of **`_allocate()` and `ensure()` functions**,  one for each **datatype** used in the proof
    1. Due to limitations of the CBMC tools, not all properties about a datatype can be declared declaratively.
-   In particular, allocation of memory must be done impartively.
+   In particular, allocation of memory must be done imperatively.
    These functions handle allocation of the data-structure, and any recursive substructures.
    1. Can be put in a library and reused by multiple proofs.
 1. A **library of helper functions** which:
@@ -174,8 +174,8 @@ void aws_array_list_get_at_ptr_harness() {
 ```
 
    Note that we are leaving the inputs to the function completely unconstrained: we are simply declaring them on the stack, and then using them without assigning any values to them.
-   In a normal C compiler, this would be undefined behaviour.
-   In CBMC, this is legal, but represents an **unconstrained value** (you may also hear this called a **non-determinstic** value).
+   In a normal C compiler, this would be undefined behavior.
+   In CBMC, this is legal, but represents an **unconstrained value** (you may also hear this called a **non-deterministic** value).
    The CBMC tool will use a mathematical solver which considers every possible value of an unconstrained variable.
    If there exists a value which can cause an assertion failure, the solver will find it.
    Conversely, if the solver says the assertion cannot be violated, this forms mathematical *proof* that no such value exists.
@@ -240,7 +240,7 @@ void aws_array_list_get_at_ptr_harness() {
 The Makefile for our running example looks like this:
 
 ```make
-# Sufficently long to get full coverage on the aws_array_list APIs
+# Sufficiently long to get full coverage on the aws_array_list APIs
 # short enough that all proofs complete quickly
 MAX_ITEM_SIZE ?= 2
 DEFINES += -DMAX_ITEM_SIZE=$(MAX_ITEM_SIZE)
@@ -272,7 +272,7 @@ include ../Makefile.common
    As discussed above, we recommend starting with small bounds to enable quick iteration on the proof and increasing them once the proof is complete.
    These variables are created both as Makefile variables, which can be used later (e.g. in the `UNWINDSET`, and also passed as `-D` defines, which allow
 1. It creates an `UNWINDSET` which tells CBMC how many times to unroll loops in the program.
-   As shown here, loop bounds typically depend on variables within the makefile.
+   As shown here, loop bounds typically depend on variables within the Makefile.
    Its a good idea to make this explicit, as we do here, to avoid the need to change magic constants as you experiment with the proof.
 1. A list of `CBMCFLAGS` if any are needed.
    Typically, all the required flags are set in the `Makefile.common`, and this can be left empty

@@ -195,9 +195,9 @@ on any integer in the first quartile.
 We have partially specified the behavior of the function using
 a precondition (the assumption that `x` is in the first quartile)
 and a postcondition (the assertion that the return value is `1`).
-If the function is called with an input that satisifes the precondition,
+If the function is called with an input that satisfies the precondition,
 then the function returns with a value that satisfies the postcondition.
 Of course, we have only partially specified the behavior of the function.
 What happens when it is called with an integer in the second
 quartile?  The specification doesn't say.  But we have taken
-the first step toward specificiation and verification of our function.
+the first step toward specification and verification of our function.

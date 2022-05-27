@@ -140,11 +140,11 @@ Or you might `__CPROVER_assume()` that a given variable is null, to simplify you
 
 In many cases, the error detected by CBMC represents a true issue within the code being verified.
 This is particularly common in the case of functions which fail to validate their inputs.
-In this case, the fix is either to validate the inputs, and return an error if given invalid inputs, or to document the requirements on the inputs, and state that actions on illegal inputs are undefined behaviour.
+In this case, the fix is either to validate the inputs, and return an error if given invalid inputs, or to document the requirements on the inputs, and state that actions on illegal inputs are undefined behavior.
 Which solution you choose depends on the risk profile of the code.
 
 It is also common that code being verified has integer-overflows and other errors that only occur in unusual circumstances.
-In these cases, the solution is to either guarantee that inputs are sufficiently small to prevent these issues, or to use overflow-safe builtins, such as gcc's `__builtin_mul_overflow` (documented [here](https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html)).
+In these cases, the solution is to either guarantee that inputs are sufficiently small to prevent these issues, or to use overflow-safe built-ins, such as gcc's `__builtin_mul_overflow` (documented [here](https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html)).
 
 ## How do I improve proofs with low coverage?
 
@@ -181,7 +181,7 @@ In this case, it is possible that the inputs have been over-constrained in the p
 
 ## How can I tell if my proof is over-constrained?
 
-This will normally appear in coverage - overconstrained proofs will usually have unreachable portions of code.
+This will normally appear in coverage - over-constrained proofs will usually have unreachable portions of code.
 You can also add a "smoke test", but adding assertions that you expect to fail to the code (which can be as simple as `assert(0)`).
 If these assertions do not fail, then something is wrong with your proof.
 
