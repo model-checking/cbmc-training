@@ -9,10 +9,10 @@
   * [Running cbmc](cbmc/overview/cbmc.md)
   * [Loop unwinding](cbmc/overview/loop-unwinding.md)
   * [Property checking](cbmc/overview/checking-properties.md)
-  * [Coverage checking]()
+  * [Coverage checking](cbmc/overview/checking-coverage.md)
   * [Proof harnesses](cbmc/overview/proof-harnesses.md)
   * [Proof assumptions](cbmc/overview/proof-assumptions.md)
-  * [Goto programs]()
+  * [Goto programs](cbmc/overview/goto-programs.md)
 * [CBMC proof projects](starter-kit/overview/README.md)
 
 * [CBMC viewer]()

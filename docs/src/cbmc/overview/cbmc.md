@@ -127,3 +127,15 @@ one assignment to `i` and one assignment to `vector`.
 
 The final two steps show the assignment `i=2` and the attempt to
 access `vector[i]` with `i==2` that caused the array bounds violation.
+
+[CBMC viewer](https://github.com/model-checking/cbmc-viewer) is a tool
+that summarizes the findings of CBMC in the form of a report that can
+be opened in any web browser.  One thing that viewer does is render
+the list of findings together with links to the error traces demonstrating
+the findings.  Each step of an error trace is linked back to the line of
+source code that is responsible for the step, making it easier to follow
+the trace and debug the issue.  See the
+[release page](https://github.com/model-checking/cbmc-viewer/releases/latest)
+and the
+[documentation](https://model-checking.github.io/cbmc-viewer/)
+for more information.
