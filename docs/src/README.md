@@ -32,8 +32,9 @@ For a quick start on writing simple proofs, read
   * [CBMC as debugging](cbmc/overview/introduction.md)
   * [CBMC proofs](cbmc/overview)
 
-For a quick start on deploying CBMC to a software project
-[using the starter kit](starter-kit/overview)
+For a quick start on deploying CBMC to a software project,
+we recommend that you read our [tutorial](starter-kit/overview), but
+if you want to dive right in, you can [install the tools](installation.md) and
 
   * Read [configure the repository](starter-kit/overview#configure-the-repository)
     to set up a software repository for CBMC proof
