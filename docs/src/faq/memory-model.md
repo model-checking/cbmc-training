@@ -85,3 +85,7 @@ issue in our code like a memory safety error or integer overflow.
 * `__CPROVER_havoc_slice(ptr, length)` havocs the portion of the object
   starting at the offset denoted by the object offset in `ptr`
   and extending   for `length` bytes.
+
+For more information, see the CBMC tutorial on
+[memory primitives](http://cprover.diffblue.com/memory-primitives.html) and CBMC
+[builtin functions](http://www.cprover.org/cprover-manual/api/).

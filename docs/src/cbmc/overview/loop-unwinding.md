@@ -1,8 +1,12 @@
 # Loop unwinding
 
-CBMC is a *bounded* model checker for C.  CBMC works
-by unwinding the loops in our code (ie by unrolling/inlining a finite number of iterations of the loop). CBMC needs to know a bound on the number of times it is expected to unwind any particular
-loop in our code.
+CBMC is a *bounded* model checker for C.
+CBMC works by unwinding the loops in our code
+(by inlining a finite number of iterations of the loop).
+CBMC needs to know a bound on the number of times it is expected to
+unwind any particular loop in our code.
+In the same way, CBMC needs to know a bound on the number of times
+to invoke any recursive function in our code.
 
 Sometimes CBMC can figure this out on its own.
 Consider the program [loop1.c](examples/assertions/loop1.c)
@@ -63,7 +67,9 @@ and run CBMC with
 cbmc loop2.c
 ```
 
-and CBMC will unwind the first loop forever.  We need to tell CBMC how
+and CBMC will unwind the first loop until it runs out of resources
+or the loop index wraps around.
+We need to tell CBMC how
 many times to unwind the loops in the program.
 Run CBMC with
 
@@ -84,12 +90,18 @@ unwinding of loops in the program.  We use `--unwind 11` to bound loop
 unwinding to 11 iterations.  We can use the flag `--unwindset` to give
 different bounds to different loops.  CBMC names the loops in a
 program with the name of the function containing the loop and the
-position of the loop within the function.  For example, the two loops in the
-program above would be named `main.0` and `main.1`.  We can run CBMC with
+position of the loop within the function.  We can ask CBMC to
+display loop names with the `--show-loops` flag
+```
+cbmc --show-loops loop2.c
+```
+and see that the two loops in `loop2.c` are named `main.0` and `main.1`.
+We can run CBMC with
 ```
 cbmc --unwindset main.0:11 --unwindset main.1:11 loop2.c
 ```
-and get the same successful verification result.  The flags `--unwind` and
+and get the same successful verification result as with `--unwind 11`.
+The flags `--unwind` and
 `--unwindset` can be used together and with different bounds.
 CBMC will use the `--unwind` bound
 by default and use the `--unwindset` bound for the loop it names.

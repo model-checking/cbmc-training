@@ -38,7 +38,7 @@ A CBMC proof normally consists of several components:
    1. Can be used in the codebase as assertions to improve runtime checking.
    1. Can be reused by multiple proofs
 1. A set of **`_allocate()` and `ensure()` functions**,  one for each **datatype** used in the proof
-   1. Due to limitations of the CBMC tools, not all properties about a datatype can be declared declaratively.
+   1. Due to limitations of the CBMC tools, not all properties about a datatype can be described declaratively.
    In particular, allocation of memory must be done imperatively.
    These functions handle allocation of the data-structure, and any recursive substructures.
    1. Can be put in a library and reused by multiple proofs.
@@ -46,10 +46,10 @@ A CBMC proof normally consists of several components:
    1. Models any external libraries (e.g. libCrypto)
    1. Provides implementations for abstracted functions
 
-The remainder of this document describes how build each one of these components.
+The remainder of this document describes how build one of these components.
 
-## Running example.
-We will use the `aws_array_list` module from [AWS C Common](https://github.com/awslabs/aws-c-common) open-source project as our running example.
+## Running example
+We will use the `aws_array_list` module from the [AWS C Common](https://github.com/awslabs/aws-c-common) open-source project as our running example.
 This module provides a polymorphic array defined as follows:
 
 ```c
@@ -65,7 +65,7 @@ struct aws_array_list {
 * `alloc` represents the allocator used by the list (to allow consumers of the list to override `malloc` if desired)
 * `current_size` represents the bytes of memory that the array has allocated
 * `length` is the number of items that it contains
-* `data_size` represents the size of the objects stored in the list (in bytes)
+* `item_size` represents the size of the objects stored in the list (in bytes)
 * `data` points to a byte array in memory that contains the data of the array list.
 
 Users of this data structure are expected to access its fields using getter and setter methods, although C does not offer language support to ensure that they do so.
@@ -124,9 +124,9 @@ void aws_array_list_get_at_ptr_harness() {
 
     /* call function under verification */
     if(!aws_array_list_get_at_ptr(list, val, index)) {
-      /* If aws_array_list_get_at_ptr is successful,
-       * i.e. ret==0, we ensure the list isn't
-       * empty and index is within bounds */
+        /* If aws_array_list_get_at_ptr is successful,
+         * i.e. ret==0, we ensure the list isn't
+         * empty and index is within bounds */
         assert(list->data != NULL);
         assert(list->length > index);
     }
@@ -169,7 +169,7 @@ void aws_array_list_get_at_ptr_harness() {
     size_t index;
 
     /* call function under verification */
-     aws_array_list_get_at_ptr(list, val, index);
+    aws_array_list_get_at_ptr(list, val, index);
 }
 ```
 
@@ -195,24 +195,25 @@ void aws_array_list_get_at_ptr_harness() {
          * Line 347:
            * [trace] val != ((void*)0) check failed
 ```
-   Consult our [guide to debugging CBMC output](Debug-an-error-trace.md) for suggestions about how to understand this output.
+   We have already seen examples of [CBMC error traces](../cbmc/overview/debugging.md) like this,
+   and we will soon give more guidance on [debugging CBMC error traces](Debug-an-error-trace.md).
 1. Constrain each input in turn until all warnings are resolved.
    See the sections on writing `_is_valid()` and `_ensure_is_allocated()` functions for details on how to do this
 1. Fix any loop-unwinding errors.
-   To fix these errors, you will need update the Makefile with the correct loop bounds.
+   To fix these errors, you will need to update the Makefile with the correct loop bounds.
    This may cause CBMC to get quite slow.
    In this case, we recommend **bounding** the size of data-structures to allow CBMC to finish quickly.
    In the harness above, this is accomplished by the line
    ```
    __CPROVER_assume(aws_array_list_is_bounded(list))
    ```
-   We recommend starting with very small bounds to ensure a quick REPL cycle.
-   Once the proof is finished, you can increase the bounds to increase assurance.
+   We recommend starting with very small bounds to ensure a quick debug cycle.
+   Once the proof is finished, you can increase the bounds to give proofs for longer lists.
 1. Check the coverage report.
    Ideally, you will have 100% coverage.
    In practice, coverage will be less than 100%, for e.g. in defensive code that redundantly checks for errors.
    In this case, inspect the uncovered code, and ensure that it matches your expectations.
-1. Increase assurance by adding assertions to the harness.
+1. Strengthen the proof by adding assertions to the harness that check more properties.
    There are typically three types of such assertions:
    1. Data structures should remain valid, whether or not the function under test succeeded.
    1. If the function failed, data-structures should remain unchanged.
@@ -222,9 +223,9 @@ void aws_array_list_get_at_ptr_harness() {
 ```c
     /* call function under verification */
     if(!aws_array_list_get_at_ptr(list, val, index)) {
-      /* If aws_array_list_get_at_ptr is successful,
-       * i.e. ret==0, we ensure the list isn't
-       * empty and index is within bounds */
+        /* If aws_array_list_get_at_ptr is successful,
+         * i.e. ret==0, we ensure the list isn't
+         * empty and index is within bounds */
         assert(list->data != NULL);
         assert(list->length > index);
     }
@@ -294,7 +295,7 @@ Then, gradually refine these predicates, until you have a set of reasonable inva
 You can verify that invariants are reasonable by:
 
 1. Having an explicit code-review in which subject matter experts on the development team confirm that the invariants represent the design intent of the code
-1. Adding these invariants are pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
+1. Adding these invariants as pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
    Note that unit-test failures do not necessarily reflect problems with your invariants.
    They may also reflect either
    1. Bugs in the code itself
@@ -368,12 +369,12 @@ This provides value in several ways.
 
 1. **It connects the code and the proof.**
    Proofs for all but the most simple functions require environment assumptions.
-   One of the most common ways proof can go wrong is when these assumptions the real-world context in which the function is used.
+   One of the most common ways proof can go wrong is when these assumptions are actually false when the function is called in the real world.
    Adding the assumptions as runtime assertions in the code allows such mismatches to be detected as the code runs.
-   Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes with any performance penalty on production code.
+   Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes without any performance penalty on production code.
    Other teams enable these assertions for all builds, providing increased assurance at a small runtime cost.
 1. **It helps detect bugs in the broader codebase.**
-   On a number of occasions, adding function contracts to correct code detected function contracts in other parts of the code base.
+   On a number of occasions, adding function contracts to correct code detected violations of function contracts in other parts of the code base.
    In several cases, we discovered errors in other projects, which were calling verified APIs with invalid parameters.
    Even though those projects had never been formally verified, they still benefited from the function contracts developed during the formal verification work.
 1. **It helps focus the mind.**
@@ -413,9 +414,9 @@ Putting it all together:
 
 ```c
 int aws_array_list_get_at_ptr(
-        const struct aws_array_list* list,
-        void **val,
-        size_t index)
+    const struct aws_array_list* list,
+    void **val,
+    size_t index)
 {
     AWS_PRECONDITION(aws_array_list_is_valid(list));
     AWS_PRECONDITION(val != NULL);

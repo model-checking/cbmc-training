@@ -2,8 +2,8 @@
 
 CBMC is a bounded model checker.  CBMC works by
 executing a program for some bounded number of steps and looking
-of issues that occur within those steps.  CBMC does not execute a
-program concretely in the same way the a computer would execute the program
+for issues that occur within those steps.  CBMC does not execute a
+program concretely in the same way that a computer would execute the program
 (would execute the result of compiling the program).
 Instead,
 CBMC [symbolically executes](https://en.wikipedia.org/wiki/Symbolic_execution)

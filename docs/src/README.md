@@ -17,7 +17,8 @@ over a dozen [industrial software verification projects](projects.md)
 as a routine part of software development and continuous integration.
 This experience has resulted in some "best practices" for how to
 build software for CBMC and how to run CBMC in development.
-The CBMC starter kit is an implementation of these best practices,
+The [CBMC starter kit](https://github.com/model-checking/cbmc-starter-kit)
+is an implementation of these best practices,
 and is intended to make it easy to deploy CBMC to a software project
 as part of software development and continuous integration.
 
@@ -26,7 +27,7 @@ an industrial software verification project.
 
 ## Getting started
 
-For a quick start on writing simple proofs, read
+For a quick start on writing proofs that includes simple exercises, read
   * [CBMC installation](installation.md)
   * [CBMC as unit testing](cbmc/overview/unit-testing.md)
   * [CBMC as debugging](cbmc/overview/introduction.md)

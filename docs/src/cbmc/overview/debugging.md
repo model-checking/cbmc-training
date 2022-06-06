@@ -43,7 +43,7 @@ line 3 array 'buffer' lower bound in buffer[(signed long int)i]: FAILURE
 line 3 array 'buffer' upper bound in buffer[(signed long int)i]: FAILURE
 ```
 
-If you ask CBMC to check pointer accesses,
+If you ask CBMC to check pointer dereferencing,
 ```bash
 cbmc memory-safety.c --pointer-check
 ```
@@ -105,7 +105,7 @@ The allocator begins with an initial
 (recommended) size for chunk allocation,
 and repeatedly doubles this size until it is large
 enough to hold the requested size.  Each iteration of the loop doubles
-the size --- shifts the size left by one bit --- until the size overflows
+the size (shifts the size left by one bit) until the size overflows
 to 0.  Once the size is 0, doubling the size results in 0, and the loop
 never ends.
 
