@@ -1,7 +1,7 @@
 # CBMC proofs
 
-This chapter goes into greater detail on how to use CBMC on harder examples
-to check more things.
+This chapter goes into greater detail on how to use CBMC on
+more realistic examples.
 
 We assume that you are familiar with using CBMC
 on [simple examples](debugging.md).

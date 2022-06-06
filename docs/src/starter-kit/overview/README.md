@@ -19,8 +19,8 @@ in the source file
 
 This tutorial is actually a slightly cleaned-up version of the work done by two
 developers who used the starter kit to begin verification of `pvPortMalloc`.
-Two developers who had little more hand-on experience that the demonstration of
-CBMC running on a few simple examples were able to use the starter kit
+These developers, who had little more hands-on experience than the demonstration of
+CBMC running on a few simple examples, were able to use the starter kit
 to begin verification in about ten or fifteen minutes, and were able to
 breathe some real life into the proof within a few more hours.
 
@@ -56,7 +56,7 @@ cbmc-starter-kit-setup
 ```
 What is the project name? Kernel
 ```
-The first line create a `cbmc` directory to hold everything
+The first line creates a `cbmc` directory to hold everything
 related to CBMC verification.  The last line runs a setup script
 to configure the repository for CBMC verification.
 It examines the layout of the repository and asks for a name to use for
@@ -386,8 +386,8 @@ You can open this report in a web browser
 open file:////repository/cbmc/proofs/output/latest/html/index.html
 ```
 and see a summary of the results.  The results will list the proofs that
-failed at the top.  For each proof, you can click in the column labeled
-"Report" to see same the html report you would see if you ran the proof
+failed at the top.  For each proof, you can click within the column labeled
+"Report" to see the same html report you would see if you ran the proof
 on its own.  You can also click on the "pipeline" icon on the left
 to see the logs for each stage in the pipeline that built the code and
 ran the proof.

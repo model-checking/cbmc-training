@@ -31,7 +31,7 @@ Some good heuristics for deciding which failure to investigate:
    Some functions are simpler than others: a failure in a simple function is often easier to analyze that one in a complicated function.
    And a failure in a function you understand is easier than one in a function you are not familiar with.
 1. **Look for a simple type of failure.**
-   For example, the trace from a null dereference is often easier to follow than the trace for a use of a DEAD pointer.
+   For example, the trace from a null dereference is often easier to follow than the traces from other uses of bad pointers.
    But they're normally exactly the same bug!
    Since null dereference bugs normally give the simplest traces, start with them first.
    Often, resolving the null dereference also fixes the other related bugs.

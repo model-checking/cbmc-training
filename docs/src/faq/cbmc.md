@@ -11,9 +11,8 @@ The most complete descriptions of how CBMC works are
 
 The first two documents are the original paper on CBMC and a follow-up
 technical report giving a bit more detail.  They are excellent introductions,
-but they are a bit old.  The third document is a collection documents for
-developers.  They provide guidance on how to understand the source code,
-but give an uneven coverage of the material.
+but they are a bit old.  The third document is a collection of documents for
+developers.  They provide guidance on how to understand the source code.
 
 CBMC uses a technique called
 [symbolic execution](https://en.wikipedia.org/wiki/Symbolic_execution)
@@ -26,12 +25,12 @@ For example, consider the following code fragment
   x = x+1;
 ```
 CBMC sees the first statement and knows that `x` should be represented by
-a vector of 64 binary variables describing the 64-bit binary value of `x`.
+a vector of 32 binary variables describing the 32-bit binary value of `x`.
 CBMC sees the second statement and generates a constraint that says,
 "If `X0` and `X1` are binary vectors describing the value of `x`
 before and after the assignment, then `X1` is `X0` plus 1."  CBMC uses
-a Boolean description of a binary adder that adds the 64 bits of `X0` and
-the 64 bits of `1`, and generates a constraint that the i-th bit of `X1` is
+a Boolean description of a binary adder that adds the 32 bits of `X0` and
+the 32 bits of `1`, and generates a constraint that the i-th bit of `X1` is
 equal to the Boolean expression for the i-th bit of the adder's output
 on inputs `X0` and `1`.
 

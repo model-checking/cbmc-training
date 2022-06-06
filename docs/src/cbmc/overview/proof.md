@@ -8,6 +8,16 @@ But if CBMC does *not* find any issues, then you can rest assured
 that the issues like memory safety that you are asking CBMC to check for
 will not occur in your program with the inputs you are asking CBMC to check.
 
+We note, however, that using CBMC may require bounding the size of the inputs
+you are asking CBMC to check.
+It may be necessary, for example, to assume that packets
+coming off the network are of size at most 1024 bytes
+in order to fit the problem into CBMC.
+We refer to assumptions like this as *proof assumptions*.
+It is important to remember that proof assumptions exists,
+and to communicate them clearly to the reader or consumer of
+any proof you write with CBMC.
+
 Let's look again at [memory-safety.c](examples/simple/memory-safety.c)
 ```c
 #define SIZE 20

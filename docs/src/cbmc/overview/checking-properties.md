@@ -66,7 +66,8 @@ line 5 dereference failure:
 ```
 
 These off-by-one errors caught with `--bounds-check` and `--pointer-check`
-feel quite similar to each other, but they are different.
+feel quite similar to each other, but `--bounds-check` is for index
+expressions and `--pointer-check` is for pointer offsets.
 We always use these flags together.
 
 ## More pointer checks
@@ -74,14 +75,10 @@ We always use these flags together.
 * `--pointer-overflow-check` checks pointer arithmetic
   for arithmetic overflow and underflow.
 * `--pointer-primitive-check` checks that all pointers are either valid or null
-  (all pointers, not just dereferenced  pointers).
-
-Arithmetic overflow in pointer arithmetic
-is an issue because the CBMC heap model interprets a pointer as
-an object id together with an offset into the object.  Pointer arithmetic
-in C uses signed integers for offsets.  So it is theoretically possible for
-the offset into the object to have a magnitude larger than the
-maximum offset CBMC is using for objects on the heap.
+  (all pointers, not just dereferenced  pointers) when used within [CBMC
+  builtins](http://www.cprover.org/cprover-manual/api/) like
+  `__CPROVER_r_okay(ptr, size)` that returns true if reading the piece of
+  memory starting at the given pointer with the given size is safe.
 
 Given the file [`pointer-overflow.c`](examples/properties/pointer-overflow.c)
 ```
@@ -109,7 +106,16 @@ line 4 pointer arithmetic:
   FAILURE
 ```
 
-EXAMPLE
+At the moment, the flag `--pointer-overflow-check` will detect the
+potential for integer overflow in the calculation of an offset into an object,
+and also for an offset that would take you outside the bounds of an object,
+but there is another form of overflow to be aware of.
+Arithmetic overflow in pointer arithmetic
+is an issue because the CBMC heap model interprets a pointer as
+an object id together with an offset into the object.  Pointer arithmetic
+in C uses signed integers for offsets.  So it is possible for
+the desired offset into the object to have a magnitude larger than the
+maximum offset CBMC is using for objects on the heap.
 
 ## Malloc failure
 

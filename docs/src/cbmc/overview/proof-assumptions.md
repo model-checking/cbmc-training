@@ -57,7 +57,8 @@ Some are implicit.  If the proof harness includes
   char *buffer = (char *) malloc(size);
 ```
 then the buffer is implicitly bounded to the size of the maximum object
-that CBMC can model (which is probably smaller than a 64-bit integer, see
+that CBMC can model (which is probably smaller than the largest
+size representable in a 64-bit integer, see
 our discussion of the [memory model](memory-model.md) for more information).
 
 ### Invariants
@@ -124,13 +125,13 @@ A reasonable stub for the key generator is:
 ```C
   int key_generator(void *context, public_key_t *public, private_key_t *private)
   {
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }
 ```
-The `__CPROVER_havoc` function fills the objects pointed to by `public`
+The `__CPROVER_havoc_object` function fills the objects pointed to by `public`
 and `private` with arbitrary, unconstrained data.
 
 This stub has the pleasing effect of considering possible every value
@@ -149,8 +150,8 @@ correctly:
     __CPROVER_assert(public, "public is nonnull");
     __CPROVER_assert(private, "private is nonnull");
 
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }

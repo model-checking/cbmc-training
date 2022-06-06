@@ -145,8 +145,9 @@ We correct this to `bb >= b + 1` and we are done.
 
 ## Modeling interfaces
 
-Sometimes a function depends on an implementation of an interface that
-we don't care to test.  A common example is a function the depends on
+Sometimes a function depends on an implementation of an interface or
+a library API that we don't care to test.
+A common example is a function that depends on
 a network communication protocol like HTTP with `send` and `receive`
 methods.  We want our code to work independent of the protocol implementation,
 so we replace the implementations of the functions in the protocol interface
@@ -265,7 +266,7 @@ of a valid object.  We can do this by calling CBMC with the flags
 `--pointer-check` and `--bounds-check`.  Let's prove this even in the
 case where malloc can fail and return NULL instead of a pointer.  The
 default model of malloc in CBMC never fails, but we can change to a
-model of mailloc that can fail and return NULL by calling CBMC with
+model of malloc that can fail and return NULL by calling CBMC with
 the flags `--malloc-may-fail` and `--malloc-fail-null`.
 
 The function `cache_fifth_char` takes a pointer to a string buffer on
@@ -322,7 +323,7 @@ recommend writing predicates that say what well-formed objects of these
 types look like.
 
 In the case of our example, a valid pointer to a string buffer must be
-nonnull, and a valid string buffer must have a buffer that is non-null.
+nonnull, and a valid string buffer must have a buffer that is nonnull.
 
 ```c
 bool strbuf_is_valid(strbuf* str) {
