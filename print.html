@@ -152,13 +152,14 @@ over a dozen <a href="projects.html">industrial software verification projects</
 as a routine part of software development and continuous integration.
 This experience has resulted in some &quot;best practices&quot; for how to
 build software for CBMC and how to run CBMC in development.
-The CBMC starter kit is an implementation of these best practices,
+The <a href="https://github.com/model-checking/cbmc-starter-kit">CBMC starter kit</a>
+is an implementation of these best practices,
 and is intended to make it easy to deploy CBMC to a software project
 as part of software development and continuous integration.</p>
 <p>This document is a guide to using CBMC and to deploying CBMC to
 an industrial software verification project.</p>
 <h2 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h2>
-<p>For a quick start on writing simple proofs, read</p>
+<p>For a quick start on writing proofs that includes simple exercises, read</p>
 <ul>
 <li><a href="installation.html">CBMC installation</a></li>
 <li><a href="cbmc/overview/unit-testing.html">CBMC as unit testing</a></li>
@@ -457,7 +458,7 @@ negative and positive values):</p>
 <pre><code>line 3 array 'buffer' lower bound in buffer[(signed long int)i]: FAILURE
 line 3 array 'buffer' upper bound in buffer[(signed long int)i]: FAILURE
 </code></pre>
-<p>If you ask CBMC to check pointer accesses,</p>
+<p>If you ask CBMC to check pointer dereferencing,</p>
 <pre><code class="language-bash">cbmc memory-safety.c --pointer-check
 </code></pre>
 <p>CBMC reports that the pointer
@@ -511,7 +512,7 @@ The allocator begins with an initial
 (recommended) size for chunk allocation,
 and repeatedly doubles this size until it is large
 enough to hold the requested size.  Each iteration of the loop doubles
-the size --- shifts the size left by one bit --- until the size overflows
+the size (shifts the size left by one bit) until the size overflows
 to 0.  Once the size is 0, doubling the size results in 0, and the loop
 never ends.</p>
 <p>How would you find this with CBMC (without already knowing the problem exists)?
@@ -600,6 +601,15 @@ then CBMC has likely found a bug.
 But if CBMC does <em>not</em> find any issues, then you can rest assured
 that the issues like memory safety that you are asking CBMC to check for
 will not occur in your program with the inputs you are asking CBMC to check.</p>
+<p>We note, however, that using CBMC may require bounding the size of the inputs
+you are asking CBMC to check.
+It may be necessary, for example, to assume that packets
+coming off the network are of size at most 1024 bytes
+in order to fit the problem into CBMC.
+We refer to assumptions like this as <em>proof assumptions</em>.
+It is important to remember that proof assumptions exists,
+and to communicate them clearly to the reader or consumer of
+any proof you write with CBMC.</p>
 <p>Let's look again at <a href="cbmc/overview/examples/simple/memory-safety.c">memory-safety.c</a></p>
 <pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];
@@ -832,8 +842,8 @@ VERIFICATION SUCCESSFUL
 </code></pre>
 <p>Success!!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cbmc-proofs"><a class="header" href="#cbmc-proofs">CBMC proofs</a></h1>
-<p>This chapter goes into greater detail on how to use CBMC on harder examples
-to check more things.</p>
+<p>This chapter goes into greater detail on how to use CBMC on
+more realistic examples.</p>
 <p>We assume that you are familiar with using CBMC
 on <a href="cbmc/overview/debugging.html">simple examples</a>.
 We assume you have <a href="cbmc/overview/../../installation.html">installed the tools</a>
@@ -970,9 +980,13 @@ and the
 <a href="https://model-checking.github.io/cbmc-viewer/">documentation</a>
 for more information.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loop-unwinding"><a class="header" href="#loop-unwinding">Loop unwinding</a></h1>
-<p>CBMC is a <em>bounded</em> model checker for C.  CBMC works
-by unwinding the loops in our code (ie by unrolling/inlining a finite number of iterations of the loop). CBMC needs to know a bound on the number of times it is expected to unwind any particular
-loop in our code.</p>
+<p>CBMC is a <em>bounded</em> model checker for C.
+CBMC works by unwinding the loops in our code
+(by inlining a finite number of iterations of the loop).
+CBMC needs to know a bound on the number of times it is expected to
+unwind any particular loop in our code.
+In the same way, CBMC needs to know a bound on the number of times
+to invoke any recursive function in our code.</p>
 <p>Sometimes CBMC can figure this out on its own.
 Consider the program <a href="cbmc/overview/examples/assertions/loop1.c">loop1.c</a></p>
 <pre><code class="language-c">#include&lt;assert.h&gt;
@@ -1017,7 +1031,9 @@ int main() {
 <p>and run CBMC with</p>
 <pre><code class="language-bash">cbmc loop2.c
 </code></pre>
-<p>and CBMC will unwind the first loop forever.  We need to tell CBMC how
+<p>and CBMC will unwind the first loop until it runs out of resources
+or the loop index wraps around.
+We need to tell CBMC how
 many times to unwind the loops in the program.
 Run CBMC with</p>
 <pre><code class="language-bash">cbmc --unwind 11 loop2.c
@@ -1032,11 +1048,16 @@ unwinding of loops in the program.  We use <code>--unwind 11</code> to bound loo
 unwinding to 11 iterations.  We can use the flag <code>--unwindset</code> to give
 different bounds to different loops.  CBMC names the loops in a
 program with the name of the function containing the loop and the
-position of the loop within the function.  For example, the two loops in the
-program above would be named <code>main.0</code> and <code>main.1</code>.  We can run CBMC with</p>
+position of the loop within the function.  We can ask CBMC to
+display loop names with the <code>--show-loops</code> flag</p>
+<pre><code>cbmc --show-loops loop2.c
+</code></pre>
+<p>and see that the two loops in <code>loop2.c</code> are named <code>main.0</code> and <code>main.1</code>.
+We can run CBMC with</p>
 <pre><code>cbmc --unwindset main.0:11 --unwindset main.1:11 loop2.c
 </code></pre>
-<p>and get the same successful verification result.  The flags <code>--unwind</code> and
+<p>and get the same successful verification result as with <code>--unwind 11</code>.
+The flags <code>--unwind</code> and
 <code>--unwindset</code> can be used together and with different bounds.
 CBMC will use the <code>--unwind</code> bound
 by default and use the <code>--unwindset</code> bound for the loop it names.</p>
@@ -1124,21 +1145,19 @@ line 5 dereference failure:
   pointer outside object bounds in array[(signed long int)10]: FAILURE
 </code></pre>
 <p>These off-by-one errors caught with <code>--bounds-check</code> and <code>--pointer-check</code>
-feel quite similar to each other, but they are different.
+feel quite similar to each other, but <code>--bounds-check</code> is for index
+expressions and <code>--pointer-check</code> is for pointer offsets.
 We always use these flags together.</p>
 <h2 id="more-pointer-checks"><a class="header" href="#more-pointer-checks">More pointer checks</a></h2>
 <ul>
 <li><code>--pointer-overflow-check</code> checks pointer arithmetic
 for arithmetic overflow and underflow.</li>
 <li><code>--pointer-primitive-check</code> checks that all pointers are either valid or null
-(all pointers, not just dereferenced  pointers).</li>
+(all pointers, not just dereferenced  pointers) when used within <a href="http://www.cprover.org/cprover-manual/api/">CBMC
+builtins</a> like
+<code>__CPROVER_r_okay(ptr, size)</code> that returns true if reading the piece of
+memory starting at the given pointer with the given size is safe.</li>
 </ul>
-<p>Arithmetic overflow in pointer arithmetic
-is an issue because the CBMC heap model interprets a pointer as
-an object id together with an offset into the object.  Pointer arithmetic
-in C uses signed integers for offsets.  So it is theoretically possible for
-the offset into the object to have a magnitude larger than the
-maximum offset CBMC is using for objects on the heap.</p>
 <p>Given the file <a href="cbmc/overview/examples/properties/pointer-overflow.c"><code>pointer-overflow.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
 main() {
@@ -1160,7 +1179,16 @@ line 4 pointer arithmetic:
   pointer outside object bounds in array + (signed long int)18446744073709551615ul:
   FAILURE
 </code></pre>
-<p>EXAMPLE</p>
+<p>At the moment, the flag <code>--pointer-overflow-check</code> will detect the
+potential for integer overflow in the calculation of an offset into an object,
+and also for an offset that would take you outside the bounds of an object,
+but there is another form of overflow to be aware of.
+Arithmetic overflow in pointer arithmetic
+is an issue because the CBMC heap model interprets a pointer as
+an object id together with an offset into the object.  Pointer arithmetic
+in C uses signed integers for offsets.  So it is possible for
+the desired offset into the object to have a magnitude larger than the
+maximum offset CBMC is using for objects on the heap.</p>
 <h2 id="malloc-failure"><a class="header" href="#malloc-failure">Malloc failure</a></h2>
 <ul>
 <li><code>--malloc-may-fail</code> allows any invocation of <code>malloc</code> to fail.</li>
@@ -1515,8 +1543,9 @@ VERIFICATION FAILED
 </code></pre>
 <p>We correct this to <code>bb &gt;= b + 1</code> and we are done.</p>
 <h2 id="modeling-interfaces"><a class="header" href="#modeling-interfaces">Modeling interfaces</a></h2>
-<p>Sometimes a function depends on an implementation of an interface that
-we don't care to test.  A common example is a function the depends on
+<p>Sometimes a function depends on an implementation of an interface or
+a library API that we don't care to test.
+A common example is a function that depends on
 a network communication protocol like HTTP with <code>send</code> and <code>receive</code>
 methods.  We want our code to work independent of the protocol implementation,
 so we replace the implementations of the functions in the protocol interface
@@ -1606,7 +1635,7 @@ of a valid object.  We can do this by calling CBMC with the flags
 <code>--pointer-check</code> and <code>--bounds-check</code>.  Let's prove this even in the
 case where malloc can fail and return NULL instead of a pointer.  The
 default model of malloc in CBMC never fails, but we can change to a
-model of mailloc that can fail and return NULL by calling CBMC with
+model of malloc that can fail and return NULL by calling CBMC with
 the flags <code>--malloc-may-fail</code> and <code>--malloc-fail-null</code>.</p>
 <p>The function <code>cache_fifth_char</code> takes a pointer to a string buffer on
 the heap, so let write a function that allocates a string buffer.</p>
@@ -1646,7 +1675,7 @@ string buffer before we can prove that the function is memory safe.</p>
 recommend writing predicates that say what well-formed objects of these
 types look like.</p>
 <p>In the case of our example, a valid pointer to a string buffer must be
-nonnull, and a valid string buffer must have a buffer that is non-null.</p>
+nonnull, and a valid string buffer must have a buffer that is nonnull.</p>
 <pre><code class="language-c">bool strbuf_is_valid(strbuf* str) {
   if (str == NULL) return false;
   if (str-&gt;buffer == NULL) return false;
@@ -1734,7 +1763,8 @@ Some are implicit.  If the proof harness includes</p>
   char *buffer = (char *) malloc(size);
 </code></pre>
 <p>then the buffer is implicitly bounded to the size of the maximum object
-that CBMC can model (which is probably smaller than a 64-bit integer, see
+that CBMC can model (which is probably smaller than the largest
+size representable in a 64-bit integer, see
 our discussion of the <a href="cbmc/overview/memory-model.html">memory model</a> for more information).</p>
 <h3 id="invariants"><a class="header" href="#invariants">Invariants</a></h3>
 <p>One class of assumption is well-formedness or implicit data structure
@@ -1787,13 +1817,13 @@ after all, designed to be intractable!</p>
 <p>A reasonable stub for the key generator is:</p>
 <pre><code class="language-C">  int key_generator(void *context, public_key_t *public, private_key_t *private)
   {
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }
 </code></pre>
-<p>The <code>__CPROVER_havoc</code> function fills the objects pointed to by <code>public</code>
+<p>The <code>__CPROVER_havoc_object</code> function fills the objects pointed to by <code>public</code>
 and <code>private</code> with arbitrary, unconstrained data.</p>
 <p>This stub has the pleasing effect of considering possible every value
 (well-formed or not) that could be written to <code>public</code> and <code>private</code>
@@ -1809,8 +1839,8 @@ correctly:</p>
     __CPROVER_assert(public, &quot;public is nonnull&quot;);
     __CPROVER_assert(private, &quot;private is nonnull&quot;);
 
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }
@@ -1932,8 +1962,8 @@ in the source file
 <a href="https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/MemMang/heap_5.c">portable/MemMang/heap_5.c</a>.</p>
 <p>This tutorial is actually a slightly cleaned-up version of the work done by two
 developers who used the starter kit to begin verification of <code>pvPortMalloc</code>.
-Two developers who had little more hand-on experience that the demonstration of
-CBMC running on a few simple examples were able to use the starter kit
+These developers, who had little more hands-on experience than the demonstration of
+CBMC running on a few simple examples, were able to use the starter kit
 to begin verification in about ten or fifteen minutes, and were able to
 breathe some real life into the proof within a few more hours.</p>
 <p>Using the starter kit consists of five steps</p>
@@ -1963,7 +1993,7 @@ cbmc-starter-kit-setup
 </code></pre>
 <pre><code>What is the project name? Kernel
 </code></pre>
-<p>The first line create a <code>cbmc</code> directory to hold everything
+<p>The first line creates a <code>cbmc</code> directory to hold everything
 related to CBMC verification.  The last line runs a setup script
 to configure the repository for CBMC verification.
 It examines the layout of the repository and asks for a name to use for
@@ -2250,8 +2280,8 @@ Just change to the directory <code>cbmc/proofs</code> and run the script with</p
 <pre><code>open file:////repository/cbmc/proofs/output/latest/html/index.html
 </code></pre>
 <p>and see a summary of the results.  The results will list the proofs that
-failed at the top.  For each proof, you can click in the column labeled
-&quot;Report&quot; to see same the html report you would see if you ran the proof
+failed at the top.  For each proof, you can click within the column labeled
+&quot;Report&quot; to see the same html report you would see if you ran the proof
 on its own.  You can also click on the &quot;pipeline&quot; icon on the left
 to see the logs for each stage in the pipeline that built the code and
 ran the proof.</p>
@@ -2283,9 +2313,8 @@ Checking</a></li>
 </ul>
 <p>The first two documents are the original paper on CBMC and a follow-up
 technical report giving a bit more detail.  They are excellent introductions,
-but they are a bit old.  The third document is a collection documents for
-developers.  They provide guidance on how to understand the source code,
-but give an uneven coverage of the material.</p>
+but they are a bit old.  The third document is a collection of documents for
+developers.  They provide guidance on how to understand the source code.</p>
 <p>CBMC uses a technique called
 <a href="https://en.wikipedia.org/wiki/Symbolic_execution">symbolic execution</a>
 to turn a program into a set of symbolic constraints that describe
@@ -2295,12 +2324,12 @@ the behavior of the program (the paths through the program).</p>
   x = x+1;
 </code></pre>
 <p>CBMC sees the first statement and knows that <code>x</code> should be represented by
-a vector of 64 binary variables describing the 64-bit binary value of <code>x</code>.
+a vector of 32 binary variables describing the 32-bit binary value of <code>x</code>.
 CBMC sees the second statement and generates a constraint that says,
 &quot;If <code>X0</code> and <code>X1</code> are binary vectors describing the value of <code>x</code>
 before and after the assignment, then <code>X1</code> is <code>X0</code> plus 1.&quot;  CBMC uses
-a Boolean description of a binary adder that adds the 64 bits of <code>X0</code> and
-the 64 bits of <code>1</code>, and generates a constraint that the i-th bit of <code>X1</code> is
+a Boolean description of a binary adder that adds the 32 bits of <code>X0</code> and
+the 32 bits of <code>1</code>, and generates a constraint that the i-th bit of <code>X1</code> is
 equal to the Boolean expression for the i-th bit of the adder's output
 on inputs <code>X0</code> and <code>1</code>.</p>
 <p>Proceeding in this way, statement by statement, CBMC constructs a collection
@@ -2330,8 +2359,8 @@ making.  See our discussion of <a href="faq/proof-assumptions.html">proof assump
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-loop-unwinding"><a class="header" href="#what-is-loop-unwinding">What is loop unwinding?</a></h1>
 <p>CBMC is a bounded model checker.  CBMC works by
 executing a program for some bounded number of steps and looking
-of issues that occur within those steps.  CBMC does not execute a
-program concretely in the same way the a computer would execute the program
+for issues that occur within those steps.  CBMC does not execute a
+program concretely in the same way that a computer would execute the program
 (would execute the result of compiling the program).
 Instead,
 CBMC <a href="https://en.wikipedia.org/wiki/Symbolic_execution">symbolically executes</a>
@@ -2527,6 +2556,9 @@ object id in <code>ptr</code>.</li>
 starting at the offset denoted by the object offset in <code>ptr</code>
 and extending   for <code>length</code> bytes.</li>
 </ul>
+<p>For more information, see the CBMC tutorial on
+<a href="http://cprover.diffblue.com/memory-primitives.html">memory primitives</a> and CBMC
+<a href="http://www.cprover.org/cprover-manual/api/">builtin functions</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="how-does-malloc-work"><a class="header" href="#how-does-malloc-work">How does malloc work?</a></h1>
 <p>CBMC has several models of <code>malloc</code>.</p>
 <p>In one model of <code>malloc</code> (the default model), the function never fails
@@ -2725,7 +2757,7 @@ We provide a <code>Makefile.common</code>, which provides useful makefile rules 
 <li>
 <p>A set of <strong><code>_allocate()</code> and <code>ensure()</code> functions</strong>,  one for each <strong>datatype</strong> used in the proof</p>
 <ol>
-<li>Due to limitations of the CBMC tools, not all properties about a datatype can be declared declaratively.
+<li>Due to limitations of the CBMC tools, not all properties about a datatype can be described declaratively.
 In particular, allocation of memory must be done imperatively.
 These functions handle allocation of the data-structure, and any recursive substructures.</li>
 <li>Can be put in a library and reused by multiple proofs.</li>
@@ -2739,9 +2771,9 @@ These functions handle allocation of the data-structure, and any recursive subst
 </ol>
 </li>
 </ol>
-<p>The remainder of this document describes how build each one of these components.</p>
-<h2 id="running-example"><a class="header" href="#running-example">Running example.</a></h2>
-<p>We will use the <code>aws_array_list</code> module from <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> open-source project as our running example.
+<p>The remainder of this document describes how build one of these components.</p>
+<h2 id="running-example"><a class="header" href="#running-example">Running example</a></h2>
+<p>We will use the <code>aws_array_list</code> module from the <a href="https://github.com/awslabs/aws-c-common">AWS C Common</a> open-source project as our running example.
 This module provides a polymorphic array defined as follows:</p>
 <pre><code class="language-c">struct aws_array_list {
     struct aws_allocator *alloc;
@@ -2755,7 +2787,7 @@ This module provides a polymorphic array defined as follows:</p>
 <li><code>alloc</code> represents the allocator used by the list (to allow consumers of the list to override <code>malloc</code> if desired)</li>
 <li><code>current_size</code> represents the bytes of memory that the array has allocated</li>
 <li><code>length</code> is the number of items that it contains</li>
-<li><code>data_size</code> represents the size of the objects stored in the list (in bytes)</li>
+<li><code>item_size</code> represents the size of the objects stored in the list (in bytes)</li>
 <li><code>data</code> points to a byte array in memory that contains the data of the array list.</li>
 </ul>
 <p>Users of this data structure are expected to access its fields using getter and setter methods, although C does not offer language support to ensure that they do so.
@@ -2804,9 +2836,9 @@ This means the only assumptions on the data structure's values are the ones we s
 
     /* call function under verification */
     if(!aws_array_list_get_at_ptr(list, val, index)) {
-      /* If aws_array_list_get_at_ptr is successful,
-       * i.e. ret==0, we ensure the list isn't
-       * empty and index is within bounds */
+        /* If aws_array_list_get_at_ptr is successful,
+         * i.e. ret==0, we ensure the list isn't
+         * empty and index is within bounds */
         assert(list-&gt;data != NULL);
         assert(list-&gt;length &gt; index);
     }
@@ -2848,7 +2880,7 @@ If necessary, bound the data structures so that the proof terminates.</li>
     size_t index;
 
     /* call function under verification */
-     aws_array_list_get_at_ptr(list, val, index);
+    aws_array_list_get_at_ptr(list, val, index);
 }
 </code></pre>
 <p>Note that we are leaving the inputs to the function completely unconstrained: we are simply declaring them on the stack, and then using them without assigning any values to them.
@@ -2872,7 +2904,8 @@ In the case of our running example, you will see errors that look like this</li>
          * Line 347:
            * [trace] val != ((void*)0) check failed
 </code></pre>
-<p>Consult our <a href="management/Debug-an-error-trace.html">guide to debugging CBMC output</a> for suggestions about how to understand this output.</p>
+<p>We have already seen examples of <a href="management/../cbmc/overview/debugging.html">CBMC error traces</a> like this,
+and we will soon give more guidance on <a href="management/Debug-an-error-trace.html">debugging CBMC error traces</a>.</p>
 <ol>
 <li>
 <p>Constrain each input in turn until all warnings are resolved.
@@ -2880,14 +2913,14 @@ See the sections on writing <code>_is_valid()</code> and <code>_ensure_is_alloca
 </li>
 <li>
 <p>Fix any loop-unwinding errors.
-To fix these errors, you will need update the Makefile with the correct loop bounds.
+To fix these errors, you will need to update the Makefile with the correct loop bounds.
 This may cause CBMC to get quite slow.
 In this case, we recommend <strong>bounding</strong> the size of data-structures to allow CBMC to finish quickly.
 In the harness above, this is accomplished by the line</p>
 <pre><code>__CPROVER_assume(aws_array_list_is_bounded(list))
 </code></pre>
-<p>We recommend starting with very small bounds to ensure a quick REPL cycle.
-Once the proof is finished, you can increase the bounds to increase assurance.</p>
+<p>We recommend starting with very small bounds to ensure a quick debug cycle.
+Once the proof is finished, you can increase the bounds to give proofs for longer lists.</p>
 </li>
 <li>
 <p>Check the coverage report.
@@ -2896,7 +2929,7 @@ In practice, coverage will be less than 100%, for e.g. in defensive code that re
 In this case, inspect the uncovered code, and ensure that it matches your expectations.</p>
 </li>
 <li>
-<p>Increase assurance by adding assertions to the harness.
+<p>Strengthen the proof by adding assertions to the harness that check more properties.
 There are typically three types of such assertions:</p>
 <ol>
 <li>Data structures should remain valid, whether or not the function under test succeeded.</li>
@@ -2908,9 +2941,9 @@ There are typically three types of such assertions:</p>
 </ol>
 <pre><code class="language-c">    /* call function under verification */
     if(!aws_array_list_get_at_ptr(list, val, index)) {
-      /* If aws_array_list_get_at_ptr is successful,
-       * i.e. ret==0, we ensure the list isn't
-       * empty and index is within bounds */
+        /* If aws_array_list_get_at_ptr is successful,
+         * i.e. ret==0, we ensure the list isn't
+         * empty and index is within bounds */
         assert(list-&gt;data != NULL);
         assert(list-&gt;length &gt; index);
     }
@@ -2978,7 +3011,7 @@ Then, gradually refine these predicates, until you have a set of reasonable inva
 <p>Having an explicit code-review in which subject matter experts on the development team confirm that the invariants represent the design intent of the code</p>
 </li>
 <li>
-<p>Adding these invariants are pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
+<p>Adding these invariants as pre/post-conditions to the code being verified, and ensuring that all unit and regression tests pass.
 Note that unit-test failures do not necessarily reflect problems with your invariants.
 They may also reflect either</p>
 <ol>
@@ -3043,12 +3076,12 @@ This provides value in several ways.</p>
 <ol>
 <li><strong>It connects the code and the proof.</strong>
 Proofs for all but the most simple functions require environment assumptions.
-One of the most common ways proof can go wrong is when these assumptions the real-world context in which the function is used.
+One of the most common ways proof can go wrong is when these assumptions are actually false when the function is called in the real world.
 Adding the assumptions as runtime assertions in the code allows such mismatches to be detected as the code runs.
-Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes with any performance penalty on production code.
+Some teams choose to enable these assertions only in debug mode; this allows mismatches to be detected during the standard unit and integration testing processes without any performance penalty on production code.
 Other teams enable these assertions for all builds, providing increased assurance at a small runtime cost.</li>
 <li><strong>It helps detect bugs in the broader codebase.</strong>
-On a number of occasions, adding function contracts to correct code detected function contracts in other parts of the code base.
+On a number of occasions, adding function contracts to correct code detected violations of function contracts in other parts of the code base.
 In several cases, we discovered errors in other projects, which were calling verified APIs with invalid parameters.
 Even though those projects had never been formally verified, they still benefited from the function contracts developed during the formal verification work.</li>
 <li><strong>It helps focus the mind.</strong>
@@ -3073,9 +3106,9 @@ Adding the proof assumptions and checks to the codebase itself as runtime assert
 </code></pre>
 <p>Putting it all together:</p>
 <pre><code class="language-c">int aws_array_list_get_at_ptr(
-        const struct aws_array_list* list,
-        void **val,
-        size_t index)
+    const struct aws_array_list* list,
+    void **val,
+    size_t index)
 {
     AWS_PRECONDITION(aws_array_list_is_valid(list));
     AWS_PRECONDITION(val != NULL);
@@ -3126,7 +3159,7 @@ The shorter the trace leading to the issue, the easier it is to debug.</li>
 Some functions are simpler than others: a failure in a simple function is often easier to analyze that one in a complicated function.
 And a failure in a function you understand is easier than one in a function you are not familiar with.</li>
 <li><strong>Look for a simple type of failure.</strong>
-For example, the trace from a null dereference is often easier to follow than the trace for a use of a DEAD pointer.
+For example, the trace from a null dereference is often easier to follow than the traces from other uses of bad pointers.
 But they're normally exactly the same bug!
 Since null dereference bugs normally give the simplest traces, start with them first.
 Often, resolving the null dereference also fixes the other related bugs.</li>

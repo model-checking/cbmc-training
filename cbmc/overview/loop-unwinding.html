@@ -135,9 +135,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="loop-unwinding"><a class="header" href="#loop-unwinding">Loop unwinding</a></h1>
-<p>CBMC is a <em>bounded</em> model checker for C.  CBMC works
-by unwinding the loops in our code (ie by unrolling/inlining a finite number of iterations of the loop). CBMC needs to know a bound on the number of times it is expected to unwind any particular
-loop in our code.</p>
+<p>CBMC is a <em>bounded</em> model checker for C.
+CBMC works by unwinding the loops in our code
+(by inlining a finite number of iterations of the loop).
+CBMC needs to know a bound on the number of times it is expected to
+unwind any particular loop in our code.
+In the same way, CBMC needs to know a bound on the number of times
+to invoke any recursive function in our code.</p>
 <p>Sometimes CBMC can figure this out on its own.
 Consider the program <a href="examples/assertions/loop1.c">loop1.c</a></p>
 <pre><code class="language-c">#include&lt;assert.h&gt;
@@ -182,7 +186,9 @@ int main() {
 <p>and run CBMC with</p>
 <pre><code class="language-bash">cbmc loop2.c
 </code></pre>
-<p>and CBMC will unwind the first loop forever.  We need to tell CBMC how
+<p>and CBMC will unwind the first loop until it runs out of resources
+or the loop index wraps around.
+We need to tell CBMC how
 many times to unwind the loops in the program.
 Run CBMC with</p>
 <pre><code class="language-bash">cbmc --unwind 11 loop2.c
@@ -197,11 +203,16 @@ unwinding of loops in the program.  We use <code>--unwind 11</code> to bound loo
 unwinding to 11 iterations.  We can use the flag <code>--unwindset</code> to give
 different bounds to different loops.  CBMC names the loops in a
 program with the name of the function containing the loop and the
-position of the loop within the function.  For example, the two loops in the
-program above would be named <code>main.0</code> and <code>main.1</code>.  We can run CBMC with</p>
+position of the loop within the function.  We can ask CBMC to
+display loop names with the <code>--show-loops</code> flag</p>
+<pre><code>cbmc --show-loops loop2.c
+</code></pre>
+<p>and see that the two loops in <code>loop2.c</code> are named <code>main.0</code> and <code>main.1</code>.
+We can run CBMC with</p>
 <pre><code>cbmc --unwindset main.0:11 --unwindset main.1:11 loop2.c
 </code></pre>
-<p>and get the same successful verification result.  The flags <code>--unwind</code> and
+<p>and get the same successful verification result as with <code>--unwind 11</code>.
+The flags <code>--unwind</code> and
 <code>--unwindset</code> can be used together and with different bounds.
 CBMC will use the <code>--unwind</code> bound
 by default and use the <code>--unwindset</code> bound for the loop it names.</p>

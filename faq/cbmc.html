@@ -144,9 +144,8 @@ Checking</a></li>
 </ul>
 <p>The first two documents are the original paper on CBMC and a follow-up
 technical report giving a bit more detail.  They are excellent introductions,
-but they are a bit old.  The third document is a collection documents for
-developers.  They provide guidance on how to understand the source code,
-but give an uneven coverage of the material.</p>
+but they are a bit old.  The third document is a collection of documents for
+developers.  They provide guidance on how to understand the source code.</p>
 <p>CBMC uses a technique called
 <a href="https://en.wikipedia.org/wiki/Symbolic_execution">symbolic execution</a>
 to turn a program into a set of symbolic constraints that describe
@@ -156,12 +155,12 @@ the behavior of the program (the paths through the program).</p>
   x = x+1;
 </code></pre>
 <p>CBMC sees the first statement and knows that <code>x</code> should be represented by
-a vector of 64 binary variables describing the 64-bit binary value of <code>x</code>.
+a vector of 32 binary variables describing the 32-bit binary value of <code>x</code>.
 CBMC sees the second statement and generates a constraint that says,
 &quot;If <code>X0</code> and <code>X1</code> are binary vectors describing the value of <code>x</code>
 before and after the assignment, then <code>X1</code> is <code>X0</code> plus 1.&quot;  CBMC uses
-a Boolean description of a binary adder that adds the 64 bits of <code>X0</code> and
-the 64 bits of <code>1</code>, and generates a constraint that the i-th bit of <code>X1</code> is
+a Boolean description of a binary adder that adds the 32 bits of <code>X0</code> and
+the 32 bits of <code>1</code>, and generates a constraint that the i-th bit of <code>X1</code> is
 equal to the Boolean expression for the i-th bit of the adder's output
 on inputs <code>X0</code> and <code>1</code>.</p>
 <p>Proceeding in this way, statement by statement, CBMC constructs a collection

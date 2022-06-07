@@ -192,21 +192,19 @@ line 5 dereference failure:
   pointer outside object bounds in array[(signed long int)10]: FAILURE
 </code></pre>
 <p>These off-by-one errors caught with <code>--bounds-check</code> and <code>--pointer-check</code>
-feel quite similar to each other, but they are different.
+feel quite similar to each other, but <code>--bounds-check</code> is for index
+expressions and <code>--pointer-check</code> is for pointer offsets.
 We always use these flags together.</p>
 <h2 id="more-pointer-checks"><a class="header" href="#more-pointer-checks">More pointer checks</a></h2>
 <ul>
 <li><code>--pointer-overflow-check</code> checks pointer arithmetic
 for arithmetic overflow and underflow.</li>
 <li><code>--pointer-primitive-check</code> checks that all pointers are either valid or null
-(all pointers, not just dereferenced  pointers).</li>
+(all pointers, not just dereferenced  pointers) when used within <a href="http://www.cprover.org/cprover-manual/api/">CBMC
+builtins</a> like
+<code>__CPROVER_r_okay(ptr, size)</code> that returns true if reading the piece of
+memory starting at the given pointer with the given size is safe.</li>
 </ul>
-<p>Arithmetic overflow in pointer arithmetic
-is an issue because the CBMC heap model interprets a pointer as
-an object id together with an offset into the object.  Pointer arithmetic
-in C uses signed integers for offsets.  So it is theoretically possible for
-the offset into the object to have a magnitude larger than the
-maximum offset CBMC is using for objects on the heap.</p>
 <p>Given the file <a href="examples/properties/pointer-overflow.c"><code>pointer-overflow.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
 main() {
@@ -228,7 +226,16 @@ line 4 pointer arithmetic:
   pointer outside object bounds in array + (signed long int)18446744073709551615ul:
   FAILURE
 </code></pre>
-<p>EXAMPLE</p>
+<p>At the moment, the flag <code>--pointer-overflow-check</code> will detect the
+potential for integer overflow in the calculation of an offset into an object,
+and also for an offset that would take you outside the bounds of an object,
+but there is another form of overflow to be aware of.
+Arithmetic overflow in pointer arithmetic
+is an issue because the CBMC heap model interprets a pointer as
+an object id together with an offset into the object.  Pointer arithmetic
+in C uses signed integers for offsets.  So it is possible for
+the desired offset into the object to have a magnitude larger than the
+maximum offset CBMC is using for objects on the heap.</p>
 <h2 id="malloc-failure"><a class="header" href="#malloc-failure">Malloc failure</a></h2>
 <ul>
 <li><code>--malloc-may-fail</code> allows any invocation of <code>malloc</code> to fail.</li>

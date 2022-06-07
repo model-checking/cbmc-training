@@ -183,7 +183,8 @@ Some are implicit.  If the proof harness includes</p>
   char *buffer = (char *) malloc(size);
 </code></pre>
 <p>then the buffer is implicitly bounded to the size of the maximum object
-that CBMC can model (which is probably smaller than a 64-bit integer, see
+that CBMC can model (which is probably smaller than the largest
+size representable in a 64-bit integer, see
 our discussion of the <a href="memory-model.html">memory model</a> for more information).</p>
 <h3 id="invariants"><a class="header" href="#invariants">Invariants</a></h3>
 <p>One class of assumption is well-formedness or implicit data structure
@@ -236,13 +237,13 @@ after all, designed to be intractable!</p>
 <p>A reasonable stub for the key generator is:</p>
 <pre><code class="language-C">  int key_generator(void *context, public_key_t *public, private_key_t *private)
   {
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }
 </code></pre>
-<p>The <code>__CPROVER_havoc</code> function fills the objects pointed to by <code>public</code>
+<p>The <code>__CPROVER_havoc_object</code> function fills the objects pointed to by <code>public</code>
 and <code>private</code> with arbitrary, unconstrained data.</p>
 <p>This stub has the pleasing effect of considering possible every value
 (well-formed or not) that could be written to <code>public</code> and <code>private</code>
@@ -258,8 +259,8 @@ correctly:</p>
     __CPROVER_assert(public, &quot;public is nonnull&quot;);
     __CPROVER_assert(private, &quot;private is nonnull&quot;);
 
-    __CPROVER_havoc(public);
-    __CPROVER_havoc(private);
+    __CPROVER_havoc_object(public);
+    __CPROVER_havoc_object(private);
     int rc;
     return rc;
   }

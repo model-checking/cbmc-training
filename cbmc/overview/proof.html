@@ -142,6 +142,15 @@ then CBMC has likely found a bug.
 But if CBMC does <em>not</em> find any issues, then you can rest assured
 that the issues like memory safety that you are asking CBMC to check for
 will not occur in your program with the inputs you are asking CBMC to check.</p>
+<p>We note, however, that using CBMC may require bounding the size of the inputs
+you are asking CBMC to check.
+It may be necessary, for example, to assume that packets
+coming off the network are of size at most 1024 bytes
+in order to fit the problem into CBMC.
+We refer to assumptions like this as <em>proof assumptions</em>.
+It is important to remember that proof assumptions exists,
+and to communicate them clearly to the reader or consumer of
+any proof you write with CBMC.</p>
 <p>Let's look again at <a href="examples/simple/memory-safety.c">memory-safety.c</a></p>
 <pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];

@@ -247,8 +247,9 @@ VERIFICATION FAILED
 </code></pre>
 <p>We correct this to <code>bb &gt;= b + 1</code> and we are done.</p>
 <h2 id="modeling-interfaces"><a class="header" href="#modeling-interfaces">Modeling interfaces</a></h2>
-<p>Sometimes a function depends on an implementation of an interface that
-we don't care to test.  A common example is a function the depends on
+<p>Sometimes a function depends on an implementation of an interface or
+a library API that we don't care to test.
+A common example is a function that depends on
 a network communication protocol like HTTP with <code>send</code> and <code>receive</code>
 methods.  We want our code to work independent of the protocol implementation,
 so we replace the implementations of the functions in the protocol interface
@@ -338,7 +339,7 @@ of a valid object.  We can do this by calling CBMC with the flags
 <code>--pointer-check</code> and <code>--bounds-check</code>.  Let's prove this even in the
 case where malloc can fail and return NULL instead of a pointer.  The
 default model of malloc in CBMC never fails, but we can change to a
-model of mailloc that can fail and return NULL by calling CBMC with
+model of malloc that can fail and return NULL by calling CBMC with
 the flags <code>--malloc-may-fail</code> and <code>--malloc-fail-null</code>.</p>
 <p>The function <code>cache_fifth_char</code> takes a pointer to a string buffer on
 the heap, so let write a function that allocates a string buffer.</p>
@@ -378,7 +379,7 @@ string buffer before we can prove that the function is memory safe.</p>
 recommend writing predicates that say what well-formed objects of these
 types look like.</p>
 <p>In the case of our example, a valid pointer to a string buffer must be
-nonnull, and a valid string buffer must have a buffer that is non-null.</p>
+nonnull, and a valid string buffer must have a buffer that is nonnull.</p>
 <pre><code class="language-c">bool strbuf_is_valid(strbuf* str) {
   if (str == NULL) return false;
   if (str-&gt;buffer == NULL) return false;
