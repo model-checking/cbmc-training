@@ -46,8 +46,8 @@ CBMC is warning us that it found no function body for `init`.
 We included the function declaration but forgot to include the function
 definition.  CBMC treats a function like `init` with no function body as
 a function with no side effects (`init` will not initialize the vector)
-that returns an unconstrained return value (`init` will return an
-arbitrary integer value).
+that returns an unconstrained return value (though `init` returns no value
+since the return type is `void`).
 
 CBMC is also telling us that it unwound the for loop three times.
 This makes sense since the array has `LENGTH=2`.  Notice that CBMC
