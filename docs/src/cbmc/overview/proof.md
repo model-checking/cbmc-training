@@ -26,7 +26,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -41,21 +41,19 @@ in the code.  Let's fix that.
 Let's try adding bounds checking.
 Consider [memory-safety1.c](examples/simple/memory-safety1.c)
 ```c
-#include <stdlib.h>
-
 #define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (i < SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (i < SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -89,21 +87,19 @@ Oh, nuts.  We failed.  We added bounds checking only for the upper bound.
 Let's try adding bounds checking for both the upper and lower bounds.
 Consider [memory-safety2.c](examples/simple/memory-safety2.c)
 ```c
-#include <stdlib.h>
-
 #define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 <= i && i < SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 <= i && i < SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -185,7 +181,6 @@ char read_pointer(int i);
 ```
 and [library.c](examples/simple/library.c)
 ```c
-#include <stdlib.h>
 #include "library.h"
 
 #define SIZE 20
@@ -193,11 +188,11 @@ char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 <= i && i < SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 <= i && i < SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 ```
 

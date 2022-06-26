@@ -99,7 +99,7 @@ it challenging to write a Makefile where arithmetic like `B+1` is difficult.
 One style we have developed is to write a proof harness
 
 ```C
-main() {
+int main() {
   size_t length;
   __CPROVER_assume(length < LENGTH);
 

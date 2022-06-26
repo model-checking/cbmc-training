@@ -37,7 +37,7 @@ int beta(int x) {
   return x+2;
 }
 
-main() {
+int main() {
   int (*function)();
 
   int bool;

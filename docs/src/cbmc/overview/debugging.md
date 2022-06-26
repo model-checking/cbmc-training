@@ -14,7 +14,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -87,7 +87,7 @@ buffer.
 The source code in [termination.c](examples/simple/termination.c)
 ```c
 #include <stdlib.h>
-main() {
+int main() {
   size_t initial_size;
   size_t requested_size;
 
