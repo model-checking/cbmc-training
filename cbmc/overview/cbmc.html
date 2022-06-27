@@ -173,8 +173,8 @@ Unwinding loop main.0 iteration 3 file vector.c line 13 function main thread 0
 We included the function declaration but forgot to include the function
 definition.  CBMC treats a function like <code>init</code> with no function body as
 a function with no side effects (<code>init</code> will not initialize the vector)
-that returns an unconstrained return value (<code>init</code> will return an
-arbitrary integer value).</p>
+that returns an unconstrained return value (though <code>init</code> returns no value
+since the return type is <code>void</code>).</p>
 <p>CBMC is also telling us that it unwound the for loop three times.
 This makes sense since the array has <code>LENGTH=2</code>.  Notice that CBMC
 gave this first (and only) loop in the function <code>main</code> the loop name <code>main.0</code>.</p>
