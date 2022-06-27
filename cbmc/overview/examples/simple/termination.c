@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 #include <stdlib.h>
-main() {
+int main() {
   size_t initial_size;
   size_t requested_size;
 

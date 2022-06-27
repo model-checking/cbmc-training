@@ -158,7 +158,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -170,21 +170,19 @@ in the code.  Let's fix that.</p>
 <h2 id="memory-safety-proof"><a class="header" href="#memory-safety-proof">Memory safety proof</a></h2>
 <p>Let's try adding bounds checking.
 Consider <a href="examples/simple/memory-safety1.c">memory-safety1.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-
-#define SIZE 20
+<pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -213,21 +211,19 @@ VERIFICATION FAILED
 <h2 id="memory-safety-proof-20"><a class="header" href="#memory-safety-proof-20">Memory safety proof 2.0</a></h2>
 <p>Let's try adding bounds checking for both the upper and lower bounds.
 Consider <a href="examples/simple/memory-safety2.c">memory-safety2.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-
-#define SIZE 20
+<pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -297,19 +293,18 @@ Here is <a href="examples/simple/library.h">library.h</a></p>
 char read_pointer(int i);
 </code></pre>
 <p>and <a href="examples/simple/library.c">library.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-#include &quot;library.h&quot;
+<pre><code class="language-c">#include &quot;library.h&quot;
 
 #define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 </code></pre>
 <h3 id="the-proof-harnesses"><a class="header" href="#the-proof-harnesses">The proof harnesses</a></h3>

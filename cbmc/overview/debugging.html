@@ -146,7 +146,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -207,7 +207,7 @@ buffer.</p>
 <h2 id="termination"><a class="header" href="#termination">Termination</a></h2>
 <p>The source code in <a href="examples/simple/termination.c">termination.c</a></p>
 <pre><code class="language-c">#include &lt;stdlib.h&gt;
-main() {
+int main() {
   size_t initial_size;
   size_t requested_size;
 

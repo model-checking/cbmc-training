@@ -3,7 +3,7 @@
 
 int alpha(int x);
 
-main() {
+int main() {
 
   int x;
   alpha(x);

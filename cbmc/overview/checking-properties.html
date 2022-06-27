@@ -156,7 +156,7 @@ For the full list of things that CBMC can check, run <code>cbmc --help</code>.</
 <li><code>--pointer-check</code> enables invalid pointer checking.</li>
 </ul>
 <p>Given the program <a href="examples/properties/bounds.c"><code>bounds.c</code></a></p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   int array[10];
   for (int i=0; i&lt;=10; i++) array[i] = i;
 }
@@ -169,7 +169,7 @@ For the full list of things that CBMC can check, run <code>cbmc --help</code>.</
 line 3 array 'array' upper bound in array[(signed long int)i]: FAILURE
 </code></pre>
 <p>Given the program <a href="examples/properties/pointers.c"><code>pointers.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int *ptr;
   int array[10];
   *ptr = 3;
@@ -207,7 +207,7 @@ memory starting at the given pointer with the given size is safe.</li>
 </ul>
 <p>Given the file <a href="examples/properties/pointer-overflow.c"><code>pointer-overflow.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
-main() {
+int main() {
   int array[10];
   int *x = array + SIZE_MAX;
 }
@@ -274,7 +274,7 @@ check for integer overflow.</li>
 </ul>
 <p>Given the file <a href="examples/properties/integer.c">integer.c</a></p>
 <pre><code>#include &lt;limits.h&gt;
-main() {
+int main() {
   int x;
   int y;
   if (x + y &lt;= INT_MAX)
@@ -298,7 +298,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <li><code>--nan-check</code> checks for NaN in floating-point arithmetic.</li>
 </ul>
 <p>Given the file <a href="examples/properties/float.c"><code>float.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   float x = 100000000.0;
   for (int i = 0; i &lt; 10; i++) x = x * x;
 }
@@ -313,7 +313,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <pre><code>line 3 arithmetic overflow on floating-point multiplication in x * x: FAILURE
 </code></pre>
 <p>Given the file <a href="examples/properties/nan.c"><code>nan.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   float x = 0.0 / 0.0;
 }
 </code></pre>
@@ -331,7 +331,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <li><code>--div-by-zero-check</code> checks for division by zero.</li>
 </ul>
 <p>Given the file <a href="examples/properties/zero.c"><code>zero.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int a;
   int b;
   int result = a / b;
@@ -350,7 +350,7 @@ represented after type casts.</li>
 </ul>
 <p>Given the file <a href="examples/properties/conversion.c"><code>conversion.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
-main() {
+int main() {
   uint8_t x;
   uint16_t y;
   x = y;
@@ -372,7 +372,7 @@ main() {
 shifting too far or shifting a negative value</li>
 </ul>
 <p>Given the program <a href="examples/properties/shift.c">'shift.c'</a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int x = 1;
   int y = -1;
   int z;
@@ -403,7 +403,7 @@ completely unwound.</li>
 <p>Always run CBMC with the flag <code>--unwinding-assertions</code>.</p>
 <p>Given the program <a href="examples/properties/loop.c"><code>loop.c</code></a></p>
 <pre><code>#include &lt;stdbool.h&gt;
-main() {
+int main() {
   int bound;
   for (int i=0; i&lt;bound; i++)
     if (i &gt; 9) assert(false);

@@ -171,7 +171,7 @@ int beta1(int b) {
 is an integer <code>b</code>.  We write a proof harness <a href="examples/harness/harness1.c">harness1.c</a></p>
 <pre><code class="language-c">int beta1(int b);
 
-main() {
+int main() {
    int x;
    beta1(x);
 }
@@ -223,7 +223,7 @@ We write a proof harness <a href="examples/harness/harness2.c">harness2.c</a></p
 <pre><code class="language-c">extern int counter;
 int beta2(int b);
 
-main() {
+int main() {
     int cnt;
     counter = cnt;
 
@@ -282,7 +282,7 @@ void send(int msg) {
 <p>We write the proof harness <a href="examples/harness/harness3.c">harness3.c</a></p>
 <pre><code class="language-c">int alpha(int x);
 
-main() {
+int main() {
     int x;
     alpha(x);
 }
@@ -352,7 +352,7 @@ the heap, so let write a function that allocates a string buffer.</p>
 }
 </code></pre>
 <p>Now we can write a proof harness for the function</p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 
@@ -392,7 +392,7 @@ also assert that the string buffer remains valid after calling the function.
 And we can assume that the buffer has at least 5 characters in it.
 In fact, we can prove the this remains true after the function invocation,
 meaning that the function preserves the validity of its input.</p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 

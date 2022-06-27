@@ -433,7 +433,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -494,7 +494,7 @@ buffer.</p>
 <h2 id="termination"><a class="header" href="#termination">Termination</a></h2>
 <p>The source code in <a href="cbmc/overview/examples/simple/termination.c">termination.c</a></p>
 <pre><code class="language-c">#include &lt;stdlib.h&gt;
-main() {
+int main() {
   size_t initial_size;
   size_t requested_size;
 
@@ -617,7 +617,7 @@ char buffer[SIZE];
 char read_buffer(int i)  { return buffer[i];     }
 char read_pointer(int i) { return *(buffer + i); }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -629,21 +629,19 @@ in the code.  Let's fix that.</p>
 <h2 id="memory-safety-proof"><a class="header" href="#memory-safety-proof">Memory safety proof</a></h2>
 <p>Let's try adding bounds checking.
 Consider <a href="cbmc/overview/examples/simple/memory-safety1.c">memory-safety1.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-
-#define SIZE 20
+<pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -672,21 +670,19 @@ VERIFICATION FAILED
 <h2 id="memory-safety-proof-20"><a class="header" href="#memory-safety-proof-20">Memory safety proof 2.0</a></h2>
 <p>Let's try adding bounds checking for both the upper and lower bounds.
 Consider <a href="cbmc/overview/examples/simple/memory-safety2.c">memory-safety2.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-
-#define SIZE 20
+<pre><code class="language-c">#define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 
-main() {
+int main() {
   int index;
   read_buffer(index);
   read_pointer(index);
@@ -756,19 +752,18 @@ Here is <a href="cbmc/overview/examples/simple/library.h">library.h</a></p>
 char read_pointer(int i);
 </code></pre>
 <p>and <a href="cbmc/overview/examples/simple/library.c">library.c</a></p>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
-#include &quot;library.h&quot;
+<pre><code class="language-c">#include &quot;library.h&quot;
 
 #define SIZE 20
 char buffer[SIZE];
 
 char read_buffer(int i)  {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return buffer[i];
-  return NULL;
+  return '\0';
 }
 char read_pointer(int i) {
   if (0 &lt;= i &amp;&amp; i &lt; SIZE) return *(buffer + i);
-  return NULL;
+  return '\0';
 }
 </code></pre>
 <h3 id="the-proof-harnesses"><a class="header" href="#the-proof-harnesses">The proof harnesses</a></h3>
@@ -1109,7 +1104,7 @@ For the full list of things that CBMC can check, run <code>cbmc --help</code>.</
 <li><code>--pointer-check</code> enables invalid pointer checking.</li>
 </ul>
 <p>Given the program <a href="cbmc/overview/examples/properties/bounds.c"><code>bounds.c</code></a></p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   int array[10];
   for (int i=0; i&lt;=10; i++) array[i] = i;
 }
@@ -1122,7 +1117,7 @@ For the full list of things that CBMC can check, run <code>cbmc --help</code>.</
 line 3 array 'array' upper bound in array[(signed long int)i]: FAILURE
 </code></pre>
 <p>Given the program <a href="cbmc/overview/examples/properties/pointers.c"><code>pointers.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int *ptr;
   int array[10];
   *ptr = 3;
@@ -1160,7 +1155,7 @@ memory starting at the given pointer with the given size is safe.</li>
 </ul>
 <p>Given the file <a href="cbmc/overview/examples/properties/pointer-overflow.c"><code>pointer-overflow.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
-main() {
+int main() {
   int array[10];
   int *x = array + SIZE_MAX;
 }
@@ -1227,7 +1222,7 @@ check for integer overflow.</li>
 </ul>
 <p>Given the file <a href="cbmc/overview/examples/properties/integer.c">integer.c</a></p>
 <pre><code>#include &lt;limits.h&gt;
-main() {
+int main() {
   int x;
   int y;
   if (x + y &lt;= INT_MAX)
@@ -1251,7 +1246,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <li><code>--nan-check</code> checks for NaN in floating-point arithmetic.</li>
 </ul>
 <p>Given the file <a href="cbmc/overview/examples/properties/float.c"><code>float.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   float x = 100000000.0;
   for (int i = 0; i &lt; 10; i++) x = x * x;
 }
@@ -1266,7 +1261,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <pre><code>line 3 arithmetic overflow on floating-point multiplication in x * x: FAILURE
 </code></pre>
 <p>Given the file <a href="cbmc/overview/examples/properties/nan.c"><code>nan.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   float x = 0.0 / 0.0;
 }
 </code></pre>
@@ -1284,7 +1279,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 <li><code>--div-by-zero-check</code> checks for division by zero.</li>
 </ul>
 <p>Given the file <a href="cbmc/overview/examples/properties/zero.c"><code>zero.c</code></a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int a;
   int b;
   int result = a / b;
@@ -1303,7 +1298,7 @@ represented after type casts.</li>
 </ul>
 <p>Given the file <a href="cbmc/overview/examples/properties/conversion.c"><code>conversion.c</code></a></p>
 <pre><code>#include &lt;stdint.h&gt;
-main() {
+int main() {
   uint8_t x;
   uint16_t y;
   x = y;
@@ -1325,7 +1320,7 @@ main() {
 shifting too far or shifting a negative value</li>
 </ul>
 <p>Given the program <a href="cbmc/overview/examples/properties/shift.c">'shift.c'</a></p>
-<pre><code>main() {
+<pre><code>int main() {
   int x = 1;
   int y = -1;
   int z;
@@ -1356,7 +1351,7 @@ completely unwound.</li>
 <p>Always run CBMC with the flag <code>--unwinding-assertions</code>.</p>
 <p>Given the program <a href="cbmc/overview/examples/properties/loop.c"><code>loop.c</code></a></p>
 <pre><code>#include &lt;stdbool.h&gt;
-main() {
+int main() {
   int bound;
   for (int i=0; i&lt;bound; i++)
     if (i &gt; 9) assert(false);
@@ -1467,7 +1462,7 @@ int beta1(int b) {
 is an integer <code>b</code>.  We write a proof harness <a href="cbmc/overview/examples/harness/harness1.c">harness1.c</a></p>
 <pre><code class="language-c">int beta1(int b);
 
-main() {
+int main() {
    int x;
    beta1(x);
 }
@@ -1519,7 +1514,7 @@ We write a proof harness <a href="cbmc/overview/examples/harness/harness2.c">har
 <pre><code class="language-c">extern int counter;
 int beta2(int b);
 
-main() {
+int main() {
     int cnt;
     counter = cnt;
 
@@ -1578,7 +1573,7 @@ void send(int msg) {
 <p>We write the proof harness <a href="cbmc/overview/examples/harness/harness3.c">harness3.c</a></p>
 <pre><code class="language-c">int alpha(int x);
 
-main() {
+int main() {
     int x;
     alpha(x);
 }
@@ -1648,7 +1643,7 @@ the heap, so let write a function that allocates a string buffer.</p>
 }
 </code></pre>
 <p>Now we can write a proof harness for the function</p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 
@@ -1688,7 +1683,7 @@ also assert that the string buffer remains valid after calling the function.
 And we can assume that the buffer has at least 5 characters in it.
 In fact, we can prove the this remains true after the function invocation,
 meaning that the function preserves the validity of its input.</p>
-<pre><code class="language-c">main() {
+<pre><code class="language-c">int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 
@@ -1880,7 +1875,7 @@ int beta(int x) {
   return x+2;
 }
 
-main() {
+int main() {
   int (*function)();
 
   int bool;
@@ -2440,7 +2435,7 @@ is checked: <code>K = T = B+1</code>.</p>
 <p>This off-by-one business sometimes confuses people, and sometimes makes
 it challenging to write a Makefile where arithmetic like <code>B+1</code> is difficult.
 One style we have developed is to write a proof harness</p>
-<pre><code class="language-C">main() {
+<pre><code class="language-C">int main() {
   size_t length;
   __CPROVER_assume(length &lt; LENGTH);
 

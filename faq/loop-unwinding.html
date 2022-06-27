@@ -218,7 +218,7 @@ is checked: <code>K = T = B+1</code>.</p>
 <p>This off-by-one business sometimes confuses people, and sometimes makes
 it challenging to write a Makefile where arithmetic like <code>B+1</code> is difficult.
 One style we have developed is to write a proof harness</p>
-<pre><code class="language-C">main() {
+<pre><code class="language-C">int main() {
   size_t length;
   __CPROVER_assume(length &lt; LENGTH);
 
