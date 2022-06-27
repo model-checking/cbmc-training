@@ -118,26 +118,28 @@ cbmc-starter-kit-setup-proof
 ```
 What is the function name? pvPortMalloc
 These source files define a function 'pvPortMalloc':
-   0 ../../portable/ARMv8M/secure/heap/secure_heap.c
-   1 ../../portable/GCC/ARM_CM23/secure/secure_heap.c
-   2 ../../portable/GCC/ARM_CM33/secure/secure_heap.c
-   3 ../../portable/IAR/ARM_CM23/secure/secure_heap.c
-   4 ../../portable/IAR/ARM_CM33/secure/secure_heap.c
-   5 ../../portable/MemMang/heap_1.c
-   6 ../../portable/MemMang/heap_2.c
-   7 ../../portable/MemMang/heap_3.c
-   8 ../../portable/MemMang/heap_4.c
-   9 ../../portable/MemMang/heap_5.c
-  10 ../../portable/WizC/PIC18/port.c
-  11 The source file is not listed here
-Select a source file (the options are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11): 9
+   0 /proj/kernel/portable/ARMv8M/secure/heap/secure_heap.c
+   1 /proj/kernel/portable/GCC/ARM_CM23/secure/secure_heap.c
+   2 /proj/kernel/portable/GCC/ARM_CM33/secure/secure_heap.c
+   3 /proj/kernel/portable/GCC/ARM_CM55/secure/secure_heap.c
+   4 /proj/kernel/portable/IAR/ARM_CM23/secure/secure_heap.c
+   5 /proj/kernel/portable/IAR/ARM_CM33/secure/secure_heap.c
+   6 /proj/kernel/portable/IAR/ARM_CM55/secure/secure_heap.c
+   7 /proj/kernel/portable/MemMang/heap_1.c
+   8 /proj/kernel/portable/MemMang/heap_2.c
+   9 /proj/kernel/portable/MemMang/heap_3.c
+  10 /proj/kernel/portable/MemMang/heap_4.c
+  11 /proj/kernel/portable/MemMang/heap_5.c
+  12 /proj/kernel/portable/WizC/PIC18/port.c
+  13 The source file is not listed here
+Select a source file (the options are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13): 11
 ```
 This runs a setup script for the proof that first asks for the name
 of the function being verified.  We give it the name `pvPortMalloc`.
 It then examines the source code in the repository and lists all of
 the source files that define a function named `pvPortMalloc`.  It lists
 these files and asks us to chose the file with the implementation we
-want to verify.  We choose source file number 9.
+want to verify.  We choose source file number 11.
 
 The `proofs` directory now contains a subdirectory `pvPortMalloc`
 for verification of the memory allocator `pvPortMalloc`.
