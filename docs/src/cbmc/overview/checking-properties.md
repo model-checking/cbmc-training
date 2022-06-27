@@ -23,7 +23,7 @@ For the full list of things that CBMC can check, run `cbmc --help`.
 
 Given the program [`bounds.c`](examples/properties/bounds.c)
 ```c
-main() {
+int main() {
   int array[10];
   for (int i=0; i<=10; i++) array[i] = i;
 }
@@ -40,7 +40,7 @@ line 3 array 'array' upper bound in array[(signed long int)i]: FAILURE
 
 Given the program [`pointers.c`](examples/properties/pointers.c)
 ```
-main() {
+int main() {
   int *ptr;
   int array[10];
   *ptr = 3;
@@ -83,7 +83,7 @@ We always use these flags together.
 Given the file [`pointer-overflow.c`](examples/properties/pointer-overflow.c)
 ```
 #include <stdint.h>
-main() {
+int main() {
   int array[10];
   int *x = array + SIZE_MAX;
 }
@@ -163,7 +163,7 @@ line 4 dereference failure: invalid integer address in *x: SUCCESS
 Given the file [integer.c](examples/properties/integer.c)
 ```
 #include <limits.h>
-main() {
+int main() {
   int x;
   int y;
   if (x + y <= INT_MAX)
@@ -191,7 +191,7 @@ line 8 arithmetic overflow on signed + in x + y: FAILURE
 
 Given the file [`float.c`](examples/properties/float.c)
 ```
-main() {
+int main() {
   float x = 100000000.0;
   for (int i = 0; i < 10; i++) x = x * x;
 }
@@ -211,7 +211,7 @@ line 3 arithmetic overflow on floating-point multiplication in x * x: FAILURE
 
 Given the file [`nan.c`](examples/properties/nan.c)
 ```
-main() {
+int main() {
   float x = 0.0 / 0.0;
 }
 ```
@@ -234,7 +234,7 @@ line 2 NaN on / in 0.0 / 0.0: FAILURE
 
 Given the file [`zero.c`](examples/properties/zero.c)
 ```
-main() {
+int main() {
   int a;
   int b;
   int result = a / b;
@@ -258,7 +258,7 @@ line 4 division by zero in a / b: FAILURE
 Given the file [`conversion.c`](examples/properties/conversion.c)
 ```
 #include <stdint.h>
-main() {
+int main() {
   uint8_t x;
   uint16_t y;
   x = y;
@@ -285,7 +285,7 @@ line 5 arithmetic overflow on unsigned to unsigned type conversion in (uint8_t)y
 
 Given the program ['shift.c'](examples/properties/shift.c)
 ```
-main() {
+int main() {
   int x = 1;
   int y = -1;
   int z;
@@ -321,7 +321,7 @@ Always run CBMC with the flag `--unwinding-assertions`.
 Given the program [`loop.c`](examples/properties/loop.c)
 ```
 #include <stdbool.h>
-main() {
+int main() {
   int bound;
   for (int i=0; i<bound; i++)
     if (i > 9) assert(false);

@@ -43,7 +43,7 @@ is an integer `b`.  We write a proof harness [harness1.c](examples/harness/harne
 ```c
 int beta1(int b);
 
-main() {
+int main() {
    int x;
    beta1(x);
 }
@@ -112,7 +112,7 @@ We write a proof harness [harness2.c](examples/harness/harness2.c)
 extern int counter;
 int beta2(int b);
 
-main() {
+int main() {
     int cnt;
     counter = cnt;
 
@@ -189,7 +189,7 @@ We write the proof harness [harness3.c](examples/harness/harness3.c)
 ```c
 int alpha(int x);
 
-main() {
+int main() {
     int x;
     alpha(x);
 }
@@ -285,7 +285,7 @@ strbuf* strbuf_allocate(size_t length) {
 Now we can write a proof harness for the function
 
 ```c
-main() {
+int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 
@@ -341,7 +341,7 @@ In fact, we can prove the this remains true after the function invocation,
 meaning that the function preserves the validity of its input.
 
 ```c
-main() {
+int main() {
   size_t len;
   strbuf* str = strbuf_allocate(len);
 
