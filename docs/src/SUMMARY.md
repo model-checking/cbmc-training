@@ -27,7 +27,9 @@
   * [How does malloc work?](faq/malloc.md)
   * [How do I write a good stub?]()
   * [What do I do when CBMC won't stop?](faq/termination.md)
-  * [Does CBMC have any support for using array-theory?](faq/array-theory.md)
+  
+* [Advanced Questions](advanced-questions/README.md)
+  * [Does CBMC have any support for using array-theory?](advanced-questions/array-theory.md)
 
 * [CBMC project management](management/README.md)
   * [Project planning](management/Plan-your-proof.md)
