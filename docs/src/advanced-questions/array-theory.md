@@ -1,4 +1,5 @@
 # Does CBMC have any support for using array theory?
+[Article Date: Aug 10, 2022]
 
 CBMC provides support for reasoning about arrays using array theory. (Note that we are still working with a SAT back-end here, and this does not use an SMT solver)
 A fixed length array uses CBMC's typical bit-vector representation of an array, but a variable length array uses CBMC's array theory.
